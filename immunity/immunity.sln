@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immunity", "immunity\immunity\immunity.csproj", "{C9F5851E-9FD1-4176-A715-3978B28966FE}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "immunityContent", "immunity\immunityContent\immunityContent.contentproj", "{0D6ABDBD-A997-4D1E-A38E-5E689C67BB4B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9F5851E-9FD1-4176-A715-3978B28966FE}.Debug|x86.ActiveCfg = Debug|x86
+		{C9F5851E-9FD1-4176-A715-3978B28966FE}.Debug|x86.Build.0 = Debug|x86
+		{C9F5851E-9FD1-4176-A715-3978B28966FE}.Release|x86.ActiveCfg = Release|x86
+		{C9F5851E-9FD1-4176-A715-3978B28966FE}.Release|x86.Build.0 = Release|x86
+		{0D6ABDBD-A997-4D1E-A38E-5E689C67BB4B}.Debug|x86.ActiveCfg = Debug|x86
+		{0D6ABDBD-A997-4D1E-A38E-5E689C67BB4B}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
