@@ -19,6 +19,9 @@ namespace immunity
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        SoundEffect gun;
+        Texture2D art;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -46,6 +49,9 @@ namespace immunity
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            gun = Content.Load<SoundEffect>("sounds\\gun");
+            art = Content.Load<Texture2D>("sprites\\tree");
 
             // TODO: use this.Content to load your game content here
         }
@@ -84,6 +90,13 @@ namespace immunity
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+                spriteBatch.Draw(art, new Vector2(0,0), Color.White);
+
+            spriteBatch.End();
+
+            gun.Play();
 
             base.Draw(gameTime);
         }
