@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace game
+namespace immunity
 {
     /// <summary>
     /// A physical representation of the map.

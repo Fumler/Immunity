@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 
-namespace game
+namespace immunity
 {
     /// <summary>
     /// This is a base class that acts as a parent for entities in the game.

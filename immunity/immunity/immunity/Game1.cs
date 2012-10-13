@@ -19,8 +19,8 @@ namespace immunity
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        SoundEffect gun;
-        Texture2D art;
+        Map map;
+        Pathfinder pathfinder;
 
         public Game1()
         {
@@ -50,8 +50,12 @@ namespace immunity
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gun = Content.Load<SoundEffect>("sounds\\gun");
-            art = Content.Load<Texture2D>("sprites\\tree");
+            List<Texture2D> textures = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\tree"),
+                Content.Load<Texture2D>("sprites\\grass")
+            };
+
+            map.setTextures(textures);
 
             // TODO: use this.Content to load your game content here
         }
@@ -96,7 +100,7 @@ namespace immunity
 
             spriteBatch.End();
 
-            gun.Play();
+            //gun.Play();
 
             base.Draw(gameTime);
         }
