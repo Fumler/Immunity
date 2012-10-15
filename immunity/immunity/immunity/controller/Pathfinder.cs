@@ -139,7 +139,72 @@ namespace immunity
             return finalPath;
         }
 
+        /// <summary>
+        /// Finds the optimal path from one point to another.
+        /// </summary>
+        public List<Vector2> FindPath(Point startPoint, Point endPoint)
+        {
+            if (startPoint == endPoint){
+                return new List<Vector2>();
+            }
 
+            resetSearchNodes();
+
+            SearchNode startNode = searchNodes[startPoint.X, startPoint.Y];
+            SearchNode endNode = searchNodes[endPoint.X, endPoint.Y];
+
+            startNode.inOpenList = true;
+
+            startNode.distanceToGoal = heuristic(startPoint, endPoint);
+            startNode.distanceTraveled = 0;
+
+            openList.Add(startNode);
+
+            while (openList.Count > 0) {
+                SearchNode currentNode = findBestNode();
+
+                if (currentNode == null) {
+                    break;
+                }
+
+                if (currentNode == endNode) {
+                    // Trace our path back to the start.
+                    return findFinalPath(startNode, endNode);
+                }
+
+                for (int i = 0; i < currentNode.neighbors.Length; i++) {
+                    SearchNode neighbor = currentNode.neighbors[i];
+
+                    if (neighbor == null || neighbor.walkable == false) {
+                        continue;
+                    }
+
+                    float distanceTraveled = currentNode.distanceTraveled + 1;
+                    float neighbourHeuristic = heuristic(neighbor.position, endPoint);
+
+                    if (neighbor.inOpenList == false && neighbor.inClosedList == false) {
+                        neighbor.distanceTraveled = distanceTraveled;
+                        neighbor.distanceToGoal = distanceTraveled + neighbourHeuristic;
+                        neighbor.parent = currentNode;
+                        neighbor.inOpenList = true;
+                        openList.Add(neighbor);
+                    }
+                    else if (neighbor.inOpenList || neighbor.inClosedList) {
+                        if (neighbor.distanceTraveled > distanceTraveled){
+                            neighbor.distanceTraveled = distanceTraveled;
+                            neighbor.distanceToGoal = distanceTraveled + neighbourHeuristic;
+                            neighbor.parent = currentNode;
+                        }
+                    }
+                }
+
+                openList.Remove(currentNode);
+                currentNode.inClosedList = true;
+            }
+
+            // No path could be found.
+            return new List<Vector2>();
+        }
 
         public Pathfinder(Map map)
         {

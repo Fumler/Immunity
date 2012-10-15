@@ -99,7 +99,7 @@ namespace immunity
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-                //spriteBatch.Draw(art, new Vector2(0,0), Color.White);
+                map.draw(spriteBatch);
             map.draw(spriteBatch);
             spriteBatch.End();
 
