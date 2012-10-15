@@ -40,6 +40,12 @@ namespace immunity
 
             map = new Map();
             pathfinder = new Pathfinder(map);
+            List<Vector2> path = pathfinder.FindPath(new Point(0, 0), new Point(24, 14));
+
+            foreach (Vector2 point in path)
+            {
+                System.Diagnostics.Debug.WriteLine(point);
+            }
 
             base.Initialize();
         }
@@ -54,8 +60,9 @@ namespace immunity
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             List<Texture2D> textures = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\tree"),
-                Content.Load<Texture2D>("sprites\\grass")
+                Content.Load<Texture2D>("sprites\\grass"),
+                Content.Load<Texture2D>("sprites\\tree")
+                
             };
 
             map.setTextures(textures);
