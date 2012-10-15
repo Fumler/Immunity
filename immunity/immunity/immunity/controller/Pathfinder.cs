@@ -168,7 +168,7 @@ namespace immunity
                 }
 
                 if (currentNode == endNode) {
-                    // Trace our path back to the start.
+                    // Trace the path back to the start.
                     return findFinalPath(startNode, endNode);
                 }
 
