@@ -38,6 +38,9 @@ namespace immunity
         {
             // TODO: Add your initialization logic here
 
+            map = new Map();
+            pathfinder = new Pathfinder(map);
+
             base.Initialize();
         }
 
@@ -96,7 +99,7 @@ namespace immunity
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-                spriteBatch.Draw(art, new Vector2(0,0), Color.White);
+                //spriteBatch.Draw(art, new Vector2(0,0), Color.White);
 
             spriteBatch.End();
 
