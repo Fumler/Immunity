@@ -10,14 +10,16 @@ namespace immunity
     class Unit
     {
         private List<Texture2D> sprites;
-        private List<Vector2> path;
-        private Point unitPosition,moveToPosition;
-        private int health,speed,unitType;
+
+        private Vector2 unitPosition,moveToPosition;
+        private int health,speed,unitType, positionInPath;
+
+        private static Path path = new Path();
 
         public Unit(int unitType)
         {
+            positionInPath = 1;
             this.unitType = unitType;
-            moveToPosition = new Point(0,128);
             switch (unitType)
             {
                 case 0:
@@ -29,6 +31,11 @@ namespace immunity
                     speed = 4;
                     break;
             }
+        }
+
+        public static void loadPath(Pathfinder pathfinder, Point start, Point end)
+        {
+            path.getPath(pathfinder, start, end);
         }
 
         public void setSprites(List<Texture2D> sprites)
@@ -43,20 +50,23 @@ namespace immunity
 
         public void Update()
         {
-            System.Diagnostics.Debug.WriteLine("x=" +unitPosition.X + " y=" + unitPosition.Y);
             if (unitPosition != moveToPosition)
             {
                 if (moveToPosition.X != unitPosition.X)
                 {
-                    if (moveToPosition.X > unitPosition.X){
+                    if (moveToPosition.X > unitPosition.X)
+                    {
                         unitPosition.X += speed;
-                    } else {
+                    }
+                    else
+                    {
                         unitPosition.X -= speed;
                     }
                 }
                 else
                 {
-                    if (moveToPosition.Y > unitPosition.Y) {
+                    if (moveToPosition.Y > unitPosition.Y)
+                    {
                         unitPosition.Y += speed;
                     }
                     else
@@ -65,11 +75,17 @@ namespace immunity
                     }
                 }
             }
-        }
+            else
+            {
+                moveToPosition = path.getNextStep(positionInPath);
 
-        public void setPosition(Point set) {
-            this.unitPosition = set;
-        }
 
+                if (moveToPosition == new Vector2(-1f, -1f)) {
+                    moveToPosition = unitPosition;
+                } else {
+                    positionInPath++;
+                }
+            }
+        }
     }
 }

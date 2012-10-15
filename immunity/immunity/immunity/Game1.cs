@@ -41,15 +41,9 @@ namespace immunity
 
             map = new Map();
             pathfinder = new Pathfinder(map);
-            List<Vector2> path = pathfinder.FindPath(new Point(0, 0), new Point(24, 14));
 
-            foreach (Vector2 point in path)
-            {
-                System.Diagnostics.Debug.WriteLine(point);
-            }
-
-            unit = new Unit(1);
-            unit.setPosition(new Point(0,0));
+            Unit.loadPath(pathfinder, new Point(0, 0), new Point(map.width-1, map.height-1));
+            unit = new Unit(0);
             
             base.Initialize();
         }

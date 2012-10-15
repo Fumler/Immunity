@@ -10,13 +10,15 @@ namespace immunity
     {
         private List<Vector2> path;
 
-        private void getPath(Pathfinder pathfinder, Point start, Point end) {
+        public void getPath(Pathfinder pathfinder, Point start, Point end) {
             path = pathfinder.FindPath(start, end);
         }
 
         private bool isValid(int currentStep)
         {
-            if (++currentStep > path.Count) {
+            System.Diagnostics.Debug.WriteLine(currentStep + "\t" + (path.Count-1));
+
+            if (currentStep+1 > path.Count-1) {
                 return false;
             } else {
                 return true;
@@ -25,7 +27,7 @@ namespace immunity
 
         public Vector2 getNextStep(int currentStep) {
             if (isValid(currentStep)) {
-                return path.ElementAt(++currentStep);
+                return path.ElementAt(currentStep+1);
             } else {
                 return new Vector2(-1f, -1f);
             }
