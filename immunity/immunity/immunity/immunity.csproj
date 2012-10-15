@@ -111,6 +111,7 @@
     <Compile Include="controller\Pathfinder.cs" />
     <Compile Include="model\Map.cs" />
     <Compile Include="model\SearchNode.cs" />
+    <Compile Include="model\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
