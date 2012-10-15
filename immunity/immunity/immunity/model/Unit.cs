@@ -10,14 +10,19 @@ namespace immunity
     class Unit
     {
         private List<Texture2D> sprites;
+
+        private Vector2 unitPosition,moveToPosition;
+        private int health,speed,unitType, positionInPath;
+
+
         private List<Vector2> path;
-        private Point unitPosition,moveToPosition;
-        private int health,speed,unitType;
+        //private static Path path;
 
         public Unit(int unitType)
         {
+            path = new List<Vector2>();
+            positionInPath = 0;
             this.unitType = unitType;
-            moveToPosition = new Point(0,128);
             switch (unitType)
             {
                 case 0:
@@ -29,6 +34,14 @@ namespace immunity
                     speed = 4;
                     break;
             }
+            path.Add(new Vector2(64, 0));
+            path.Add(new Vector2(64, 64));
+            path.Add(new Vector2(0, 128));
+            path.Add(new Vector2(32, 128));
+            path.Add(new Vector2(32, 160));
+            path.Add(new Vector2(32*3, 128));
+            path.Add(new Vector2(0,0));
+        
         }
 
         public void setSprites(List<Texture2D> sprites)
@@ -48,15 +61,19 @@ namespace immunity
             {
                 if (moveToPosition.X != unitPosition.X)
                 {
-                    if (moveToPosition.X > unitPosition.X){
+                    if (moveToPosition.X > unitPosition.X)
+                    {
                         unitPosition.X += speed;
-                    } else {
+                    }
+                    else
+                    {
                         unitPosition.X -= speed;
                     }
                 }
                 else
                 {
-                    if (moveToPosition.Y > unitPosition.Y) {
+                    if (moveToPosition.Y > unitPosition.Y)
+                    {
                         unitPosition.Y += speed;
                     }
                     else
@@ -65,11 +82,15 @@ namespace immunity
                     }
                 }
             }
+            else {
+                if(positionInPath < path.Count)
+                moveToPosition = path[positionInPath++];
+            }
         }
 
-        public void setPosition(Point set) {
-            this.unitPosition = set;
+        /*public void setPath(Path newPath) {
+            path = newPath.getPath();
         }
-
+        */
     }
 }

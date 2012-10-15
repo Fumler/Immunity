@@ -10,7 +10,7 @@ namespace immunity
     {
         private List<Vector2> path;
 
-        private void getPath(Pathfinder pathfinder, Point start, Point end) {
+        public void getPath(Pathfinder pathfinder, Point start, Point end) {
             path = pathfinder.FindPath(start, end);
         }
 

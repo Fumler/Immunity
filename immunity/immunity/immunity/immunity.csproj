@@ -110,6 +110,7 @@
     <Compile Include="controller\Input.cs" />
     <Compile Include="controller\Pathfinder.cs" />
     <Compile Include="model\Map.cs" />
+    <Compile Include="model\Path.cs" />
     <Compile Include="model\SearchNode.cs" />
     <Compile Include="model\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

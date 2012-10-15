@@ -48,8 +48,8 @@ namespace immunity
                 System.Diagnostics.Debug.WriteLine(point);
             }
 
-            unit = new Unit(1);
-            unit.setPosition(new Point(0,0));
+            unit = new Unit(0);
+            //unit.setPath(new Vector2(0,0));
             
             base.Initialize();
         }
