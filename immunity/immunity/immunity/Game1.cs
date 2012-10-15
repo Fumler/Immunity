@@ -100,7 +100,7 @@ namespace immunity
             spriteBatch.Begin();
 
                 //spriteBatch.Draw(art, new Vector2(0,0), Color.White);
-
+            map.draw(spriteBatch);
             spriteBatch.End();
 
             //gun.Play();
