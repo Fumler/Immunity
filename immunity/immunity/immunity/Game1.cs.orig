@@ -21,7 +21,6 @@ namespace immunity
 
         Map map;
         Pathfinder pathfinder;
-        Unit unit;
 
         public Game1()
         {
@@ -41,16 +40,7 @@ namespace immunity
 
             map = new Map();
             pathfinder = new Pathfinder(map);
-            List<Vector2> path = pathfinder.FindPath(new Point(0, 0), new Point(24, 14));
 
-            foreach (Vector2 point in path)
-            {
-                System.Diagnostics.Debug.WriteLine(point);
-            }
-
-            unit = new Unit(1);
-            unit.setPosition(new Point(0,0));
-            
             base.Initialize();
         }
 
@@ -64,17 +54,10 @@ namespace immunity
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             List<Texture2D> textures = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\grass"),
-                Content.Load<Texture2D>("sprites\\tree")
-                
+                Content.Load<Texture2D>("sprites\\tree"),
+                Content.Load<Texture2D>("sprites\\grass")
             };
 
-            List<Texture2D> sprites = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\RedCell"),
-                Content.Load<Texture2D>("sprites\\WhiteCell")
-            };
-
-            unit.setSprites(sprites);
             map.setTextures(textures);
 
             // TODO: use this.Content to load your game content here
@@ -100,9 +83,8 @@ namespace immunity
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-
-            unit.Update();
             // TODO: Add your update logic here
+
             base.Update(gameTime);
         }
 
@@ -116,9 +98,16 @@ namespace immunity
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
+<<<<<<< HEAD
+                //spriteBatch.Draw(art, new Vector2(0,0), Color.White);
             map.draw(spriteBatch);
-            unit.draw(spriteBatch);
+=======
+                map.draw(spriteBatch);
+
+>>>>>>> bac99541632f842c1e00bca96c17d311a2abcc19
             spriteBatch.End();
+
             //gun.Play();
 
             base.Draw(gameTime);
