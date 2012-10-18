@@ -22,11 +22,18 @@ namespace immunity
         Map map;
         Pathfinder pathfinder;
         Unit unit;
+        Gui gui;
+
+        int width = 1024;
+        int height = 768;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferHeight = height;
+            graphics.PreferredBackBufferWidth = width;
         }
 
         /// <summary>
@@ -38,6 +45,8 @@ namespace immunity
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            gui = new Gui(new Vector2(500, (480 - 34)));
 
             map = new Map();
             pathfinder = new Pathfinder(map);
@@ -65,9 +74,17 @@ namespace immunity
 
             List<Texture2D> sprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\RedCell"),
-                Content.Load<Texture2D>("sprites\\WhiteCell")
+                Content.Load<Texture2D>("sprites\\WhiteCell"),
+                Content.Load<Texture2D>("sprites\\gui")
             };
 
+            List<SpriteFont> fonts = new List<SpriteFont>() {
+                Content.Load<SpriteFont>("fonts\\font")
+            };
+
+
+            gui.setSprites(sprites);
+            gui.setFonts(fonts);
             unit.setSprites(sprites);
             map.setTextures(textures);
 
@@ -112,6 +129,8 @@ namespace immunity
             spriteBatch.Begin();
             map.draw(spriteBatch);
             unit.draw(spriteBatch);
+
+            gui.draw(spriteBatch);
             spriteBatch.End();
             //gun.Play();
 
