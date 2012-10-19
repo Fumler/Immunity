@@ -25,13 +25,14 @@ namespace immunity
         Gui actionbar;
         Gui topbar;
 
-        int width = 1024;
-        int height = 768;
+        public int width = 1024;
+        public int height = 768;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
 
             graphics.PreferredBackBufferHeight = height;
             graphics.PreferredBackBufferWidth = width;
@@ -46,10 +47,11 @@ namespace immunity
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            this.IsMouseVisible = true;
 
             //gui = new Gui(new Vector2(500, (480 - 34)));
-            topbar = new Gui(new Rectangle(0, 0, width, 32));
-            actionbar = new Gui(new Rectangle(0, (height - 32), width, 32));
+            topbar = new Gui(new Rectangle(0, 0, width, 24));
+            actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 
             map = new Map();
             pathfinder = new Pathfinder(map);
@@ -78,11 +80,13 @@ namespace immunity
             List<Texture2D> sprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\RedCell"),
                 Content.Load<Texture2D>("sprites\\WhiteCell"),
-                Content.Load<Texture2D>("sprites\\gui")
+                Content.Load<Texture2D>("sprites\\actionbar"),
+                Content.Load<Texture2D>("sprites\\topbar")
             };
 
             List<SpriteFont> fonts = new List<SpriteFont>() {
-                Content.Load<SpriteFont>("fonts\\font")
+                Content.Load<SpriteFont>("fonts\\segoe"),
+                Content.Load<SpriteFont>("fonts\\miramonte")
             };
 
 
@@ -135,8 +139,8 @@ namespace immunity
             map.draw(spriteBatch);
             unit.draw(spriteBatch);
 
-            actionbar.draw(spriteBatch);
-            topbar.draw(spriteBatch);
+            actionbar.draw(spriteBatch, 2);
+            topbar.draw(spriteBatch, 3);
             spriteBatch.End();
             //gun.Play();
 

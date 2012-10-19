@@ -3,5 +3,7 @@ Content\sprites\tree.xnb
 Content\sprites\grass.xnb
 Content\sprites\RedCell.xnb
 Content\sprites\WhiteCell.xnb
-Content\sprites\gui.xnb
-Content\fonts\font.xnb
+Content\fonts\segoe.xnb
+Content\fonts\miramonte.xnb
+Content\sprites\actionbar.xnb
+Content\sprites\topbar.xnb
