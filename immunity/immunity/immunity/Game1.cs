@@ -22,7 +22,8 @@ namespace immunity
         Map map;
         Pathfinder pathfinder;
         Unit unit;
-        Gui gui;
+        Gui actionbar;
+        Gui topbar;
 
         int width = 1024;
         int height = 768;
@@ -46,7 +47,9 @@ namespace immunity
         {
             // TODO: Add your initialization logic here
 
-            gui = new Gui(new Vector2(500, (480 - 34)));
+            //gui = new Gui(new Vector2(500, (480 - 34)));
+            topbar = new Gui(new Rectangle(0, 0, width, 32));
+            actionbar = new Gui(new Rectangle(0, (height - 32), width, 32));
 
             map = new Map();
             pathfinder = new Pathfinder(map);
@@ -83,8 +86,10 @@ namespace immunity
             };
 
 
-            gui.setSprites(sprites);
-            gui.setFonts(fonts);
+            actionbar.setSprites(sprites);
+            actionbar.setFonts(fonts);
+            topbar.setSprites(sprites);
+            topbar.setFonts(fonts);
             unit.setSprites(sprites);
             map.setTextures(textures);
 
@@ -130,7 +135,8 @@ namespace immunity
             map.draw(spriteBatch);
             unit.draw(spriteBatch);
 
-            gui.draw(spriteBatch);
+            actionbar.draw(spriteBatch);
+            topbar.draw(spriteBatch);
             spriteBatch.End();
             //gun.Play();
 
