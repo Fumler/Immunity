@@ -24,9 +24,7 @@ namespace immunity
 
         public Gui(Rectangle actionbar)
         {
-            //this.position = position;
             this.actionbar = actionbar;
-
         }
 
         public void setSprites(List<Texture2D> sprites)

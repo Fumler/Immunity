@@ -22,6 +22,7 @@ namespace immunity
         Map map;
         Pathfinder pathfinder;
         Unit unit;
+        Unit unit2;
         Gui actionbar;
         Gui topbar;
 
@@ -49,7 +50,6 @@ namespace immunity
             // TODO: Add your initialization logic here
             this.IsMouseVisible = true;
 
-            //gui = new Gui(new Vector2(500, (480 - 34)));
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 
@@ -58,6 +58,7 @@ namespace immunity
 
             Unit.loadPath(pathfinder, new Point(0, 0), new Point(map.width-1, map.height-1));
             unit = new Unit(0);
+            unit2 = new Unit(1);
             
             base.Initialize();
         }
@@ -95,6 +96,7 @@ namespace immunity
             topbar.setSprites(sprites);
             topbar.setFonts(fonts);
             unit.setSprites(sprites);
+            unit2.setSprites(sprites);
             map.setTextures(textures);
 
             // TODO: use this.Content to load your game content here
@@ -122,6 +124,7 @@ namespace immunity
 
 
             unit.Update();
+            unit2.Update();
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
@@ -137,7 +140,8 @@ namespace immunity
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             map.draw(spriteBatch);
-            unit.draw(spriteBatch);
+            unit.draw(spriteBatch, 0);
+            unit2.draw(spriteBatch, 1);
 
             actionbar.draw(spriteBatch, 2);
             topbar.draw(spriteBatch, 3);

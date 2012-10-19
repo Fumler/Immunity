@@ -43,9 +43,9 @@ namespace immunity
             this.sprites = sprites;
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public void draw(SpriteBatch spriteBatch, int texture)
         {
-            spriteBatch.Draw(sprites[0],new Vector2(unitPosition.X,unitPosition.Y),Color.White);
+            spriteBatch.Draw(sprites[texture],new Vector2(unitPosition.X,unitPosition.Y),Color.White);
         }
 
         public void Update()
