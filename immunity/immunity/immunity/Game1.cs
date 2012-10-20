@@ -73,8 +73,8 @@ namespace immunity
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             List<Texture2D> textures = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\grass"),
-                Content.Load<Texture2D>("sprites\\tree")
+                Content.Load<Texture2D>("sprites\\bg"),
+                Content.Load<Texture2D>("sprites\\tumor")
                 
             };
 
@@ -135,7 +135,7 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(new Color(51,0,0));
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
