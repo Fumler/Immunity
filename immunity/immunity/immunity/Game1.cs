@@ -25,6 +25,7 @@ namespace immunity
         Unit unit2;
         Gui actionbar;
         Gui topbar;
+        Button buttonTest;
 
         public int width = 1024;
         public int height = 768;
@@ -49,6 +50,8 @@ namespace immunity
         {
             // TODO: Add your initialization logic here
             this.IsMouseVisible = true;
+
+            buttonTest = new Button(new Rectangle(5, height - 65, 60, 60));
 
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
@@ -85,12 +88,16 @@ namespace immunity
                 Content.Load<Texture2D>("sprites\\topbar")
             };
 
+            List<Texture2D> buttons = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\buttons\\unit1")
+            };
+
             List<SpriteFont> fonts = new List<SpriteFont>() {
                 Content.Load<SpriteFont>("fonts\\segoe"),
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
 
-
+            buttonTest.setSprites(buttons);
             actionbar.setSprites(sprites);
             actionbar.setFonts(fonts);
             topbar.setSprites(sprites);
@@ -145,6 +152,8 @@ namespace immunity
 
             actionbar.draw(spriteBatch, 2);
             topbar.draw(spriteBatch, 3);
+
+            buttonTest.draw(spriteBatch, 0);
             spriteBatch.End();
             //gun.Play();
 
