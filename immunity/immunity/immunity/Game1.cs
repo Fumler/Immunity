@@ -12,16 +12,22 @@ namespace immunity
     {
         public int height = 768;
         public int width = 1024;
+
+        private Gui topbar;
         private Gui actionbar;
         private Button buttonTest;
+
         private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+
         private Map map;
         private Pathfinder pathfinder;
+
         private Player player;
-        private SpriteBatch spriteBatch;
-        private Gui topbar;
-        private Unit unit;
-        private Unit unit2;
+        
+        private List<Unit> unitList;
+        private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+
         private Input input;
 
         public Game1()
@@ -44,16 +50,14 @@ namespace immunity
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             map.draw(spriteBatch);
-            unit.draw(spriteBatch, 0);
-            unit2.draw(spriteBatch, 1);
-
-            actionbar.draw(spriteBatch, 2, player);
-            topbar.draw(spriteBatch, 3, player);
+            foreach (Unit unit in unitList) {
+                unit.draw(spriteBatch);
+            }
+            actionbar.draw(spriteBatch, 0, player);
+            topbar.draw(spriteBatch, 1, player);
 
             buttonTest.draw(spriteBatch, 0);
             spriteBatch.End();
-
-            //gun.Play();
 
             base.Draw(gameTime);
         }
@@ -86,9 +90,9 @@ namespace immunity
             player.lives = 15;
 
             // Enemy objects
+            unitList = new List<Unit>();
             Unit.loadPath(pathfinder, new Point(0, 0), new Point(map.width - 1, map.height - 1));
-            unit = new Unit(0);
-            unit2 = new Unit(1);
+            UnitFactory.createUnits(units, ref unitList);
 
             base.Initialize();
         }
@@ -107,9 +111,12 @@ namespace immunity
                 Content.Load<Texture2D>("sprites\\tumor")
             };
 
-            List<Texture2D> sprites = new List<Texture2D>() {
+            List<Texture2D> unitSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\RedCell"),
-                Content.Load<Texture2D>("sprites\\WhiteCell"),
+                Content.Load<Texture2D>("sprites\\WhiteCell")
+            };
+
+            List<Texture2D> guiSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\actionbar"),
                 Content.Load<Texture2D>("sprites\\topbar")
             };
@@ -124,12 +131,13 @@ namespace immunity
             };
 
             buttonTest.setSprites(buttons);
-            actionbar.setSprites(sprites);
+            actionbar.setSprites(guiSprites);
             actionbar.setFonts(fonts);
-            topbar.setSprites(sprites);
+            topbar.setSprites(guiSprites);
             topbar.setFonts(fonts);
-            unit.setSprites(sprites);
-            unit2.setSprites(sprites);
+            foreach (Unit unit in unitList) {
+                unit.setSprites(unitSprites);
+            }
             map.setTextures(textures);
 
             // TODO: use this.Content to load your game content here
@@ -155,8 +163,10 @@ namespace immunity
             // Allows the game to exit
             if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
                 this.Exit();
-            unit.Update();
-            unit2.Update();
+
+            foreach (Unit unit in unitList) {
+                unit.Update();
+            }
 
             // TODO: Add your update logic here
             base.Update(gameTime);
