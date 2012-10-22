@@ -113,6 +113,7 @@
     <Compile Include="model\Gui.cs" />
     <Compile Include="model\Map.cs" />
     <Compile Include="model\Path.cs" />
+    <Compile Include="model\Player.cs" />
     <Compile Include="model\SearchNode.cs" />
     <Compile Include="model\Tower.cs" />
     <Compile Include="model\Unit.cs" />

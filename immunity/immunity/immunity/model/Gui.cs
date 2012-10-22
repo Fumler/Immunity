@@ -1,54 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 
 namespace immunity
 {
-    class Gui
+    internal class Gui
     {
-
-        private List<Texture2D> sprites;
-        private List<SpriteFont> fonts;
-
-        private Vector2 textPosition;
-
         private Rectangle actionbar;
-
-        string text = "GOLD 0 LIVES 0";
-
-        Game1 game = new Game1();
+        private List<SpriteFont> fonts;
+        private Game1 game = new Game1();
+        private List<Texture2D> sprites;
+        private Vector2 textPosition;
 
         public Gui(Rectangle actionbar)
         {
             this.actionbar = actionbar;
         }
 
-        public void setSprites(List<Texture2D> sprites)
+        public void draw(SpriteBatch spriteBatch, int texture, Player player)
         {
-            this.sprites = sprites;
+            spriteBatch.Draw(sprites[texture], actionbar, Color.White);
+
+            string topbarText = String.Format("GOLD: {0} - LEVEL: {1}", player.gold, player.lives);
+            spriteBatch.DrawString(fonts[1], topbarText, textPosition, Color.White);
         }
 
         public void setFonts(List<SpriteFont> fonts)
         {
             this.fonts = fonts;
 
-            Vector2 stringCenter = fonts[0].MeasureString(text) * 0.5f;
+            Vector2 stringCenter = fonts[0].MeasureString("GOLD: xx - LEVEL: xx") * 0.5f;
             textPosition.X = (int)((game.width / 2) - stringCenter.X);
             textPosition.Y = 5;
-
         }
 
-        public void draw(SpriteBatch spriteBatch, int texture)
+        public void setSprites(List<Texture2D> sprites)
         {
-            spriteBatch.Draw(sprites[texture], actionbar, Color.White);
-
-            
-            spriteBatch.DrawString(fonts[1], text, textPosition, Color.White);
+            this.sprites = sprites;
         }
-
     }
 }
