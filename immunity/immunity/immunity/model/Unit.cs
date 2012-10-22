@@ -9,12 +9,17 @@ namespace immunity
 {
     class Unit
     {
+        private static Path path = new Path();
+        
         private List<Texture2D> sprites;
 
-        private Vector2 unitPosition,moveToPosition;
-        private int health,speed,unitType, positionInPath;
+        private Vector2 unitPosition;
+        private Vector2 moveToPosition;
 
-        private static Path path = new Path();
+        private int health;
+        private int speed;
+        private int unitType;
+        private int positionInPath;
 
         public Unit(int unitType)
         {
@@ -43,9 +48,9 @@ namespace immunity
             this.sprites = sprites;
         }
 
-        public void draw(SpriteBatch spriteBatch, int texture)
+        public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprites[texture],new Vector2(unitPosition.X,unitPosition.Y),Color.White);
+            spriteBatch.Draw(sprites[unitType],new Vector2(unitPosition.X,unitPosition.Y),Color.White);
         }
 
         public void Update()
