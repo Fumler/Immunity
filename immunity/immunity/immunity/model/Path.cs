@@ -16,8 +16,6 @@ namespace immunity
 
         private bool isValid(int currentStep)
         {
-            System.Diagnostics.Debug.WriteLine(currentStep + "\t" + (path.Count-1));
-
             if (currentStep+1 > path.Count-1) {
                 return false;
             } else {

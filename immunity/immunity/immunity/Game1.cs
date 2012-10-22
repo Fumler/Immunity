@@ -24,9 +24,12 @@ namespace immunity
         private Pathfinder pathfinder;
 
         private Player player;
-        
+
         private List<Unit> unitList;
+        private List<Unit> unitsOnMap;
         private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+        private int spawnDelay;
+        private int lastUsedUnit;
 
         private Input input;
 
@@ -49,14 +52,17 @@ namespace immunity
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
             map.draw(spriteBatch);
+
             foreach (Unit unit in unitList) {
                 unit.draw(spriteBatch);
             }
+
             actionbar.draw(spriteBatch, 0, player);
             topbar.draw(spriteBatch, 1, player);
-
             buttonTest.draw(spriteBatch, 0);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -90,9 +96,12 @@ namespace immunity
             player.lives = 15;
 
             // Enemy objects
+            unitsOnMap = new List<Unit>();
             unitList = new List<Unit>();
             Unit.loadPath(pathfinder, new Point(0, 0), new Point(map.width - 1, map.height - 1));
             UnitFactory.createUnits(units, ref unitList);
+            spawnDelay = 0;
+            lastUsedUnit = 0;
 
             base.Initialize();
         }
@@ -164,7 +173,14 @@ namespace immunity
             if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            foreach (Unit unit in unitList) {
+            spawnDelay++;
+            if (spawnDelay > 20 && unitsOnMap.Count != unitList.Count) { 
+                unitsOnMap.Add(unitList[lastUsedUnit]);
+                lastUsedUnit++;
+                spawnDelay = 0;
+            }
+
+            foreach (Unit unit in unitsOnMap) {
                 unit.Update();
             }
 

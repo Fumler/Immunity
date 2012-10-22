@@ -50,7 +50,11 @@ namespace immunity
 
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprites[unitType],new Vector2(unitPosition.X,unitPosition.Y),Color.White);
+            spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X,unitPosition.Y), Color.White);
+        }
+
+        public int nextNode() {
+            return positionInPath;
         }
 
         public void Update()
