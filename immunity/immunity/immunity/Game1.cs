@@ -22,6 +22,7 @@ namespace immunity
         private Gui topbar;
         private Unit unit;
         private Unit unit2;
+        private Input input;
 
         public Game1()
         {
@@ -67,6 +68,8 @@ namespace immunity
         {
             // TODO: Add your initialization logic here
             this.IsMouseVisible = true;
+
+            input = new Input();
 
             // Actionbar objects
             buttonTest = new Button(new Rectangle(5, height - 65, 60, 60));
@@ -148,10 +151,10 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            input.Update();
             // Allows the game to exit
             if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
                 this.Exit();
-
             unit.Update();
             unit2.Update();
 
