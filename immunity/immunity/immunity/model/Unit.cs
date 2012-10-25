@@ -52,11 +52,7 @@ namespace immunity
         {
             spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X,unitPosition.Y), Color.White);
         }
-
-        public int nextNode() {
-            return positionInPath;
-        }
-
+        
         public void Update()
         {
             if (unitPosition != moveToPosition)

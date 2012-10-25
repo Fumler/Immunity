@@ -112,6 +112,8 @@ namespace immunity
         /// </summary>
         protected override void LoadContent()
         {
+            map.loadMap("maps\\map1", 25, 15);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 

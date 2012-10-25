@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace immunity
         /// <summary>
         /// The map weight.
         /// </summary>
-        private int[,] layout = new int[,]
+        private int[,] mapArray = new int[,]
         {
             { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, }, 
             { 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, },
@@ -47,23 +48,20 @@ namespace immunity
         /// </summary>
         public int width
         {
-            get { return layout.GetLength(1); }
+            get { return mapArray.GetLength(1); }
         }
         /// <summary>
         /// The height of the map.
         /// </summary>
         public int height
         {
-            get { return layout.GetLength(0); }
+            get { return mapArray.GetLength(0); }
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Map()
-        {
-            System.Diagnostics.Debug.WriteLine(height);
-            System.Diagnostics.Debug.WriteLine(width);
+        public Map() {
         }
 
         /// <summary>
@@ -82,7 +80,7 @@ namespace immunity
             if (cellX < 0 || cellX > width - 1 || cellY < 0 || cellY > height - 1)
                 return 0;
 
-            return layout[cellY, cellX];
+            return mapArray[cellY, cellX];
         }
 
         /// <summary>
@@ -99,9 +97,32 @@ namespace immunity
             {
                 for (int y = 0; y < height; y++)
                 {
-                    int index = layout[y, x];
+                    int index = mapArray[y, x];
 
                     spriteBatch.Draw(textures[index], new Vector2(x, y) * TILESIZE, Color.White);
+                }
+            }
+        }
+
+        public void loadMap(String mapName, int mapX, int mapY) {
+            mapArray = new int[mapX, mapY];
+
+            using (StreamReader streamReader = new StreamReader(mapName)) {
+                int x = 0;
+                int y = 0;
+
+                while (!streamReader.EndOfStream) {
+                    string line = streamReader.ReadLine();
+                    string[] numbers = line.Split(',');
+
+                    foreach (string s in numbers)
+                    {
+                        int tile = int.Parse(s);
+                        mapArray[x,y] = tile;
+                        x++;
+                    }
+
+                    y++;
                 }
             }
         }
