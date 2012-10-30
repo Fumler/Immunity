@@ -170,7 +170,7 @@ namespace immunity
         {
             input.Update();
             // Allows the game to exit
-            if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
+            if (input.isKeyPressed(Keys.Escape))
                 this.Exit();
 
             spawnDelay++;

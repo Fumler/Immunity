@@ -15,6 +15,11 @@ namespace immunity
             return (currentMouseState.LeftButton == ButtonState.Pressed);
         }
 
+        public bool isKeyPressed(Keys key)
+        {
+            return (currentKeyState.IsKeyDown(key));
+        }
+
         public void Update() {
             previousKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
