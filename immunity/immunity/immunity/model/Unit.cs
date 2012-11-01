@@ -48,9 +48,13 @@ namespace immunity
             this.sprites = sprites;
         }
 
+        public static List<Vector2> getPath() {
+            return path.getPath();
+        }
+
         public void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X,unitPosition.Y), Color.White);
+            spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X,unitPosition.Y+24), Color.White);
         }
 
         public int nextNode() {

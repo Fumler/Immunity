@@ -21,7 +21,9 @@ namespace immunity
         }
 
         public void draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(pathTile, new Vector2(0, 0), Color.White);
+            foreach(Vector2 tile in thePath) {
+                spriteBatch.Draw(pathTile, new Vector2(tile.X, tile.Y + 24), Color.White);
+            }
         }
     }
 }

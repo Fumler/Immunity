@@ -100,8 +100,7 @@ namespace immunity
                 for (int y = 0; y < height; y++)
                 {
                     int index = layout[y, x];
-
-                    spriteBatch.Draw(textures[index], new Vector2(x, y) * TILESIZE, Color.White);
+                    spriteBatch.Draw(textures[index], new Vector2(x * TILESIZE, y * TILESIZE + 24), Color.White);
                 }
             }
         }

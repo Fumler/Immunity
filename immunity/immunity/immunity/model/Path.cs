@@ -32,6 +32,10 @@ namespace immunity
             }
         }
 
+        public List<Vector2> getPath() {
+            return this.path;
+        }
+
         public Path() {
 
         }

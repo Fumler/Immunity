@@ -22,6 +22,7 @@ namespace immunity
 
         private Map map;
         private Pathfinder pathfinder;
+        private PathView pathview;
 
         private Player player;
 
@@ -58,6 +59,8 @@ namespace immunity
 
             map.draw(spriteBatch);
 
+            pathview.draw(spriteBatch);
+
             foreach (Unit unit in unitList) {
                 unit.draw(spriteBatch);
             }
@@ -93,6 +96,7 @@ namespace immunity
             // Map object
             map = new Map();
             pathfinder = new Pathfinder(map);
+            pathview = new PathView();
 
             // Player object
             player = new Player();
@@ -103,6 +107,8 @@ namespace immunity
             unitsOnMap = new List<Unit>();
             unitList = new List<Unit>();
             Unit.loadPath(pathfinder, new Point(0, 0), new Point(map.width - 1, map.height - 1));
+            pathview.path = Unit.getPath();
+
             UnitFactory.createUnits(units, ref unitList);
             spawnDelay = 0;
             lastUsedUnit = 0;
@@ -145,6 +151,8 @@ namespace immunity
                 Content.Load<SpriteFont>("fonts\\segoe"),
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
+
+            pathview.texture = Content.Load<Texture2D>("sprites\\path");
 
             buttonTest.setSprites(buttons);
             actionbar.setSprites(guiSprites);
