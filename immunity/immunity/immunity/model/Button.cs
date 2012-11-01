@@ -49,6 +49,9 @@ namespace immunity
             }
             else if (!isMouseOver && !mouse.leftClick)
                 state = MouseStatus.Normal;
+            else if (isMouseOver && mouse.leftClick)
+                state = MouseStatus.Clicked;
+
 
             if (mouse.newLeftClick)
             {
