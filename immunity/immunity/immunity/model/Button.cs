@@ -38,13 +38,10 @@ namespace immunity
         public void Update(GameTime gameTime)
         {
             mouse.update();
-            // do it here instead of mouse class to test
-            MouseState mouseState = Mouse.GetState();
 
-            int mouseX = mouseState.X;
-            int mouseY = mouseState.Y;
+            state = MouseStatus.Normal;
 
-            bool isMouseOver = bounds.Contains(mouseX, mouseY);
+            bool isMouseOver = bounds.Contains((int)mouse.Position.X, (int)mouse.Position.Y);
 
             if (isMouseOver && !mouse.leftClick)
             {
@@ -67,10 +64,6 @@ namespace immunity
                 {
                     state = MouseStatus.Released;
                 }
-            }
-            else if (state == MouseStatus.Clicked)
-            {
-                state = MouseStatus.Normal;
             }
             
         }
@@ -95,9 +88,10 @@ namespace immunity
                     break;
                 case MouseStatus.Clicked:
                      spriteBatch.Draw(buttons[texture], bounds, Color.Red);
+                     System.Diagnostics.Debug.WriteLine("NÅ HAR DU TRYKKA");
                     break;
                 default:
-                    spriteBatch.Draw(buttons[texture], bounds, Color.White);
+                    spriteBatch.Draw(buttons[texture], bounds, Color.Black);
               
                     break;
             }

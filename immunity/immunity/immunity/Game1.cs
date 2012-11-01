@@ -175,8 +175,6 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            MouseState m = Mouse.GetState();
-            System.Diagnostics.Debug.WriteLine(m.X +" - "+ m.Y);
             input.update();
             buttonTest.Update(gameTime);
             // Allows the game to exit
