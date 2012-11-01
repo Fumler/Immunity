@@ -37,7 +37,7 @@ namespace immunity
 
         public void Update(GameTime gameTime)
         {
-
+            mouse.update();
             // do it here instead of mouse class to test
             MouseState mouseState = Mouse.GetState();
 
@@ -47,7 +47,9 @@ namespace immunity
             bool isMouseOver = bounds.Contains(mouseX, mouseY);
 
             if (isMouseOver && !mouse.leftClick)
+            {
                 state = MouseStatus.Released;
+            }
             else if (!isMouseOver && !mouse.leftClick)
                 state = MouseStatus.Normal;
 

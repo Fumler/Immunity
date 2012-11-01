@@ -33,6 +33,7 @@ namespace immunity
 
         private Input input;
 
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -40,6 +41,8 @@ namespace immunity
 
             graphics.PreferredBackBufferHeight = height;
             graphics.PreferredBackBufferWidth = width;
+
+            
         }
 
         /// <summary>
@@ -77,6 +80,7 @@ namespace immunity
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
             this.IsMouseVisible = true;
 
             input = new Input();
@@ -114,6 +118,9 @@ namespace immunity
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Sets the mouse position in our window.
+            Mouse.WindowHandle = this.Window.Handle;
 
             List<Texture2D> textures = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\bg"),
@@ -168,7 +175,10 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            input.Update();
+            MouseState m = Mouse.GetState();
+            System.Diagnostics.Debug.WriteLine(m.X +" - "+ m.Y);
+            input.update();
+            buttonTest.Update(gameTime);
             // Allows the game to exit
             if (input.isKeyPressed(Keys.Escape))
                 this.Exit();

@@ -13,10 +13,12 @@ namespace immunity
         /// Handles the states of the mouse and keyboard.
         /// </summary>
         KeyboardState previousKeyState, currentKeyState;
-        MouseState previousMouseState, currentMouseState;
-
-
+        public MouseState previousMouseState, currentMouseState;
+        
         ////////////////////////////////////////////////////////////////////////// MOUSE
+
+        public Input() {
+        }
 
         /// <summary>
         /// The coordinates of the mouse
@@ -99,12 +101,13 @@ namespace immunity
         ////////////////////////////////////////////////////////////////////////// OTHER
 
 
-        public void Update() {
+        public void update() {
             previousKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
 
             previousMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
+            
 
             Position = new Vector2(currentMouseState.X, currentMouseState.Y);
         }
