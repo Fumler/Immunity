@@ -2,6 +2,9 @@
 bin
 obj
 
+# Original mergefiles
+*.orig
+
 # mstest test results
 TestResults
 
