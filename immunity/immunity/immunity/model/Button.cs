@@ -80,22 +80,26 @@ namespace immunity
 
         public void draw(SpriteBatch spriteBatch, int texture)
         {
+            
             switch (state)
             {
                 case MouseStatus.Normal:
                     spriteBatch.Draw(buttons[texture], bounds, Color.White);
-                    
+
                     break;
                 case MouseStatus.Released:
                     spriteBatch.Draw(buttons[texture], bounds, Color.Blue);
                     break;
                 case MouseStatus.Clicked:
-                     spriteBatch.Draw(buttons[texture], bounds, Color.Red);
-                     System.Diagnostics.Debug.WriteLine("NÅ HAR DU TRYKKA");
+                    if (mouse.currentMouseState.LeftButton != mouse.previousMouseState.LeftButton)
+                    {
+                        System.Diagnostics.Debug.WriteLine("If mouse is click and held down, do this only once!");
+                    }
+                    spriteBatch.Draw(buttons[texture], bounds, Color.Red);
                     break;
                 default:
                     spriteBatch.Draw(buttons[texture], bounds, Color.Black);
-              
+
                     break;
             }
         }
