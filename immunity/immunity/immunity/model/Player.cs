@@ -55,9 +55,7 @@ namespace immunity
             if (mouse.releaseLeftClick && map.height >= cellY && map.width >= cellX) {
                 if (newTowerType != 0) {
                     if (map.getIndex(cellX, cellY) == 0) {
-                        System.Diagnostics.Debug.WriteLine(cellY + "-" + tileY + "tower");
-
-                        map.AddToMap(cellX, cellY, 1);
+                        map.AddToMap(cellX, cellY, newTowerType);
                         Pathfinder p = new Pathfinder(map);
                         List<Vector2> t = p.FindPath(new Point(0,0), new Point(map.width - 1, map.height - 1));
                         if (t.Count == 0) {
