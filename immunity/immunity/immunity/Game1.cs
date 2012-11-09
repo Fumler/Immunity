@@ -28,11 +28,9 @@ namespace immunity
 
         private List<Unit> unitList;
         private List<Unit> unitsOnMap;
-        private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+        private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
         private int spawnDelay;
         private int lastUsedUnit;
-
-        private Ammunition testAmmo;
 
         private Input input;
 
@@ -195,7 +193,7 @@ namespace immunity
                 this.Exit();
 
             spawnDelay++;
-            if (spawnDelay > 20 && unitsOnMap.Count != unitList.Count) { 
+            if (spawnDelay > 15 && lastUsedUnit != unitList.Count) { 
                 unitsOnMap.Add(unitList[lastUsedUnit]);
                 lastUsedUnit++;
                 spawnDelay = 0;
