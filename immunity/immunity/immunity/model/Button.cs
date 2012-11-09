@@ -32,6 +32,8 @@ namespace immunity
 
         public event EventHandler clicked;
 
+        public int type = 1;
+
         public Button(Rectangle bounds) 
         {
             this.bounds = bounds;

@@ -213,7 +213,7 @@ namespace immunity
         }
 
         private void rangedTierOne(object sender, EventArgs e) {
-            player.NewTowerType = 1;
+            player.NewTowerType = ((Button)sender).type;
         }
     }
 }

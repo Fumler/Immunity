@@ -12,7 +12,7 @@ namespace immunity
         private List<Vector2> path;
 
         public void getPath(Pathfinder pathfinder, Point start, Point end) {
-            path = pathfinder.FindPath(start, end);
+                path = pathfinder.FindPath(start, end);
         }
 
         private bool isValid(int currentStep)
