@@ -40,6 +40,11 @@ namespace immunity
             get{ return damage; }
         }
 
+        public Vector2 Center
+        {
+            get { return center; }
+        }
+
         public bool IsDead() {
             return age > decayTimer;
         }

@@ -12,6 +12,7 @@ namespace immunity
         private static Path path = new Path();
         private Vector2 unitPosition;
         private Vector2 moveToPosition;
+        private Vector2 center;
 
         private static List<Texture2D> sprites;
 
@@ -19,6 +20,11 @@ namespace immunity
         private int speed;
         private int unitType;
         private int positionInPath;
+
+        public Vector2 Center
+        {
+            get { return center; }
+        }
 
         public Unit(int unitType)
         {
