@@ -10,11 +10,10 @@ namespace immunity
     class Unit
     {
         private static Path path = new Path();
-        
-        private List<Texture2D> sprites;
-
         private Vector2 unitPosition;
         private Vector2 moveToPosition;
+
+        private static List<Texture2D> sprites;
 
         private int health;
         private int speed;
@@ -43,9 +42,9 @@ namespace immunity
             path.getPath(pathfinder, start, end);
         }
 
-        public void setSprites(List<Texture2D> sprites)
+        public static void setSprites(List<Texture2D> textures)
         {
-            this.sprites = sprites;
+            sprites = textures;
         }
 
         public static List<Vector2> getPath() {

@@ -159,9 +159,7 @@ namespace immunity
             actionbar.setFonts(fonts);
             topbar.setSprites(guiSprites);
             topbar.setFonts(fonts);
-            foreach (Unit unit in unitList) {
-                unit.setSprites(unitSprites);
-            }
+            Unit.setSprites(unitSprites);
             map.setTextures(textures);
 
             // TODO: use this.Content to load your game content here
