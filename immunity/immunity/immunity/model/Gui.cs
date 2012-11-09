@@ -22,7 +22,7 @@ namespace immunity
         {
             spriteBatch.Draw(sprites[texture], actionbar, Color.White);
 
-            string topbarText = String.Format("GOLD: {0} - LEVEL: {1}", player.gold, player.lives);
+            string topbarText = String.Format("GOLD: {0} - LEVEL: {1}", player.Gold, player.Lives);
             spriteBatch.DrawString(fonts[1], topbarText, textPosition, Color.White);
         }
 

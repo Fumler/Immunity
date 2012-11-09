@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace immunity
 {
@@ -60,7 +62,7 @@ namespace immunity
             map.draw(spriteBatch);
 
             pathview.draw(spriteBatch);
-
+            player.Draw(spriteBatch);
             foreach (Unit unit in unitList) {
                 unit.draw(spriteBatch);
             }
@@ -99,9 +101,7 @@ namespace immunity
             pathview = new PathView();
 
             // Player object
-            player = new Player();
-            player.gold = 5;
-            player.lives = 15;
+            player = new Player(5, 15);
 
             // Enemy objects
             unitsOnMap = new List<Unit>();
@@ -122,7 +122,8 @@ namespace immunity
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            buttonTest.clicked += new EventHandler(rangedTierOne);
+            // Create a new SpriteBatch, which can beused to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Sets the mouse position in our window.
@@ -151,6 +152,8 @@ namespace immunity
                 Content.Load<SpriteFont>("fonts\\segoe"),
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
+
+            player.Tile = Content.Load<Texture2D>("sprites\\hoverTile");
 
             pathview.texture = Content.Load<Texture2D>("sprites\\path");
 
@@ -184,6 +187,7 @@ namespace immunity
         protected override void Update(GameTime gameTime)
         {
             input.update();
+            player.Update();
             buttonTest.Update(gameTime);
             // Allows the game to exit
             if (input.isKeyPressed(Keys.Escape))
@@ -202,6 +206,10 @@ namespace immunity
 
             // TODO: Add your update logic here
             base.Update(gameTime);
+        }
+
+        private void rangedTierOne(object sender, EventArgs e) {
+            player.NewTowerType = 2;
         }
     }
 }

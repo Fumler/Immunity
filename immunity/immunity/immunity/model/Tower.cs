@@ -9,10 +9,17 @@ namespace immunity
 {
     class Tower
     {
+        private Vector2 position;
+        protected int type;
         protected int cost;
         protected int damage;
         protected int level;
         protected int range;
+
+        public int Type
+        {
+            get { return type; }
+        }
 
         public int Cost
         {

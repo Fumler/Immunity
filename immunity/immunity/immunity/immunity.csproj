@@ -111,6 +111,7 @@
     <Compile Include="controller\Pathfinder.cs" />
     <Compile Include="controller\UnitFactory.cs" />
     <Compile Include="model\Button.cs" />
+    <Compile Include="model\Level.cs" />
     <Compile Include="model\Gui.cs" />
     <Compile Include="model\Map.cs" />
     <Compile Include="model\Path.cs" />

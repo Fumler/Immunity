@@ -1,8 +1,8 @@
-Content\sounds\gun.xnb
-Content\sprites\tree.xnb
 Content\sprites\grass.xnb
+Content\sprites\tree.xnb
 Content\sprites\RedCell.xnb
 Content\sprites\WhiteCell.xnb
+Content\sounds\gun.xnb
 Content\sprites\actionbar.xnb
 Content\sprites\topbar.xnb
 Content\sprites\BlackCell.xnb
@@ -17,3 +17,4 @@ Content\fonts\segoe.xnb
 Content\fonts\miramonte.xnb
 Content\sprites\blackbox.xnb
 Content\sprites\path.xnb
+Content\sprites\hoverTile.xnb

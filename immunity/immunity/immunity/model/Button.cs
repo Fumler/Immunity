@@ -30,6 +30,8 @@ namespace immunity
 
         private MouseStatus state = MouseStatus.Normal;
 
+        public event EventHandler clicked;
+
         public Button(Rectangle bounds) 
         {
             this.bounds = bounds;
@@ -94,6 +96,9 @@ namespace immunity
                     if (mouse.currentMouseState.LeftButton != mouse.previousMouseState.LeftButton)
                     {
                         System.Diagnostics.Debug.WriteLine("If mouse is click and held down, do this only once!");
+                        if (clicked != null) {
+                            clicked(this, EventArgs.Empty);
+                        }
                     }
                     spriteBatch.Draw(buttons[texture], bounds, Color.Red);
                     break;
