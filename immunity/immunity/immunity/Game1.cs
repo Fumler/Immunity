@@ -169,6 +169,7 @@ namespace immunity
             Unit.setSprites(unitSprites);
             Ammunition.SetSprites(ammuitionSprites);
             map.setTextures(textures);
+            player.Map(ref map);
 
             // TODO: use this.Content to load your game content here
         }
@@ -212,7 +213,7 @@ namespace immunity
         }
 
         private void rangedTierOne(object sender, EventArgs e) {
-            player.NewTowerType = 2;
+            player.NewTowerType = 1;
         }
     }
 }

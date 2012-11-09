@@ -74,6 +74,10 @@ namespace immunity
             this.textures = textures;
         }
 
+        public void AddToMap(int x, int y, int type) {
+            layout[y, x] = type;
+            System.Diagnostics.Debug.WriteLine("YE!");
+        }
         /// <summary>
         /// Returns the tile index for the given cell.
         /// </summary>

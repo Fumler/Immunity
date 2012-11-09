@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -16,16 +12,68 @@ namespace immunity
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public int height = 768;
+        public int width = 1024;
 
-        Map map;
-        Pathfinder pathfinder;
+        private Gui topbar;
+        private Gui actionbar;
+        private Button buttonTest;
+
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+
+        private Map map;
+        private Pathfinder pathfinder;
+        private PathView pathview;
+
+        private Player player;
+
+        private List<Unit> unitList;
+        private List<Unit> unitsOnMap;
+        private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+        private int spawnDelay;
+        private int lastUsedUnit;
+
+        private Input input;
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferHeight = height;
+            graphics.PreferredBackBufferWidth = width;
+
+            
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(new Color(51, 0, 0));
+
+            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            map.draw(spriteBatch);
+
+            pathview.draw(spriteBatch);
+            player.Draw(spriteBatch);
+            foreach (Unit unit in unitList) {
+                unit.draw(spriteBatch);
+            }
+
+            actionbar.draw(spriteBatch, 0, player);
+            topbar.draw(spriteBatch, 1, player);
+            buttonTest.draw(spriteBatch, 0);
+
+            spriteBatch.End();
+
+            base.Draw(gameTime);
         }
 
         /// <summary>
@@ -38,8 +86,32 @@ namespace immunity
         {
             // TODO: Add your initialization logic here
 
+            this.IsMouseVisible = true;
+
+            input = new Input();
+
+            // Actionbar objects
+            buttonTest = new Button(new Rectangle(5, height - 65, 60, 60));
+            topbar = new Gui(new Rectangle(0, 0, width, 24));
+            actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
+
+            // Map object
             map = new Map();
             pathfinder = new Pathfinder(map);
+            pathview = new PathView();
+
+            // Player object
+            player = new Player(5, 15);
+
+            // Enemy objects
+            unitsOnMap = new List<Unit>();
+            unitList = new List<Unit>();
+            Unit.loadPath(pathfinder, new Point(0, 0), new Point(map.width - 1, map.height - 1));
+            pathview.path = Unit.getPath();
+
+            UnitFactory.createUnits(units, ref unitList);
+            spawnDelay = 0;
+            lastUsedUnit = 0;
 
             base.Initialize();
         }
@@ -50,14 +122,54 @@ namespace immunity
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            buttonTest.clicked += new EventHandler(rangedTierOne);
+            // Create a new SpriteBatch, which can beused to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Sets the mouse position in our window.
+            Mouse.WindowHandle = this.Window.Handle;
+
             List<Texture2D> textures = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\tree"),
-                Content.Load<Texture2D>("sprites\\grass")
+                Content.Load<Texture2D>("sprites\\bg"),
+                Content.Load<Texture2D>("sprites\\tumor")
             };
 
+            List<Texture2D> unitSprites = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\RedCell"),
+                Content.Load<Texture2D>("sprites\\WhiteCell")
+            };
+
+            List<Texture2D> guiSprites = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\actionbar"),
+                Content.Load<Texture2D>("sprites\\topbar")
+            };
+
+            List<Texture2D> buttons = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\buttons\\unit1")
+            };
+
+            List<SpriteFont> fonts = new List<SpriteFont>() {
+                Content.Load<SpriteFont>("fonts\\segoe"),
+                Content.Load<SpriteFont>("fonts\\miramonte")
+            };
+
+<<<<<<< HEAD
+            player.Tile = Content.Load<Texture2D>("sprites\\hoverTile");
+=======
+            List<Texture2D> ammuitionSprites = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\Ammo")
+            };
+>>>>>>> 84a63a1e6fa09c9eebcba639436a1e0fe77ac8e4
+
+            pathview.texture = Content.Load<Texture2D>("sprites\\path");
+
+            buttonTest.setSprites(buttons);
+            actionbar.setSprites(guiSprites);
+            actionbar.setFonts(fonts);
+            topbar.setSprites(guiSprites);
+            topbar.setFonts(fonts);
+            Unit.setSprites(unitSprites);
+            Ammunition.SetSprites(ammuitionSprites);
             map.setTextures(textures);
 
             // TODO: use this.Content to load your game content here
@@ -79,38 +191,30 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            input.update();
+            player.Update();
+            buttonTest.Update(gameTime);
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (input.isKeyPressed(Keys.Escape))
                 this.Exit();
 
-            // TODO: Add your update logic here
+            spawnDelay++;
+            if (spawnDelay > 15 && lastUsedUnit != unitList.Count) { 
+                unitsOnMap.Add(unitList[lastUsedUnit]);
+                lastUsedUnit++;
+                spawnDelay = 0;
+            }
 
+            foreach (Unit unit in unitsOnMap) {
+                unit.Update();
+            }
+
+            // TODO: Add your update logic here
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.Black);
-
-            // TODO: Add your drawing code here
-            spriteBatch.Begin();
-
-<<<<<<< HEAD
-                //spriteBatch.Draw(art, new Vector2(0,0), Color.White);
-            map.draw(spriteBatch);
-=======
-                map.draw(spriteBatch);
-
->>>>>>> bac99541632f842c1e00bca96c17d311a2abcc19
-            spriteBatch.End();
-
-            //gun.Play();
-
-            base.Draw(gameTime);
+        private void rangedTierOne(object sender, EventArgs e) {
+            player.NewTowerType = 2;
         }
     }
 }

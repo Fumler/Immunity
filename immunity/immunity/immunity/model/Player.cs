@@ -12,11 +12,12 @@ namespace immunity
     {
         private int lives;
         private int gold;
-        private int map;
+        private int currentMap;
         private int level;
         private int cellX, cellY, tileX, tileY;
         private int newTowerType = 0;
         private Input mouse = new Input();
+        private Map map;
 
         private Texture2D tile;
 
@@ -42,18 +43,26 @@ namespace immunity
         public int NewTowerType {
             set { this.newTowerType = value; }
         }
+        public void Map(ref Map map) {
+            this.map = map;
+        }
         public void Update() {
             mouse.update();
 
             cellX = (int)(mouse.currentMouseState.X / 32);
             cellY = (int)((mouse.currentMouseState.Y - 24) / 32);
 
-            System.Diagnostics.Debug.WriteLine(cellX + " - " + cellY);
-            if (mouse.releaseLeftClick) {
+            if (mouse.releaseLeftClick && map.height >= cellY && map.width >= cellX) {
                 if (newTowerType != 0) {
-                    towers.Add(new Tower());
+                    System.Diagnostics.Debug.WriteLine(cellY+ "-" + tileY +"tower");
+                    map.AddToMap(cellX, cellY, 1);
+                    //towers.Add(new Tower());
                 }
             }
+            if (mouse.releaseRightClick) {
+                newTowerType = 0;
+            }
+            
         }
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(tile, new Vector2(cellX * 32, (cellY * 32) + 24), Color.White);
