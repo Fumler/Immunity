@@ -129,10 +129,13 @@ namespace immunity
             // Sets the mouse position in our window.
             Mouse.WindowHandle = this.Window.Handle;
 
-            List<Texture2D> textures = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\bg"),
-                Content.Load<Texture2D>("sprites\\tumor")
-            };
+            Texture2D[] test = new Texture2D[33];
+            test[0] = Content.Load<Texture2D>("sprites\\bg");
+            test[1] = Content.Load<Texture2D>("sprites\\tumor");
+            test[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
+            test[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
+            test[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
+            test[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
 
             List<Texture2D> unitSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\RedCell"),
@@ -168,7 +171,7 @@ namespace immunity
             topbar.setFonts(fonts);
             Unit.setSprites(unitSprites);
             Ammunition.SetSprites(ammuitionSprites);
-            map.setTextures(textures);
+            map.setTextures(test);
             player.Map(ref map);
 
             // TODO: use this.Content to load your game content here
@@ -213,7 +216,7 @@ namespace immunity
         }
 
         private void rangedTierOne(object sender, EventArgs e) {
-            player.NewTowerType = 1;
+            player.NewTowerType = ((Button)sender).type;
         }
     }
 }

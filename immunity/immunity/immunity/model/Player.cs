@@ -52,10 +52,17 @@ namespace immunity
             cellX = (int)(mouse.currentMouseState.X / 32);
             cellY = (int)((mouse.currentMouseState.Y - 24) / 32);
 
-            if (mouse.releaseLeftClick && map.height >= cellY && map.width >= cellX) {
+            if (mouse.releaseLeftClick && (map.height-1) >= cellY && (map.width-1) >= cellX) {
                 if (newTowerType != 0) {
-                    System.Diagnostics.Debug.WriteLine(cellY+ "-" + tileY +"tower");
-                    map.AddToMap(cellX, cellY, 1);
+                    if (map.getIndex(cellX, cellY) == 0) {
+                        map.AddToMap(cellX, cellY, newTowerType);
+                        Pathfinder p = new Pathfinder(map);
+                        List<Vector2> t = p.FindPath(new Point(0,0), new Point(map.width - 1, map.height - 1));
+                        if (t.Count == 0) {
+                            System.Diagnostics.Debug.WriteLine("Nooooooo");
+                            map.AddToMap(cellX, cellY, 0);
+                        }
+                    }
                     //towers.Add(new Tower());
                 }
             }
