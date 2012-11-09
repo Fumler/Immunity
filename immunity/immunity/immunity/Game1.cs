@@ -32,6 +32,8 @@ namespace immunity
         private int spawnDelay;
         private int lastUsedUnit;
 
+        private Ammunition testAmmo;
+
         private Input input;
 
 
@@ -152,6 +154,10 @@ namespace immunity
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
 
+            List<Texture2D> ammuitionSprites = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\Ammo")
+            };
+
             pathview.texture = Content.Load<Texture2D>("sprites\\path");
 
             buttonTest.setSprites(buttons);
@@ -160,6 +166,7 @@ namespace immunity
             topbar.setSprites(guiSprites);
             topbar.setFonts(fonts);
             Unit.setSprites(unitSprites);
+            Ammunition.SetSprites(ammuitionSprites);
             map.setTextures(textures);
 
             // TODO: use this.Content to load your game content here

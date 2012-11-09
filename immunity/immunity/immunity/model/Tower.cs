@@ -43,5 +43,15 @@ namespace immunity
         {
 
         }
+
+        public void Update()
+        { 
+        
+        }
+
+        public void Shoot()
+        { 
+            
+        }
     }
 }

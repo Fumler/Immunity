@@ -22,6 +22,10 @@ namespace immunity
         private int age = 0;
         private int decayTimer = 100;
 
+        public static void SetSprites(List<Texture2D> textures) {
+            sprites = textures;
+        }
+
         public Ammunition(int type, Vector2 position, float rotation, int speed, int damage)
         {
             this.type = type;
@@ -29,8 +33,6 @@ namespace immunity
             this.rotation = rotation;
             this.speed = speed;
             this.damage = damage;
-
-            this.center = new Vector2(position.X + (sprites[type].Width / 2), position.Y + (sprites[type].Height / 2));
         }
 
         public int Damage
