@@ -30,7 +30,7 @@ namespace immunity
 
         private List<Unit> unitList;
         private List<Unit> unitsOnMap;
-        private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+        private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
         private int spawnDelay;
         private int lastUsedUnit;
 
@@ -154,7 +154,11 @@ namespace immunity
             };
 
             player.Tile = Content.Load<Texture2D>("sprites\\hoverTile");
+		List<Texture2D> ammuitionSprites = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\Ammo")
+            };
 
+       
             pathview.texture = Content.Load<Texture2D>("sprites\\path");
 
             buttonTest.setSprites(buttons);
@@ -162,9 +166,8 @@ namespace immunity
             actionbar.setFonts(fonts);
             topbar.setSprites(guiSprites);
             topbar.setFonts(fonts);
-            foreach (Unit unit in unitList) {
-                unit.setSprites(unitSprites);
-            }
+            Unit.setSprites(unitSprites);
+            Ammunition.SetSprites(ammuitionSprites);
             map.setTextures(textures);
 
             // TODO: use this.Content to load your game content here
@@ -194,7 +197,7 @@ namespace immunity
                 this.Exit();
 
             spawnDelay++;
-            if (spawnDelay > 20 && unitsOnMap.Count != unitList.Count) { 
+            if (spawnDelay > 15 && lastUsedUnit != unitList.Count) { 
                 unitsOnMap.Add(unitList[lastUsedUnit]);
                 lastUsedUnit++;
                 spawnDelay = 0;
