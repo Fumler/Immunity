@@ -20,7 +20,8 @@ namespace immunity
 
         private Gui topbar;
         private Gui actionbar;
-        private Button buttonTest;
+        private Button buttonOne;
+        private Button buttonTwo;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -72,7 +73,8 @@ namespace immunity
 
             actionbar.draw(spriteBatch, 0, player);
             topbar.draw(spriteBatch, 1, player);
-            buttonTest.draw(spriteBatch, 0);
+            buttonOne.draw(spriteBatch, 0);
+            buttonTwo.draw(spriteBatch, 0);
 
             spriteBatch.End();
 
@@ -94,7 +96,8 @@ namespace immunity
             input = new Input();
 
             // Actionbar objects
-            buttonTest = new Button(new Rectangle(5, height - 65, 60, 60));
+            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60));
+            buttonTwo = new Button(new Rectangle(65, height - 65, 60, 60));
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 
@@ -125,7 +128,7 @@ namespace immunity
         /// </summary>
         protected override void LoadContent()
         {
-            buttonTest.clicked += new EventHandler(rangedTierOne);
+            buttonOne.clicked += new EventHandler(rangedTierOne);
             // Create a new SpriteBatch, which can beused to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -169,7 +172,8 @@ namespace immunity
        
             pathview.texture = Content.Load<Texture2D>("sprites\\path");
 
-            buttonTest.setSprites(buttons);
+            buttonOne.setSprites(buttons);
+            buttonTwo.setSprites(buttons);
             actionbar.setSprites(guiSprites);
             actionbar.setFonts(fonts);
             topbar.setSprites(guiSprites);
@@ -204,7 +208,8 @@ namespace immunity
         {
             input.update();
             player.Update();
-            buttonTest.Update(gameTime);
+            buttonOne.Update(gameTime);
+            buttonTwo.Update(gameTime);
             // Allows the game to exit
             if (input.isKeyPressed(Keys.Escape))
                 this.Exit();
