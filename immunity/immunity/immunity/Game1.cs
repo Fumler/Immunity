@@ -41,6 +41,11 @@ namespace immunity
         /// </summary>
         /// <param name="0">Provides a snapshot of timing values.</param>
         private Texture2D[] towerPlacementTextures;
+        private List<Texture2D> ammuitionSprites;
+        private List<SpriteFont> fonts;
+        private List<Texture2D> buttons;
+        private List<Texture2D> guiSprites;
+        private List<Texture2D> unitSprites;
 
         public Game1()
         {
@@ -97,7 +102,7 @@ namespace immunity
             input = new Input();
 
             // Action bar objects
-            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10);
+            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
             buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20);
             buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
@@ -151,26 +156,27 @@ namespace immunity
             towerPlacementTextures[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
             towerPlacementTextures[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
 
-            List<Texture2D> unitSprites = new List<Texture2D>() {
+            unitSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\RedCell"),
                 Content.Load<Texture2D>("sprites\\WhiteCell")
             };
 
-            List<Texture2D> guiSprites = new List<Texture2D>() {
+            guiSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\actionbar"),
                 Content.Load<Texture2D>("sprites\\topbar")
             };
 
-            List<Texture2D> buttons = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\buttons\\unit1")
+            buttons = new List<Texture2D>() {
+                Content.Load<Texture2D>("sprites\\buttons\\unit1"),
+                Content.Load<Texture2D>("sprites\\blackbox")
             };
 
-            List<SpriteFont> fonts = new List<SpriteFont>() {
+            fonts = new List<SpriteFont>() {
                 Content.Load<SpriteFont>("fonts\\segoe"),
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
 
-            List<Texture2D> ammuitionSprites = new List<Texture2D>() {
+            ammuitionSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\Ammo")
             };
 
@@ -188,6 +194,7 @@ namespace immunity
             Ammunition.SetSprites(ammuitionSprites);
             map.SetTextures(towerPlacementTextures);
             Tower.Turret = towerPlacementTextures[9];
+            Button.Fonts = fonts;
 
             Thread thread = new Thread(new ThreadStart(PlaySong));
             thread.IsBackground = true;

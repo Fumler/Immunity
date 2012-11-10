@@ -25,9 +25,20 @@ namespace immunity
 
         private MouseStatus state = MouseStatus.Normal;
 
+        private static List<SpriteFont> fonts;
+
+        private String tooltip;
+
+        GraphicsDevice graphicsDevice;
+
         public event EventHandler clicked;
 
         public int type = 10;
+
+        public static List<SpriteFont> Fonts
+        {
+            set { fonts = value; }
+        }
 
         public Button(Rectangle bounds)
         {
@@ -36,6 +47,13 @@ namespace immunity
         public Button(Rectangle bounds, int type) {
             this.bounds = bounds;
             this.type = type;
+        }
+
+        public Button(Rectangle bounds, int type, string tooltip)
+        {
+            this.bounds = bounds;
+            this.type = type;
+            this.tooltip = tooltip;
         }
 
         public void Update(GameTime gameTime)
@@ -83,22 +101,29 @@ namespace immunity
             {
                 case MouseStatus.Normal:
                     spriteBatch.Draw(buttons[texture], bounds, Color.White);
+                    
                     break;
 
                 case MouseStatus.Released:
                     spriteBatch.Draw(buttons[texture], bounds, Color.Blue);
+                    if (tooltip != null)
+                    {
+                        spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, tooltip.Length * 7, 20), Color.Black);
+                        spriteBatch.DrawString(fonts[1], tooltip, new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
+
+                    }
                     break;
 
                 case MouseStatus.Clicked:
                     if (mouse.currentMouseState.LeftButton != mouse.previousMouseState.LeftButton)
                     {
-                        System.Diagnostics.Debug.WriteLine("If mouse is click and held down, do this only once!");
                         if (clicked != null)
                         {
                             clicked(this, EventArgs.Empty);
                         }
                     }
                     spriteBatch.Draw(buttons[texture], bounds, Color.Red);
+
                     break;
 
                 default:
