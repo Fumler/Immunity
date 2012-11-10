@@ -99,7 +99,7 @@ namespace immunity
             // Action bar objects
             buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10);
             buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20);
-            buttonThree = new Button(new Rectangle(140, height - 65, 60, 60), -1);
+            buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 
@@ -178,6 +178,7 @@ namespace immunity
 
             buttonOne.SetSprites(buttons);
             buttonTwo.SetSprites(buttons);
+            buttonThree.SetSprites(buttons);
             actionbar.SetSprites(guiSprites);
             actionbar.SetFonts(fonts);
             topbar.SetSprites(guiSprites);
@@ -214,6 +215,7 @@ namespace immunity
             player.Update();
             buttonOne.Update(gameTime);
             buttonTwo.Update(gameTime);
+            buttonThree.Update(gameTime);
 
             // Allows the game to exit
             if (input.IsKeyPressed(Keys.Escape))

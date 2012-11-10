@@ -71,7 +71,7 @@ namespace immunity
             {
                 if (newTowerType != 0)
                 {
-                    if (map.GetIndex(cellX, cellY) == 0)
+                    if (map.GetIndex(cellX, cellY) == 0 && newTowerType != 3)
                     {
                         if (gold >= Tower.GetCost(newTowerType))
                         {
@@ -85,6 +85,12 @@ namespace immunity
                                 map.AddToMap(cellX, cellY, 0);
                             }
                         }
+                    }
+                    else if (map.GetIndex(cellX, cellY) != 0)
+                    {
+                        int sellType = map.GetIndex(cellX, cellY);
+                        gold += (Tower.GetCost(sellType) == 1) ? Tower.GetCost(sellType) : (int)(Tower.GetCost(sellType) * 0.5f);
+                        map.AddToMap(cellX, cellY, 0);
                     }
                 }
             }

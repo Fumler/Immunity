@@ -83,7 +83,6 @@ namespace immunity
             {
                 case MouseStatus.Normal:
                     spriteBatch.Draw(buttons[texture], bounds, Color.White);
-
                     break;
 
                 case MouseStatus.Released:
