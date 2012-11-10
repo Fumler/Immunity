@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity
@@ -17,21 +13,20 @@ namespace immunity
         /// </summary>
         public const int TILESIZE = 32;
 
-
         /// <summary>
         /// The map weight.
         /// </summary>
         private int[,] layout = new int[,]
         {
-            {0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, }, 
+            {0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, },
             { 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, },
-            { 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, }, 
-            { 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, }, 
+            { 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, },
+            { 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, },
             { 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, },
-            { 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, }, 
-            { 1, 1, 1, 20, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, }, 
-            { 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, }, 
-            { 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, }, 
+            { 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, },
+            { 1, 1, 1, 20, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, },
+            { 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, },
+            { 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, },
             { 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, },
             { 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, },
             { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, },
@@ -45,14 +40,15 @@ namespace immunity
         /// <summary>
         /// The width of the map.
         /// </summary>
-        public int width
+        public int Width
         {
             get { return layout.GetLength(1); }
         }
+
         /// <summary>
         /// The height of the map.
         /// </summary>
-        public int height
+        public int Height
         {
             get { return layout.GetLength(0); }
         }
@@ -62,28 +58,30 @@ namespace immunity
         /// </summary>
         public Map()
         {
-            System.Diagnostics.Debug.WriteLine(height);
-            System.Diagnostics.Debug.WriteLine(width);
+            System.Diagnostics.Debug.WriteLine(Height);
+            System.Diagnostics.Debug.WriteLine(Width);
         }
 
         /// <summary>
         /// Sets the textures for the map to draw.
         /// </summary>
-        public void setTextures(Texture2D[] textures)
+        public void SetTextures(Texture2D[] textures)
         {
             this.textures = textures;
         }
 
-        public void AddToMap(int x, int y, int type) {
+        public void AddToMap(int x, int y, int type)
+        {
             layout[y, x] = type;
             System.Diagnostics.Debug.WriteLine("YE!");
         }
+
         /// <summary>
         /// Returns the tile index for the given cell.
         /// </summary>
-        public int getIndex(int cellX, int cellY)
+        public int GetIndex(int cellX, int cellY)
         {
-            if (cellX < 0 || cellX > width - 1 || cellY < 0 || cellY > height - 1)
+            if (cellX < 0 || cellX > Width - 1 || cellY < 0 || cellY > Height - 1)
                 return 0;
 
             return layout[cellY, cellX];
@@ -92,16 +90,16 @@ namespace immunity
         /// <summary>
         /// Draws the map.
         /// </summary>
-        public void draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (textures == null)
             {
                 return;
             }
 
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < Width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < Height; y++)
                 {
                     int index = layout[y, x];
                     spriteBatch.Draw(textures[index], new Vector2(x * TILESIZE, y * TILESIZE + 24), Color.White);

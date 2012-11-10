@@ -1,0 +1,400 @@
+[33mcommit 18cbae55be6c4cef5eaa5a2bd3a3b6380b5f4b02[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Nov 10 05:12:28 2012 +0100
+
+    Started on making a new button
+    Didn't add a new eventhandler yet, and going to bed now (05:12)
+
+[33mcommit 80b837301a567c25c20e1e723bf200a2471dcd85[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Nov 10 05:01:52 2012 +0100
+
+    Thread now stops when you exit the game, woops.
+
+[33mcommit 26da26765e3cbd3da0289cb6d1a5962ad826e2cd[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Nov 10 04:59:38 2012 +0100
+
+    Now have background music running in a thread
+
+[33mcommit 816db3d48f18fc6ab94aecf6c6a8ff1974dbd2ec[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Nov 10 04:30:12 2012 +0100
+
+    HoverTile now changes texture after which unit you chose
+
+[33mcommit 08db312c31a5fcf8fe7da5802028d1fe4c21eb27[m
+Merge: b4aa65e c314539
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Sat Nov 10 00:57:55 2012 +0100
+
+    Merge branch 'master' of https://github.com/Fumler/Immunity
+    
+    Conflicts:
+    	immunity/immunity.suo
+
+[33mcommit b4aa65e60d5db317b65dbb72017b2c2431552ed3[m
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Sat Nov 10 00:53:22 2012 +0100
+
+    Worked on towers shooting
+
+[33mcommit c3145398d29fbe5000aa79744b854f960ca701d3[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Sat Nov 10 00:50:54 2012 +0100
+
+    Outside array
+
+[33mcommit 078b7fd8039f7185332aeb19dc42e7fe397b2ac7[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Sat Nov 10 00:32:07 2012 +0100
+
+    Added so you can have textures in array not list
+
+[33mcommit 7092cf047a49dfd46a701dee0ce20c1c0ae7aa72[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Fri Nov 9 23:27:32 2012 +0100
+
+    Can't place tower where there is tower. Can't add tower if it blocks path. Bit hacky though.
+
+[33mcommit f623d59c169996abd5efdaf3cd50926a6981b92d[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Fri Nov 9 22:37:05 2012 +0100
+
+    Placing tower on map now works.
+
+[33mcommit 140f059d050a5d4789c61d4bd94d079b94ed05e7[m
+Merge: 99ff455 84a63a1
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Fri Nov 9 22:01:43 2012 +0100
+
+    Merge branch 'master' of https://github.com/Fumler/Immunity
+    
+    Conflicts:
+    	immunity/immunity/immunity/Game1.cs
+    	immunity/immunity/immunityContent/immunityContent.contentproj
+
+[33mcommit 99ff455e7488e84ab9cc029eb1744454b2fb1a2c[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Fri Nov 9 21:54:32 2012 +0100
+
+    Hover tile added and lots of other stuff
+
+[33mcommit 84a63a1e6fa09c9eebcba639436a1e0fe77ac8e4[m
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Fri Nov 9 21:45:18 2012 +0100
+
+    Fixed a bug with the ammo spriteS
+
+[33mcommit a161a020162e1f2e43a9a9051207e7080808fc82[m
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Fri Nov 9 21:18:43 2012 +0100
+
+    More work on the ammo class, added sprites and tested constructor
+
+[33mcommit f1357aa02b213af52b36a22f01c428b41f99cb2d[m
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Fri Nov 9 20:05:17 2012 +0100
+
+    Worked on the ammo class
+
+[33mcommit 409a5a1af57ae08c67e930d025f95d88dca2e0fd[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Thu Nov 1 20:44:20 2012 +0100
+
+    Made so the path of the units are visible.
+
+[33mcommit e78ee52a30e64e075b645798965c9faed625eeff[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Thu Nov 1 20:12:29 2012 +0100
+
+    Added so if a function executes while holding down the button it does not execute it everyframe, only once.
+
+[33mcommit 5e0eb6744d8417af61992be765430183c1257c40[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Thu Nov 1 20:03:09 2012 +0100
+
+    Fixed mousedown on button
+
+[33mcommit c5f54a50730b9133547b71b7d2a412eea4d3e4dd[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Thu Nov 1 19:58:29 2012 +0100
+
+    Buttons work
+
+[33mcommit df8c1a982370642a83edb9f325292f3c14eeeca4[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Thu Nov 1 19:57:46 2012 +0100
+
+    Update .gitignore
+    
+    Now ignores .orig files
+
+[33mcommit 0bbba224a37df86fad49105f8aea01a67276196a[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Thu Nov 1 19:39:54 2012 +0100
+
+    Fixed some the mouse position is inside the game window
+
+[33mcommit 3b3e458526aa7c099c6167ed569df36c81836923[m
+Merge: d1a4c4f 667697e
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Tue Oct 30 20:14:25 2012 +0100
+
+    Merged my code with Dans
+
+[33mcommit d1a4c4fbdcff69e12a7ba0b77af9042d1ccdddd1[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Tue Oct 30 20:11:31 2012 +0100
+
+    Changed button.cs, input.cs
+    Added getters for mouse in input and tried getting mouseclick to work in button but I'm retarded
+
+[33mcommit 667697ea9e8b7c652ebd332de7d078807b84e4af[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Tue Oct 30 19:04:56 2012 +0100
+
+    Added the isKeyPressed function and made it work with quiting the game.
+
+[33mcommit daef698c5be0097313fce0eb288899b25264531a[m
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Mon Oct 22 22:16:21 2012 +0200
+
+    Added unitFactory and fixed unit spawntime
+
+[33mcommit 53bef10667ef8649fe8525c387528fdc517880b5[m
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Mon Oct 22 12:40:28 2012 +0200
+
+    Fixed some stuff thgat did not get pushed correctly
+
+[33mcommit caa493d2ddd1e73a8242c97ea1d3de3d056ca1b8[m
+Merge: 483e31a bca632d
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Mon Oct 22 12:31:49 2012 +0200
+
+    Merge branch 'master' of https://github.com/Fumler/Immunity
+
+[33mcommit bca632d0b5ac9f6b5dd8b304bb15bb52bb0592a5[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Mon Oct 22 12:26:18 2012 +0200
+
+    Updated the input class, wil continue on computer at home
+
+[33mcommit 483e31a96307274340cd9c81214665b304885561[m
+Merge: 8a41c74 07d63b8
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Mon Oct 22 12:26:15 2012 +0200
+
+    Merge branch 'master' of https://github.com/Fumler/Immunity
+
+[33mcommit 8a41c7431001c1c66b626c18b8efffa4d18441da[m
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Mon Oct 22 12:23:20 2012 +0200
+
+    Added a unit factory and fixed it so that we don't have way to many sprites in each object.
+
+[33mcommit 07d63b83fd9cce847072688a17721912b4eb2975[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Mon Oct 22 11:22:04 2012 +0200
+
+    Fixed so you can quit the window by pressing Esc
+
+[33mcommit 0f3a3d91672713676f8742830a3df3363d67ac58[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Mon Oct 22 02:18:25 2012 +0200
+
+    Added Player.cs, minor fixes
+    Added a Player class that currently only contains gold and lives
+    Edited functions so that lives and gold can be updated from anywhere.
+    Formatted code better
+
+[33mcommit 9b250388eccbdc438b088e1c11180bfd2a071cf3[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sun Oct 21 03:57:08 2012 +0200
+
+    Can now draw buttons!
+    Will do more shit later, have no time etc
+
+[33mcommit f2fd72eb9b6411e1196dac787fc92a1250fe3713[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Oct 20 04:33:50 2012 +0200
+
+    Added Tower skeleton class
+
+[33mcommit 8f9c5141bc8d615bd8b066089932056e22aa503a[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Oct 20 04:19:08 2012 +0200
+
+    Added new sprites, changed some sprites
+
+[33mcommit b41aa64375ddd794a48827ca935c1aee07b47e9a[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Oct 20 01:45:33 2012 +0200
+
+    Edited Unit.cs, Game1.cs and WhiteCell.png
+    Unit.cs: Now recieving and int in the constructor for which texture that should be drawn
+    Game1.cs: Added a unit2 just to test things and edited previous unit to send a statement
+    WhiteCell.png: Colored it white instead of black (wtf guys)
+    Gui.cs: Just whitespaces and stuff
+
+[33mcommit 1cdb08fb0a6b9ca235a768e6941b5ff5d6801579[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Fri Oct 19 23:30:49 2012 +0200
+
+    Centered topbar text, changed sprites
+
+[33mcommit bd27294528a0fdd09a1e4b5cfeb05214b5513713[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Fri Oct 19 22:07:25 2012 +0200
+
+    Added topbar and actionbar textures
+
+[33mcommit 8a6481fbd91c1448a91a55060d6cfd6aaec3afac[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Thu Oct 18 20:23:17 2012 +0200
+
+    Added basic interface setup
+    Loads a background image that should be the actionbar bg, loads a font and shows text, need to implement repeating bg etc
+
+[33mcommit bd4bf858a1306930ab9a7e09dd4e97547ffb91a4[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Thu Oct 18 18:11:48 2012 +0200
+
+    Added .gitattributes
+
+[33mcommit 566da438448e72ef50c74b3305e34b3a39c03222[m
+Author: Fumler <fredrik.fumler@gmail.com>
+Date:   Thu Oct 18 19:05:02 2012 +0300
+
+    Update .gitignore
+
+[33mcommit 6576f2cedb67d7b417a01f49a499f260ded2ccf0[m
+Merge: 094a903 d1d0ae2
+Author: Johannes Hovland <johannes.hovland@gmail.com>
+Date:   Mon Oct 15 16:09:16 2012 +0200
+
+    Merge branch 'master' of https://github.com/Fumler/Immunity
+    The unit now follows the pathfinding
+    
+    Conflicts:
+    	immunity/immunity.suo
+
+[33mcommit 094a903b862c10a5ea6a1112a40994695ba7c635[m
+Author: Johannes Hovland <johannes.hovland@gmail.com>
+Date:   Mon Oct 15 15:06:59 2012 +0200
+
+    derp
+
+[33mcommit d1d0ae221ffb3712f61246a0031948ee96f9482e[m
+Author: FisiA <fisnik.alidemi@hig.no>
+Date:   Mon Oct 15 14:57:46 2012 +0200
+
+    Updating...
+
+[33mcommit 4b9bee4ff260cdd5916b4e9ed8991cef8d4f07c2[m
+Author: Johannes Hovland <johannes.hovland@gmail.com>
+Date:   Mon Oct 15 14:42:19 2012 +0200
+
+    Added the Path class
+
+[33mcommit 088098ae5de44e2c3741bca77987be0cbc3aa228[m
+Merge: a8f4c01 5117a05
+Author: Johannes Hovland <johannes.hovland@gmail.com>
+Date:   Mon Oct 15 13:53:27 2012 +0200
+
+    Merge branch 'master' of https://github.com/Fumler/Immunity
+
+[33mcommit a8f4c01d2d1a7a22a3fb24582076058e28fef1ab[m
+Merge: 65f49b6 c695602
+Author: Johannes Hovland <johannes.hovland@gmail.com>
+Date:   Mon Oct 15 13:52:01 2012 +0200
+
+    Merge branch 'master' of https://github.com/Fumler/Immunity
+    derp derp
+    Conflicts:
+    	immunity/immunity.suo
+
+[33mcommit 5117a05bf8cf08f6511c8081e52217535977c791[m
+Author: FisiA <fisnik.alidemi@hig.no>
+Date:   Mon Oct 15 13:43:37 2012 +0200
+
+    Working on Unit Class
+
+[33mcommit 65f49b68adb34d6e1c59d5229cab611294b289fb[m
+Author: Johannes Hovland <johannes.hovland@gmail.com>
+Date:   Mon Oct 15 13:32:07 2012 +0200
+
+    derp
+
+[33mcommit 5fd70278cf8c7e90225564e1f169bae13a6cec81[m
+Author: Johannes Hovland <johannes.hovland@gmail.com>
+Date:   Mon Oct 15 13:30:50 2012 +0200
+
+    Pathfinder tested and working
+
+[33mcommit c6956022217f55303935d155fa037f0d036f592a[m
+Merge: 3facdf6 bac9954
+Author: FisiA <fisnik.alidemi@hig.no>
+Date:   Mon Oct 15 12:16:00 2012 +0200
+
+    Merge branch 'master' of https://github.com/Fumler/Immunity
+    
+    Conflicts:
+    	immunity/immunity.suo
+    	immunity/immunity/immunity/Game1.cs
+    	immunity/immunity/immunity/model/Unit.cs
+
+[33mcommit 3facdf68d92ac9e8b47244fadcce59e4c99b2073[m
+Author: FisiA <fisnik.alidemi@hig.no>
+Date:   Mon Oct 15 11:54:47 2012 +0200
+
+    added Unit class and deleted some files
+
+[33mcommit bac99541632f842c1e00bca96c17d311a2abcc19[m
+Author: Johannes Hovland <johannes.hovland@gmail.com>
+Date:   Mon Oct 15 11:48:40 2012 +0200
+
+    Made a test map for the pathfinder, removed old files
+
+[33mcommit 0131659edaadba4453efbb03d2822e29e6a1253d[m
+Author: FisiA <fisnik.alidemi@hig.no>
+Date:   Mon Oct 15 10:35:49 2012 +0200
+
+    Last Update
+
+[33mcommit 80dddda3908cd85a656da8149bdc81afba32ad5f[m
+Author: Johannes Hovland <johannes.hvoland@gmail.com>
+Date:   Sat Oct 13 23:41:59 2012 +0200
+
+    Fixed namespaces.
+
+[33mcommit da85f71d9bcbafceaa2ca4e8495fadb774def43c[m
+Author: Dan Aunde <dan.audne@gmail.com>
+Date:   Sat Oct 13 23:31:47 2012 +0200
+
+    Added working sound and texture loading
+
+[33mcommit f69bb82d18d3f45098be174b33793ff7f54be44c[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Oct 13 23:17:35 2012 +0200
+
+    Derp
+
+[33mcommit 511bc204916c185bfc71c0412c9ee48a5dad06ea[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Oct 13 23:15:51 2012 +0200
+
+    Initial setup of project... again
+
+[33mcommit 05870bf80e19cd0f34db9639677e1020ae8ce419[m
+Author: Fredrik Pettersen <fredrik.fumler@gmail.com>
+Date:   Sat Oct 13 23:11:43 2012 +0200
+
+    Initial setup of project
+
+[33mcommit 1c0ad9160a41ff36c1995754aebefdb3191801b2[m
+Author: Fumler <fredrik.fumler@gmail.com>
+Date:   Sat Oct 13 13:59:40 2012 -0700
+
+    Initial commit

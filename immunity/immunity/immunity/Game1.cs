@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
 
 namespace immunity
 {
@@ -40,7 +38,6 @@ namespace immunity
 
         private Input input;
 
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -48,8 +45,6 @@ namespace immunity
 
             graphics.PreferredBackBufferHeight = height;
             graphics.PreferredBackBufferWidth = width;
-
-            
         }
 
         /// <summary>
@@ -63,18 +58,19 @@ namespace immunity
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            map.draw(spriteBatch);
+            map.Draw(spriteBatch);
 
             pathview.draw(spriteBatch);
             player.Draw(spriteBatch);
-            foreach (Unit unit in unitList) {
-                unit.draw(spriteBatch);
+            foreach (Unit unit in unitList)
+            {
+                unit.Draw(spriteBatch);
             }
 
-            actionbar.draw(spriteBatch, 0, player);
-            topbar.draw(spriteBatch, 1, player);
-            buttonOne.draw(spriteBatch, 0);
-            buttonTwo.draw(spriteBatch, 0);
+            actionbar.Draw(spriteBatch, 0, player);
+            topbar.Draw(spriteBatch, 1, player);
+            buttonOne.Draw(spriteBatch, 0);
+            buttonTwo.Draw(spriteBatch, 0);
 
             spriteBatch.End();
 
@@ -112,10 +108,10 @@ namespace immunity
             // Enemy objects
             unitsOnMap = new List<Unit>();
             unitList = new List<Unit>();
-            Unit.loadPath(pathfinder, new Point(0, 0), new Point(map.width - 1, map.height - 1));
+            Unit.LoadPath(pathfinder, new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
             pathview.path = Unit.getPath();
 
-            UnitFactory.createUnits(units, ref unitList);
+            UnitFactory.CreateUnits(units, ref unitList);
             spawnDelay = 0;
             lastUsedUnit = 0;
 
@@ -129,6 +125,7 @@ namespace immunity
         protected override void LoadContent()
         {
             buttonOne.clicked += new EventHandler(rangedTierOne);
+
             // Create a new SpriteBatch, which can beused to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -144,43 +141,40 @@ namespace immunity
             test[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
 
             List<Texture2D> unitSprites = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\RedCell"),
-                Content.Load<Texture2D>("sprites\\WhiteCell")
-            };
+				Content.Load<Texture2D>("sprites\\RedCell"),
+				Content.Load<Texture2D>("sprites\\WhiteCell")
+			};
 
             List<Texture2D> guiSprites = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\actionbar"),
-                Content.Load<Texture2D>("sprites\\topbar")
-            };
+				Content.Load<Texture2D>("sprites\\actionbar"),
+				Content.Load<Texture2D>("sprites\\topbar")
+			};
 
             List<Texture2D> buttons = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\buttons\\unit1")
-            };
+				Content.Load<Texture2D>("sprites\\buttons\\unit1")
+			};
 
             List<SpriteFont> fonts = new List<SpriteFont>() {
-                Content.Load<SpriteFont>("fonts\\segoe"),
-                Content.Load<SpriteFont>("fonts\\miramonte")
-            };
-
-
+				Content.Load<SpriteFont>("fonts\\segoe"),
+				Content.Load<SpriteFont>("fonts\\miramonte")
+			};
 
             //player.Tile = Content.Load<Texture2D>("sprites\\hoverTile");
-		List<Texture2D> ammuitionSprites = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\Ammo")
-            };
+            List<Texture2D> ammuitionSprites = new List<Texture2D>() {
+				Content.Load<Texture2D>("sprites\\Ammo")
+			};
 
-       
             pathview.texture = Content.Load<Texture2D>("sprites\\path");
 
-            buttonOne.setSprites(buttons);
-            buttonTwo.setSprites(buttons);
+            buttonOne.SetSprites(buttons);
+            buttonTwo.SetSprites(buttons);
             actionbar.setSprites(guiSprites);
-            actionbar.setFonts(fonts);
+            actionbar.SetFonts(fonts);
             topbar.setSprites(guiSprites);
-            topbar.setFonts(fonts);
-            Unit.setSprites(unitSprites);
+            topbar.SetFonts(fonts);
+            Unit.SetSprites(unitSprites);
             Ammunition.SetSprites(ammuitionSprites);
-            map.setTextures(test);
+            map.SetTextures(test);
             player.Map(ref map);
 
             Thread thread = new Thread(new ThreadStart(playSong));
@@ -206,16 +200,18 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            input.update();
+            input.Update();
             player.Update();
             buttonOne.Update(gameTime);
             buttonTwo.Update(gameTime);
+
             // Allows the game to exit
-            if (input.isKeyPressed(Keys.Escape))
+            if (input.IsKeyPressed(Keys.Escape))
                 this.Exit();
 
             spawnDelay++;
-            if (spawnDelay > 15 && lastUsedUnit != unitList.Count) { 
+            if (spawnDelay > 15 && lastUsedUnit != unitList.Count)
+            {
                 unitsOnMap.Add(unitList[lastUsedUnit]);
                 lastUsedUnit++;
                 spawnDelay = 0;
@@ -230,25 +226,26 @@ namespace immunity
                 default: player.Tile = Content.Load<Texture2D>("sprites\\hoverTile"); break;
             }
 
-            foreach (Unit unit in unitsOnMap) {
+            foreach (Unit unit in unitsOnMap)
+            {
                 unit.Update();
             }
-
-
 
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
 
-        private void rangedTierOne(object sender, EventArgs e) {
+        private void rangedTierOne(object sender, EventArgs e)
+        {
             player.NewTowerType = ((Button)sender).type;
         }
 
-        private void playSong() {
+        private void playSong()
+        {
             Song song = Content.Load<Song>("sounds//song");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.3f;
             MediaPlayer.Play(song);
-}
+        }
     }
 }

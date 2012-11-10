@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace immunity
 {
-    class SearchNode
+    internal class SearchNode
     {
         public Point position;
         public bool walkable;
@@ -17,9 +13,10 @@ namespace immunity
         public float distanceToGoal;
         public float distanceTraveled;
 
-        public SearchNode(Point coords, Map map) {
+        public SearchNode(Point coords, Map map)
+        {
             position = coords;
-            walkable = map.getIndex(position.X, position.Y) == 0;
+            walkable = map.GetIndex(position.X, position.Y) == 0;
         }
     }
 }

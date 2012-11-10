@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
 
 namespace immunity
 {
-    class Input
+    internal class Input
     {
         /// <summary>
         /// Handles the states of the mouse and keyboard.
         /// </summary>
-        KeyboardState previousKeyState, currentKeyState;
+        private KeyboardState previousKeyState, currentKeyState;
+
         public MouseState previousMouseState, currentMouseState;
-        
+
         ////////////////////////////////////////////////////////////////////////// MOUSE
 
-        public Input() {
+        public Input()
+        {
         }
 
         /// <summary>
@@ -32,7 +30,7 @@ namespace immunity
         /// <summary>
         /// Checks if the left button is pressed
         /// </summary>
-        public bool leftClick
+        public bool LeftClick
         {
             get { return currentMouseState.LeftButton == ButtonState.Pressed; }
         }
@@ -40,7 +38,7 @@ namespace immunity
         /// <summary>
         /// Checks if the left button is clicked now but not before
         /// </summary>
-        public bool newLeftClick
+        public bool NewLeftClick
         {
             get
             {
@@ -52,15 +50,15 @@ namespace immunity
         /// <summary>
         /// Checks if the left button was released
         /// </summary>
-        public bool releaseLeftClick
+        public bool ReleaseLeftClick
         {
-            get { return !leftClick && previousMouseState.LeftButton == ButtonState.Pressed; }
+            get { return !LeftClick && previousMouseState.LeftButton == ButtonState.Pressed; }
         }
 
         /// <summary>
         /// Checks if the right button is pressed
         /// </summary>
-        public bool rightClick
+        public bool RightClick
         {
             get { return currentMouseState.RightButton == ButtonState.Pressed; }
         }
@@ -68,7 +66,7 @@ namespace immunity
         /// <summary>
         /// Checks if the right button is clicked now but not before
         /// </summary>
-        public bool newRightClick
+        public bool NewRightClick
         {
             get
             {
@@ -80,34 +78,32 @@ namespace immunity
         /// <summary>
         /// Checks if the right button was released
         /// </summary>
-        public bool releaseRightClick
+        public bool ReleaseRightClick
         {
-            get {return !rightClick && previousMouseState.RightButton == ButtonState.Pressed;}
+            get { return !RightClick && previousMouseState.RightButton == ButtonState.Pressed; }
         }
 
         public bool normalState
         {
-            get { return !leftClick && !releaseLeftClick && !rightClick && !releaseRightClick; }
+            get { return !LeftClick && !ReleaseLeftClick && !RightClick && !ReleaseRightClick; }
         }
 
         ////////////////////////////////////////////////////////////////////////// KEYBOARD
 
-        public bool isKeyPressed(Keys key)
+        public bool IsKeyPressed(Keys key)
         {
             return (currentKeyState.IsKeyDown(key));
         }
 
-
         ////////////////////////////////////////////////////////////////////////// OTHER
 
-
-        public void update() {
+        public void Update()
+        {
             previousKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
 
             previousMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
-            
 
             Position = new Vector2(currentMouseState.X, currentMouseState.Y);
         }

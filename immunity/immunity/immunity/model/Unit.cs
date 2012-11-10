@@ -1,31 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity
 {
-    class Unit
+    internal class Unit
     {
+        //Variables
+        //Statics
         private static Path path = new Path();
+        private static List<Texture2D> sprites;
+
+        //Location
         private Vector2 unitPosition;
         private Vector2 moveToPosition;
         private Vector2 center;
 
-        private static List<Texture2D> sprites;
-
+        //Data
         private int health;
         private int speed;
         private int unitType;
         private int positionInPath;
 
+        //Accessors
         public Vector2 Center
         {
             get { return center; }
         }
 
+        //Constructors
         public Unit(int unitType)
         {
             positionInPath = 1;
@@ -36,6 +39,7 @@ namespace immunity
                     health = 100;
                     speed = 2;
                     break;
+
                 case 1:
                     health = 200;
                     speed = 4;
@@ -43,26 +47,30 @@ namespace immunity
             }
         }
 
-        public static void loadPath(Pathfinder pathfinder, Point start, Point end)
+        //Static methods
+        public static void LoadPath(Pathfinder pathfinder, Point start, Point end)
         {
             path.getPath(pathfinder, start, end);
         }
 
-        public static void setSprites(List<Texture2D> textures)
+        public static void SetSprites(List<Texture2D> textures)
         {
             sprites = textures;
         }
 
-        public static List<Vector2> getPath() {
+        public static List<Vector2> getPath()
+        {
             return path.getPath();
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        //Methods
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X,unitPosition.Y+24), Color.White);
+            spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X, unitPosition.Y + 24), Color.White);
         }
 
-        public int nextNode() {
+        public int NextNode()
+        {
             return positionInPath;
         }
 
@@ -97,10 +105,12 @@ namespace immunity
             {
                 moveToPosition = path.getNextStep(positionInPath);
 
-
-                if (moveToPosition == new Vector2(-1f, -1f)) {
+                if (moveToPosition == new Vector2(-1f, -1f))
+                {
                     moveToPosition = unitPosition;
-                } else {
+                }
+                else
+                {
                     positionInPath++;
                 }
             }

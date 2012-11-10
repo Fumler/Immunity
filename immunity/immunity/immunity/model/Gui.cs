@@ -18,7 +18,7 @@ namespace immunity
             this.actionbar = actionbar;
         }
 
-        public void draw(SpriteBatch spriteBatch, int texture, Player player)
+        public void Draw(SpriteBatch spriteBatch, int texture, Player player)
         {
             spriteBatch.Draw(sprites[texture], actionbar, Color.White);
 
@@ -26,7 +26,7 @@ namespace immunity
             spriteBatch.DrawString(fonts[1], topbarText, textPosition, Color.White);
         }
 
-        public void setFonts(List<SpriteFont> fonts)
+        public void SetFonts(List<SpriteFont> fonts)
         {
             this.fonts = fonts;
 
@@ -35,7 +35,7 @@ namespace immunity
             textPosition.Y = 5;
         }
 
-        public void setSprites(List<Texture2D> sprites)
+        public void SetSprites(List<Texture2D> sprites)
         {
             this.sprites = sprites;
         }

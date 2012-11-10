@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity
 {
-    class Tower
+    internal class Tower
     {
         protected List<Ammunition> ammunitionList;
         protected Vector2 position;
@@ -51,9 +48,7 @@ namespace immunity
 
         public Unit Target
         {
-
             get { return target; }
-
         }
 
         public Tower()
@@ -92,10 +87,9 @@ namespace immunity
         public void Shoot()
         {
             Ammunition temp = new Ammunition(0, center, rotation, ammunitionSpeed, damage);
-
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Ammunition ammunition in ammunitionList)
             {
@@ -118,7 +112,7 @@ namespace immunity
                     ammunitionList.Add(ammunition);
                 }
             }
-            else 
+            else
             {
                 ammunitionTimer = 0;
             }
