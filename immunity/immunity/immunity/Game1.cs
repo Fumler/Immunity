@@ -82,6 +82,8 @@ namespace immunity
             buttonTwo.Draw(spriteBatch, 0);
             buttonThree.Draw(spriteBatch, 0);
 
+            System.Diagnostics.Debug.WriteLine("TotalGameTime: " + gameTime.TotalGameTime + " - ElapsedGameTime: " + gameTime.ElapsedGameTime);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
