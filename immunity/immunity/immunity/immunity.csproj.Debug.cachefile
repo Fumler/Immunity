@@ -1,10 +1,8 @@
-Content\sounds\gun.xnb
-Content\sprites\tree.xnb
 Content\sprites\grass.xnb
+Content\sprites\tree.xnb
 Content\sprites\RedCell.xnb
 Content\sprites\WhiteCell.xnb
-Content\fonts\segoe.xnb
-Content\fonts\miramonte.xnb
+Content\sounds\gun.xnb
 Content\sprites\actionbar.xnb
 Content\sprites\topbar.xnb
 Content\sprites\BlackCell.xnb
@@ -15,6 +13,8 @@ Content\sprites\towers\Tier2Splash.xnb
 Content\sprites\bg.xnb
 Content\sprites\tumor.xnb
 Content\sprites\buttons\unit1.xnb
+Content\fonts\segoe.xnb
+Content\fonts\miramonte.xnb
 Content\sprites\blackbox.xnb
 Content\sprites\path.xnb
 Content\sprites\hoverTile.xnb

@@ -32,11 +32,15 @@ namespace immunity
 
         public event EventHandler clicked;
 
-        public int type = 21;
+        public int type = 10;
 
         public Button(Rectangle bounds) 
         {
             this.bounds = bounds;
+        }
+        public Button(Rectangle bounds, int type) {
+            this.bounds = bounds;
+            this.type = type;
         }
 
         public void Update(GameTime gameTime)

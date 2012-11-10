@@ -1,146 +1,172 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity
 {
-    class Tower
-    {
-        protected List<Ammunition> ammunitionList;
-        protected Vector2 position;
-        protected Vector2 center;
-        protected float rotation;
-        protected int type;
-        protected int cost;
-        protected int damage;
-        protected int level;
-        protected int range;
-        protected float fireRate;
-        protected int ammunitionSpeed;
-        protected float ammunitionTimer;
+	internal class Tower
+	{
+		protected List<Ammunition> ammunitionList;
+		protected Vector2 position;
+		protected Vector2 center;
+		protected float rotation;
+		protected int type;
+		protected int cost;
+		protected int damage;
+		protected int level;
+		protected int range;
+		protected float fireRate;
+		protected int ammunitionSpeed;
+		protected float ammunitionTimer;
 
-        protected Unit target;
+		protected Unit target;
 
-        public int Type
-        {
-            get { return type; }
-        }
+		public int Type
+		{
+			get { return type; }
+		}
 
-        public int Cost
-        {
-            get { return cost; }
-        }
+		public int Cost
+		{
+			get { return cost; }
+		}
 
-        public int Damage
-        {
-            get { return damage; }
-        }
+		public int Damage
+		{
+			get { return damage; }
+			set { this.type = value; }
+		}
 
-        public int Level
-        {
-            get { return level; }
-        }
+		public int Level
+		{
+			get { return level; }
+		}
 
-        public int Range
-        {
-            get { return range; }
-        }
+		public int Range
+		{
+			get { return range; }
+		}
 
-        public Unit Target
-        {
+		public Unit Target
+		{
+			get { return target; }
+		}
 
-            get { return target; }
+		public Tower(int type)
+		{
+			ammunitionList = new List<Ammunition>();
+			rotation = 0.0f;
+			fireRate = 1;
+			ammunitionSpeed = 1;
+			ammunitionTimer = 0;
+		}
 
-        }
+		private void UpdateAttributes(int type)
+		{
+			this.type = type;
+			switch (type)
+			{
+				case 10:
+					fireRate = 1;
+					ammunitionSpeed = 1;
+					ammunitionTimer = 0;
+					break;
 
-        public Tower()
-        {
-            ammunitionList = new List<Ammunition>();
-            rotation = 0.0f;
-            fireRate = 1;
-            ammunitionSpeed = 1;
-            ammunitionTimer = 0;
-        }
+				case 11:
+					fireRate = 1;
+					ammunitionSpeed = 1;
+					ammunitionTimer = 0;
+					break;
 
-        protected void GetClosestEnemy(ref List<Unit> enemies)
-        {
-            target = null;
-            float shortestRange = range;
-            foreach (Unit enemy in enemies)
-            {
-                if (Vector2.Distance(center, enemy.Center) < shortestRange)
-                {
-                    shortestRange = Vector2.Distance(center, enemy.Center);
-                    target = enemy;
-                }
-            }
-        }
+				case 20:
+					fireRate = 1;
+					ammunitionSpeed = 1;
+					ammunitionTimer = 0;
+					break;
 
-        protected bool IsInRange(Vector2 targetPosition)
-        {
-            if (Vector2.Distance(center, targetPosition) <= range)
-            {
-                return true;
-            }
+				case 21:
+					fireRate = 1;
+					ammunitionSpeed = 1;
+					ammunitionTimer = 0;
+					break;
+			}
+		}
 
-            return false;
-        }
+		protected void GetClosestEnemy(ref List<Unit> enemies)
+		{
+			target = null;
+			float shortestRange = range;
+			foreach (Unit enemy in enemies)
+			{
+				if (Vector2.Distance(center, enemy.Center) < shortestRange)
+				{
+					shortestRange = Vector2.Distance(center, enemy.Center);
+					target = enemy;
+				}
+			}
+		}
 
-        public void Shoot()
-        {
-            Ammunition temp = new Ammunition(0, center, rotation, ammunitionSpeed, damage);
+		protected bool IsInRange(Vector2 targetPosition)
+		{
+			if (Vector2.Distance(center, targetPosition) <= range)
+			{
+				return true;
+			}
 
-        }
+			return false;
+		}
 
-        public void draw(SpriteBatch spriteBatch)
-        {
-            foreach (Ammunition ammunition in ammunitionList)
-            {
-                ammunition.Draw(spriteBatch);
-            }
-        }
+		public void Shoot()
+		{
+			Ammunition temp = new Ammunition(0, center, rotation, ammunitionSpeed, damage);
+		}
 
-        public void Update(ref List<Unit> enemies, GameTime gameTime)
-        {
-            ammunitionTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+		public void draw(SpriteBatch spriteBatch)
+		{
+			foreach (Ammunition ammunition in ammunitionList)
+			{
+				ammunition.Draw(spriteBatch);
+			}
+		}
 
-            GetClosestEnemy(ref enemies);
-            if (target != null)
-            {
-                //Turn to face target here
+		public void Update(ref List<Unit> enemies, GameTime gameTime)
+		{
+			ammunitionTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (ammunitionTimer >= fireRate)
-                {
-                    Ammunition ammunition = new Ammunition(type, center, rotation, ammunitionSpeed, damage);
-                    ammunitionList.Add(ammunition);
-                }
-            }
-            else 
-            {
-                ammunitionTimer = 0;
-            }
+			GetClosestEnemy(ref enemies);
+			if (target != null)
+			{
+				//Turn to face target here
 
-            for (int i = 0; i < ammunitionList.Count; i++)
-            {
-                Ammunition ammunition = ammunitionList[i];
+				if (ammunitionTimer >= fireRate)
+				{
+					Ammunition ammunition = new Ammunition(type, center, rotation, ammunitionSpeed, damage);
+					ammunitionList.Add(ammunition);
+				}
+			}
+			else
+			{
+				ammunitionTimer = 0;
+			}
 
-                ammunition.SetRotation(rotation);
-                ammunition.Update();
+			for (int i = 0; i < ammunitionList.Count; i++)
+			{
+				Ammunition ammunition = ammunitionList[i];
 
-                if (!IsInRange(ammunition.Center))
-                {
-                    ammunition.Kill();
-                }
+				ammunition.SetRotation(rotation);
+				ammunition.Update();
 
-                if (ammunition.IsDead())
-                {
-                    ammunitionList.Remove(ammunition);
-                    i--;
-                }
-            }
-        }
-    }
+				if (!IsInRange(ammunition.Center))
+				{
+					ammunition.Kill();
+				}
+
+				if (ammunition.IsDead())
+				{
+					ammunitionList.Remove(ammunition);
+					i--;
+				}
+			}
+		}
+	}
 }
