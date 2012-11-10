@@ -6,9 +6,11 @@ namespace immunity
 {
     internal class PathView
     {
+        //Variables
         private List<Vector2> thePath;
         private Texture2D pathTile;
 
+        //Accessors
         public Texture2D Texture
         {
             set { this.pathTile = value; }
@@ -19,6 +21,7 @@ namespace immunity
             set { this.thePath = value; }
         }
 
+        //Methods
         /// <summary>
         /// Draws the path the units follow.
         /// </summary>
