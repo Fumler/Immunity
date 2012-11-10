@@ -180,6 +180,7 @@ namespace immunity
             player.Map(ref map);
 
             Thread thread = new Thread(new ThreadStart(playSong));
+            thread.IsBackground = true;
             thread.Start();
 
             // TODO: use this.Content to load your game content here
