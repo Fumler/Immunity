@@ -24,8 +24,8 @@ namespace immunity
         {
             this.lives = lives;
             this.gold = gold;
-            XElement xml = new XElement("player");
-            xml.Save("test.xml");
+            //XElement xml = new XElement("player");
+            //xml.Save("test.xml");
         }
 
         public int Lives
