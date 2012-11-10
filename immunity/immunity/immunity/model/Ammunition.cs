@@ -98,7 +98,7 @@ namespace immunity
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprites[type], center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(sprites[type], position, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
         }
 
         /// <summary>

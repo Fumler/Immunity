@@ -49,6 +49,8 @@ namespace immunity
                     speed = 4;
                     break;
             }
+
+            
         }
 
         //Static methods
@@ -134,6 +136,8 @@ namespace immunity
                     positionInPath++;
                 }
             }
+
+            center = new Vector2(unitPosition.X + (sprites[unitType].Width / 2), unitPosition.Y + (sprites[unitType].Height / 2) + 24);
         }
     }
 }
