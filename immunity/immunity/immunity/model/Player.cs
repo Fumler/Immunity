@@ -42,6 +42,7 @@ namespace immunity
         }
         public int NewTowerType {
             set { this.newTowerType = value; }
+            get { return newTowerType; }
         }
         public void Map(ref Map map) {
             this.map = map;
@@ -72,7 +73,7 @@ namespace immunity
             
         }
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(tile, new Vector2(cellX * 32, (cellY * 32) + 24), Color.White);
+            spriteBatch.Draw(tile, new Vector2(cellX * 32, (cellY * 32) + 24), new Color(255, 255, 255, 50));
         }
     }
 }

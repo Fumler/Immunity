@@ -32,7 +32,7 @@ namespace immunity
 
         public event EventHandler clicked;
 
-        public int type = 20;
+        public int type = 21;
 
         public Button(Rectangle bounds) 
         {

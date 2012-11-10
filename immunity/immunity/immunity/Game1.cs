@@ -156,7 +156,9 @@ namespace immunity
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
 
-            player.Tile = Content.Load<Texture2D>("sprites\\hoverTile");
+
+
+            //player.Tile = Content.Load<Texture2D>("sprites\\hoverTile");
 		List<Texture2D> ammuitionSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\Ammo")
             };
@@ -205,6 +207,15 @@ namespace immunity
                 unitsOnMap.Add(unitList[lastUsedUnit]);
                 lastUsedUnit++;
                 spawnDelay = 0;
+            }
+
+            switch (player.NewTowerType)
+            {
+                case 10: player.Tile = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged"); break;
+                case 11: player.Tile = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged"); break;
+                case 20: player.Tile = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash"); break;
+                case 21: player.Tile = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash"); break;
+                default: player.Tile = Content.Load<Texture2D>("sprites\\hoverTile"); break;
             }
 
             foreach (Unit unit in unitsOnMap) {
