@@ -29,6 +29,10 @@ namespace immunity
         }
 
         //Constructors
+        /// <summary>
+        /// Creates a new unit.
+        /// </summary>
+        /// <param name="unitType">The type of unit you want ot create.</param>
         public Unit(int unitType)
         {
             positionInPath = 1;
@@ -48,32 +52,48 @@ namespace immunity
         }
 
         //Static methods
+        /// <summary>
+        /// Updates the path the units follow.
+        /// </summary>
+        /// <param name="pathfinder"></param>
+        /// <param name="start">Start node.</param>
+        /// <param name="end">End node</param>
         public static void LoadPath(Pathfinder pathfinder, Point start, Point end)
         {
-            path.getPath(pathfinder, start, end);
+            path.GetPath(pathfinder, start, end);
         }
 
+        /// <summary>
+        /// Set the sprite list for Units.
+        /// </summary>
+        /// <param name="textures"></param>
         public static void SetSprites(List<Texture2D> textures)
         {
             sprites = textures;
         }
 
-        public static List<Vector2> getPath()
+        /// <summary>
+        /// Returns the path the units follow.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Vector2> GetPath()
         {
-            return path.getPath();
+            return path.TravelPath;
         }
 
         //Methods
+        /// <summary>
+        /// Draws the unit.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X, unitPosition.Y + 24), Color.White);
         }
 
-        public int NextNode()
-        {
-            return positionInPath;
-        }
-
+        /// <summary>
+        /// Updates the unit.
+        /// </summary>
         public void Update()
         {
             if (unitPosition != moveToPosition)
@@ -103,7 +123,7 @@ namespace immunity
             }
             else
             {
-                moveToPosition = path.getNextStep(positionInPath);
+                moveToPosition = path.GetNextStep(positionInPath);
 
                 if (moveToPosition == new Vector2(-1f, -1f))
                 {
