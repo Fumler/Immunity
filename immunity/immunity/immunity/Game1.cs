@@ -16,7 +16,7 @@ namespace immunity
 
         private Gui topbar;
         private Gui actionbar;
-		private Button buttonOne, buttonTwo, buttonThree;
+        private Button buttonOne, buttonTwo, buttonThree;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -40,7 +40,7 @@ namespace immunity
         /// that has to do with placing and removing towers.
         /// </summary>
         /// <param name="0">Provides a snapshot of timing values.</param>
-		private Texture2D[] towerPlacementTextures;
+        private Texture2D[] towerPlacementTextures;
 
         public Game1()
         {
@@ -115,12 +115,12 @@ namespace immunity
             unitsOnMap = new List<Unit>();
             unitList = new List<Unit>();
             Unit.LoadPath(pathfinder, new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
-            pathview.path = Unit.GetPath();
+            pathview.Path = Unit.GetPath();
 
             UnitFactory.CreateUnits(units, ref unitList);
             spawnDelay = 0;
             lastUsedUnit = 0;
-			towerPlacementTextures = new Texture2D[33];
+            towerPlacementTextures = new Texture2D[33];
 
             base.Initialize();
         }
@@ -141,15 +141,15 @@ namespace immunity
             // Sets the mouse position in our window.
             Mouse.WindowHandle = this.Window.Handle;
 
-			towerPlacementTextures[0] = Content.Load<Texture2D>("sprites\\bg");
-			towerPlacementTextures[1] = Content.Load<Texture2D>("sprites\\tumor");
+            towerPlacementTextures[0] = Content.Load<Texture2D>("sprites\\bg");
+            towerPlacementTextures[1] = Content.Load<Texture2D>("sprites\\tumor");
             towerPlacementTextures[2] = Content.Load<Texture2D>("sprites\\hoverTile");
             towerPlacementTextures[3] = Content.Load<Texture2D>("sprites\\deleteTile");
             towerPlacementTextures[9] = Content.Load<Texture2D>("sprites\\towers\\turret");
-			towerPlacementTextures[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
-			towerPlacementTextures[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
-			towerPlacementTextures[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
-			towerPlacementTextures[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
+            towerPlacementTextures[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
+            towerPlacementTextures[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
+            towerPlacementTextures[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
+            towerPlacementTextures[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
 
             List<Texture2D> unitSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\RedCell"),
@@ -174,8 +174,8 @@ namespace immunity
                 Content.Load<Texture2D>("sprites\\Ammo")
             };
 
-            pathview.texture = Content.Load<Texture2D>("sprites\\path");
-            pathview.texture = Content.Load<Texture2D>("sprites\\path");
+            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
+            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
 
             buttonOne.SetSprites(buttons);
             buttonTwo.SetSprites(buttons);
@@ -233,11 +233,11 @@ namespace immunity
             switch (player.NewTowerType)
             {
                 case 3: player.Tile = towerPlacementTextures[3]; break;
-				case 10: player.Tile = towerPlacementTextures[10]; break;
-				case 11: player.Tile = towerPlacementTextures[11]; break;
-				case 20: player.Tile = towerPlacementTextures[20]; break;
-				case 21: player.Tile = towerPlacementTextures[21]; break;
-				default: player.Tile = towerPlacementTextures[2]; break;
+                case 10: player.Tile = towerPlacementTextures[10]; break;
+                case 11: player.Tile = towerPlacementTextures[11]; break;
+                case 20: player.Tile = towerPlacementTextures[20]; break;
+                case 21: player.Tile = towerPlacementTextures[21]; break;
+                default: player.Tile = towerPlacementTextures[2]; break;
             }
 
             foreach (Unit unit in unitsOnMap)
