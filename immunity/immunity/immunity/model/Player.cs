@@ -58,7 +58,7 @@ namespace immunity
             get { return newTowerType; }
         }
 
-        public void Update()
+        public void Update(ref List<Unit> enemies, GameTime gameTime)
         {
             mouse.Update();
 
@@ -100,6 +100,17 @@ namespace immunity
             if (mouse.ReleaseRightClick)
             {
                 newTowerType = 0;
+            }
+
+            for (int y = 0; y < towers.GetLength(1); y++)
+            {
+                for (int x = 0; x < towers.GetLength(0); x++)
+                {
+                    if (towers[x, y] != null)
+                    {
+                        towers[x,y].Update(ref enemies, gameTime);
+                    }
+                }
             }
         }
 

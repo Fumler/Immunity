@@ -114,7 +114,7 @@ namespace immunity
             pathview = new PathView();
 
             // Player object
-			player = new Player(5, 1000, ref map);
+            player = new Player(5, 1000, ref map);
 
             // Enemy objects
             unitsOnMap = new List<Unit>();
@@ -176,11 +176,14 @@ namespace immunity
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
 
-            ammuitionSprites = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\Ammo")
-            };
+            List<Texture2D> ammuitionSprites = new List<Texture2D>();
+            for (int i = 0; i <= 33; i++)
+            {
+                Texture2D temp = Content.Load<Texture2D>("sprites\\Ammo");
+                ammuitionSprites.Add(temp);
+            }
 
-            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
+                pathview.Texture = Content.Load<Texture2D>("sprites\\path");
             pathview.Texture = Content.Load<Texture2D>("sprites\\path");
 
             buttonOne.SetSprites(buttons);
@@ -219,8 +222,14 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            
+
             input.Update();
-            player.Update();
+            foreach (Unit unit in unitsOnMap)
+            {
+                unit.Update();
+            }
+            player.Update(ref unitsOnMap, gameTime);
             buttonOne.Update(gameTime);
             buttonTwo.Update(gameTime);
             buttonThree.Update(gameTime);
@@ -246,12 +255,7 @@ namespace immunity
                 case 21: player.Tile = towerPlacementTextures[21]; break;
                 default: player.Tile = towerPlacementTextures[2]; break;
             }
-
-            foreach (Unit unit in unitsOnMap)
-            {
-                unit.Update();
-            }
-
+      
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
