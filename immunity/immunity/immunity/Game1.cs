@@ -48,9 +48,6 @@ namespace immunity
 
 			graphics.PreferredBackBufferHeight = height;
 			graphics.PreferredBackBufferWidth = width;
-		}
-            graphics.PreferredBackBufferHeight = height;
-            graphics.PreferredBackBufferWidth = width;
         }
 
 		/// <summary>
@@ -97,7 +94,7 @@ namespace immunity
 
 			input = new Input();
 
-			// Actionbar objects
+			// Action bar objects
 			buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10);
 			buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20);
 			topbar = new Gui(new Rectangle(0, 0, width, 24));
@@ -134,7 +131,7 @@ namespace immunity
 			buttonOne.clicked += new EventHandler(TowerButtonClicked);
 			buttonTwo.clicked += new EventHandler(TowerButtonClicked);
 
-			// Create a new SpriteBatch, which can beused to draw textures.
+			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			// Sets the mouse position in our window.
@@ -176,16 +173,16 @@ namespace immunity
 
             buttonOne.SetSprites(buttons);
             buttonTwo.SetSprites(buttons);
-			actionbar.setSprites(guiSprites);
+			actionbar.SetSprites(guiSprites);
             actionbar.SetFonts(fonts);
-			topbar.setSprites(guiSprites);
+			topbar.SetSprites(guiSprites);
             topbar.SetFonts(fonts);
             Unit.SetSprites(unitSprites);
 			Ammunition.SetSprites(ammuitionSprites);
             map.SetTextures(test);
 			player.Map(ref map);
 
-			Thread thread = new Thread(new ThreadStart(playSong));
+			Thread thread = new Thread(new ThreadStart(PlaySong));
 			thread.IsBackground = true;
 			thread.Start();
 
@@ -242,9 +239,6 @@ namespace immunity
 			// TODO: Add your update logic here
 			base.Update(gameTime);
 		}
-            // TODO: Add your update logic here
-            base.Update(gameTime);
-        }
 
 		private void TowerButtonClicked(object sender, EventArgs e)
 		{

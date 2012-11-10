@@ -51,10 +51,6 @@ namespace immunity
 		{
 			get { return target; }
 		}
-        public Unit Target
-        {
-            get { return target; }
-        }
 
 		public Tower(int type)
 		{
@@ -124,10 +120,6 @@ namespace immunity
 		{
 			Ammunition temp = new Ammunition(0, center, rotation, ammunitionSpeed, damage);
 		}
-        public void Shoot()
-        {
-            Ammunition temp = new Ammunition(0, center, rotation, ammunitionSpeed, damage);
-        }
 
         public void Draw(SpriteBatch spriteBatch)
 		{
