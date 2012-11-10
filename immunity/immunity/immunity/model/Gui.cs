@@ -22,7 +22,7 @@ namespace immunity
         {
             spriteBatch.Draw(sprites[texture], actionbar, Color.White);
 
-            string topbarText = String.Format("GOLD: {0} - LEVEL: {1}", player.Gold, player.Lives);
+            string topbarText = String.Format("GOLD: {0} - WAVE: {1} - LIVES: {2}", player.Gold, player.Wave, player.Lives);
             spriteBatch.DrawString(fonts[1], topbarText, textPosition, Color.White);
         }
 
@@ -30,7 +30,7 @@ namespace immunity
         {
             this.fonts = fonts;
 
-            Vector2 stringCenter = fonts[0].MeasureString("GOLD: xx - LEVEL: xx") * 0.5f;
+            Vector2 stringCenter = fonts[0].MeasureString("GOLD: xxxx - WAVE: xx - LIVES: xx") * 0.5f;
             textPosition.X = (int)((game.width / 2) - stringCenter.X);
             textPosition.Y = 5;
         }
