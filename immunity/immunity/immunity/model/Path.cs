@@ -6,16 +6,40 @@ namespace immunity
 {
     internal class Path
     {
-        private List<Vector2> path;
+        //Variables
+        private List<Vector2> travelPath;
 
-        public void getPath(Pathfinder pathfinder, Point start, Point end)
+        //Accessors
+        public List<Vector2> TravelPath
         {
-            path = pathfinder.FindPath(start, end);
+            get { return travelPath; }
         }
 
-        private bool isValid(int currentStep)
+        //Constructors
+        public Path()
         {
-            if (currentStep + 1 > path.Count - 1)
+        }
+
+        //Methods
+        /// <summary>
+        /// Updates the internal travelPath.
+        /// </summary>
+        /// <param name="pathfinder"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public void GetPath(Pathfinder pathfinder, Point start, Point end)
+        {
+            travelPath = pathfinder.FindPath(start, end);
+        }
+
+        /// <summary>
+        /// Checks if the next step in the path is valid.
+        /// </summary>
+        /// <param name="currentStep">units current step in the path.</param>
+        /// <returns></returns>
+        private bool IsValid(int currentStep)
+        {
+            if (currentStep + 1 > travelPath.Count - 1)
             {
                 return false;
             }
@@ -25,25 +49,21 @@ namespace immunity
             }
         }
 
-        public Vector2 getNextStep(int currentStep)
+        /// <summary>
+        /// Returns the next position in the path.
+        /// </summary>
+        /// <param name="currentStep">Units current step in the path.</param>
+        /// <returns>Return the next step if valid; -1,-1 if invalid.</returns>
+        public Vector2 GetNextStep(int currentStep)
         {
-            if (isValid(currentStep))
+            if (IsValid(currentStep))
             {
-                return path.ElementAt(currentStep + 1);
+                return travelPath.ElementAt(currentStep + 1);
             }
             else
             {
                 return new Vector2(-1f, -1f);
             }
-        }
-
-        public List<Vector2> getPath()
-        {
-            return this.path;
-        }
-
-        public Path()
-        {
         }
     }
 }

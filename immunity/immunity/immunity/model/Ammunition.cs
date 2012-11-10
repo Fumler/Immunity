@@ -36,6 +36,14 @@ namespace immunity
         }
 
         //Constructors
+        /// <summary>
+        /// Creates a new instance of Ammunition. 
+        /// </summary>
+        /// <param name="type">The tower type.</param>
+        /// <param name="position">The center of the tower.</param>
+        /// <param name="rotation">The rotation of the tower.</param>
+        /// <param name="speed">How fast the ammunition moves.</param>
+        /// <param name="damage">The towers damage.</param>
         public Ammunition(int type, Vector2 position, float rotation, int speed, int damage)
         {
             this.type = type;
@@ -46,23 +54,36 @@ namespace immunity
         }
 
         //Static methods
+        /// <summary>
+        /// Sets sprites for Ammunition.
+        /// </summary>
+        /// <param name="textures"></param>
         public static void SetSprites(List<Texture2D> textures)
         {
             sprites = textures;
         }
        
         //Methods
+        /// <summary>
+        /// Checks if the ammunition is old and should  be removed.
+        /// </summary>
+        /// <returns></returns>
         public bool IsDead()
         {
             return age > decayTimer;
         }
 
+        /// <summary>
+        /// Sets the ammunition to die on next update.
+        /// </summary>
         public void Kill()
         {
             age = ++decayTimer;
-            position += velocity;
         }
 
+        /// <summary>
+        /// Updates the ammunition
+        /// </summary>
         public void Update()
         {
             age++;
@@ -71,11 +92,19 @@ namespace immunity
             this.origin = new Vector2(sprites[type].Width / 2, sprites[type].Height / 2);
         }
 
+        /// <summary>
+        /// Draws the ammunition.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprites[type], center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
         }
 
+        /// <summary>
+        /// Bends the ammunition towards the target.
+        /// </summary>
+        /// <param name="rotation">The towers rotation.</param>
         public void SetRotation(float rotation)
         {
             this.rotation = rotation;

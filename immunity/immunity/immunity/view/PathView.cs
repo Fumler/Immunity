@@ -19,7 +19,7 @@ namespace immunity
             set { this.thePath = value; }
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Vector2 tile in thePath)
             {
