@@ -10,7 +10,7 @@ namespace immunity
         private int lives;
         private int gold;
         private int currentMap;
-        private int level;
+        private int wave = 1;
         private int cellX, cellY, tileX, tileY;
         private int newTowerType = 0;
         private Input mouse = new Input();
@@ -33,7 +33,11 @@ namespace immunity
             get { return lives; }
             set { this.lives = value; }
         }
-
+        public int Wave
+        {
+            get { return wave; }
+            set { this.wave = value; }
+        }
         public int Gold
         {
             get { return gold; }
@@ -67,19 +71,27 @@ namespace immunity
             {
                 if (newTowerType != 0)
                 {
-                    if (map.GetIndex(cellX, cellY) == 0)
+                    if (map.GetIndex(cellX, cellY) == 0 && newTowerType != 3)
                     {
-                        map.AddToMap(cellX, cellY, newTowerType);
-                        Pathfinder p = new Pathfinder(map);
-                        List<Vector2> t = p.FindPath(new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
-                        if (t.Count == 0)
+                        if (gold >= Tower.GetCost(newTowerType))
                         {
-                            System.Diagnostics.Debug.WriteLine("Nooooooo");
-                            map.AddToMap(cellX, cellY, 0);
+                            gold -= Tower.GetCost(newTowerType);
+                            map.AddToMap(cellX, cellY, newTowerType);
+                            Pathfinder p = new Pathfinder(map);
+                            List<Vector2> t = p.FindPath(new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
+                            if (t.Count == 0)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Nooooooo");
+                                map.AddToMap(cellX, cellY, 0);
+                            }
                         }
                     }
-
-                    //towers.Add(new Tower());
+                    else if (map.GetIndex(cellX, cellY) != 0)
+                    {
+                        int sellType = map.GetIndex(cellX, cellY);
+                        gold += (Tower.GetCost(sellType) == 1) ? Tower.GetCost(sellType) : (int)(Tower.GetCost(sellType) * 0.5f);
+                        map.AddToMap(cellX, cellY, 0);
+                    }
                 }
             }
             if (mouse.ReleaseRightClick)

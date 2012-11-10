@@ -1,23 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace immunity
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         public int height = 768;
         public int width = 1024;
 
+<<<<<<< HEAD
+		private Gui topbar;
+		private Gui actionbar;
+		private Button buttonOne, buttonTwo, buttonThree;
+=======
         private Gui topbar;
         private Gui actionbar;
-        private Button buttonTest;
+        private Button buttonOne;
+        private Button buttonTwo;
+>>>>>>> bb2bf063dac03dad84bbca7428cb598003c57508
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -36,6 +42,16 @@ namespace immunity
 
         private Input input;
 
+<<<<<<< HEAD
+        /// <summary>
+        /// All the textures for towers and everything
+        /// that has to do with placing and removing towers.
+        /// </summary>
+        /// <param name="0">Provides a snapshot of timing values.</param>
+		private Texture2D[] towerPlacementTextures;
+=======
+        private Texture2D[] test;
+>>>>>>> bb2bf063dac03dad84bbca7428cb598003c57508
 
         public Game1()
         {
@@ -44,8 +60,6 @@ namespace immunity
 
             graphics.PreferredBackBufferHeight = height;
             graphics.PreferredBackBufferWidth = width;
-
-            
         }
 
         /// <summary>
@@ -59,17 +73,20 @@ namespace immunity
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            map.draw(spriteBatch);
+            map.Draw(spriteBatch);
 
-            pathview.draw(spriteBatch);
+            pathview.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            foreach (Unit unit in unitList) {
-                unit.draw(spriteBatch);
+            foreach (Unit unit in unitList)
+            {
+                unit.Draw(spriteBatch);
             }
 
-            actionbar.draw(spriteBatch, 0, player);
-            topbar.draw(spriteBatch, 1, player);
-            buttonTest.draw(spriteBatch, 0);
+            actionbar.Draw(spriteBatch, 0, player);
+            topbar.Draw(spriteBatch, 1, player);
+            buttonOne.Draw(spriteBatch, 0);
+            buttonTwo.Draw(spriteBatch, 0);
+            buttonThree.Draw(spriteBatch, 0);
 
             spriteBatch.End();
 
@@ -90,28 +107,96 @@ namespace immunity
 
             input = new Input();
 
-            // Actionbar objects
-            buttonTest = new Button(new Rectangle(5, height - 65, 60, 60));
+<<<<<<< HEAD
+			// Action bar objects
+            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10);
+            buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20);
+            buttonThree = new Button(new Rectangle(140, height - 65, 60, 60), -1);
+			topbar = new Gui(new Rectangle(0, 0, width, 24));
+			actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
+=======
+            // Action bar objects
+            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10);
+            buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
+>>>>>>> bb2bf063dac03dad84bbca7428cb598003c57508
 
             // Map object
             map = new Map();
             pathfinder = new Pathfinder(map);
             pathview = new PathView();
 
+<<<<<<< HEAD
+			// Player object
+			player = new Player(5, 1000);
+=======
             // Player object
             player = new Player(5, 15);
+>>>>>>> bb2bf063dac03dad84bbca7428cb598003c57508
 
             // Enemy objects
             unitsOnMap = new List<Unit>();
             unitList = new List<Unit>();
-            Unit.loadPath(pathfinder, new Point(0, 0), new Point(map.width - 1, map.height - 1));
-            pathview.path = Unit.getPath();
+            Unit.LoadPath(pathfinder, new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
+            pathview.path = Unit.GetPath();
 
-            UnitFactory.createUnits(units, ref unitList);
+            UnitFactory.CreateUnits(units, ref unitList);
+<<<<<<< HEAD
+			spawnDelay = 0;
+			lastUsedUnit = 0;
+			towerPlacementTextures = new Texture2D[33];
+
+			base.Initialize();
+		}
+
+		/// <summary>
+		/// LoadContent will be called once per game and is the place to load
+		/// all of your content.
+		/// </summary>
+		protected override void LoadContent()
+		{
+			buttonOne.clicked += new EventHandler(TowerButtonClicked);
+            buttonTwo.clicked += new EventHandler(TowerButtonClicked);
+            buttonThree.clicked += new EventHandler(TowerButtonClicked);
+
+			// Create a new SpriteBatch, which can be used to draw textures.
+			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			// Sets the mouse position in our window.
+			Mouse.WindowHandle = this.Window.Handle;
+
+			towerPlacementTextures[0] = Content.Load<Texture2D>("sprites\\bg");
+			towerPlacementTextures[1] = Content.Load<Texture2D>("sprites\\tumor");
+            towerPlacementTextures[2] = Content.Load<Texture2D>("sprites\\hoverTile");
+            towerPlacementTextures[3] = Content.Load<Texture2D>("sprites\\deleteTile");
+			towerPlacementTextures[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
+			towerPlacementTextures[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
+			towerPlacementTextures[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
+			towerPlacementTextures[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
+
+			List<Texture2D> unitSprites = new List<Texture2D>() {
+				Content.Load<Texture2D>("sprites\\RedCell"),
+				Content.Load<Texture2D>("sprites\\WhiteCell")
+			};
+
+			List<Texture2D> guiSprites = new List<Texture2D>() {
+				Content.Load<Texture2D>("sprites\\actionbar"),
+				Content.Load<Texture2D>("sprites\\topbar")
+			};
+
+			List<Texture2D> buttons = new List<Texture2D>() {
+				Content.Load<Texture2D>("sprites\\buttons\\unit1")
+			};
+
+			List<SpriteFont> fonts = new List<SpriteFont>() {
+				Content.Load<SpriteFont>("fonts\\segoe"),
+				Content.Load<SpriteFont>("fonts\\miramonte")
+			};
+=======
             spawnDelay = 0;
             lastUsedUnit = 0;
+            test = new Texture2D[33];
 
             base.Initialize();
         }
@@ -122,17 +207,22 @@ namespace immunity
         /// </summary>
         protected override void LoadContent()
         {
-            buttonTest.clicked += new EventHandler(rangedTierOne);
-            // Create a new SpriteBatch, which can beused to draw textures.
+            buttonOne.clicked += new EventHandler(TowerButtonClicked);
+            buttonTwo.clicked += new EventHandler(TowerButtonClicked);
+
+            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Sets the mouse position in our window.
             Mouse.WindowHandle = this.Window.Handle;
 
-            List<Texture2D> textures = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\bg"),
-                Content.Load<Texture2D>("sprites\\tumor")
-            };
+            test[0] = Content.Load<Texture2D>("sprites\\bg");
+            test[1] = Content.Load<Texture2D>("sprites\\tumor");
+            test[2] = Content.Load<Texture2D>("sprites\\hoverTile");
+            test[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
+            test[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
+            test[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
+            test[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
 
             List<Texture2D> unitSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\RedCell"),
@@ -152,25 +242,58 @@ namespace immunity
                 Content.Load<SpriteFont>("fonts\\segoe"),
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
+>>>>>>> bb2bf063dac03dad84bbca7428cb598003c57508
 
-<<<<<<< HEAD
-            player.Tile = Content.Load<Texture2D>("sprites\\hoverTile");
-=======
             List<Texture2D> ammuitionSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\Ammo")
             };
->>>>>>> 84a63a1e6fa09c9eebcba639436a1e0fe77ac8e4
 
             pathview.texture = Content.Load<Texture2D>("sprites\\path");
+            pathview.texture = Content.Load<Texture2D>("sprites\\path");
 
-            buttonTest.setSprites(buttons);
-            actionbar.setSprites(guiSprites);
-            actionbar.setFonts(fonts);
-            topbar.setSprites(guiSprites);
-            topbar.setFonts(fonts);
-            Unit.setSprites(unitSprites);
+            buttonOne.SetSprites(buttons);
+            buttonTwo.SetSprites(buttons);
+            actionbar.SetSprites(guiSprites);
+            actionbar.SetFonts(fonts);
+            topbar.SetSprites(guiSprites);
+            topbar.SetFonts(fonts);
+            Unit.SetSprites(unitSprites);
+<<<<<<< HEAD
+			Ammunition.SetSprites(ammuitionSprites);
+            map.SetTextures(towerPlacementTextures);
+			player.Map(ref map);
+
+			Thread thread = new Thread(new ThreadStart(PlaySong));
+			thread.IsBackground = true;
+			thread.Start();
+
+			// TODO: use this.Content to load your game content here
+		}
+
+		/// <summary>
+		/// UnloadContent will be called once per game and is the place to unload
+		/// all content.
+		/// </summary>
+		protected override void UnloadContent()
+		{
+			// TODO: Unload any non ContentManager content here
+		}
+
+		/// <summary>
+		/// Allows the game to run logic such as updating the world,
+		/// checking for collisions, gathering input, and playing audio.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Update(GameTime gameTime)
+		{
+=======
             Ammunition.SetSprites(ammuitionSprites);
-            map.setTextures(textures);
+            map.SetTextures(test);
+            player.Map(ref map);
+
+            Thread thread = new Thread(new ThreadStart(PlaySong));
+            thread.IsBackground = true;
+            thread.Start();
 
             // TODO: use this.Content to load your game content here
         }
@@ -191,21 +314,52 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            input.update();
+>>>>>>> bb2bf063dac03dad84bbca7428cb598003c57508
+            input.Update();
             player.Update();
-            buttonTest.Update(gameTime);
+            buttonOne.Update(gameTime);
+            buttonTwo.Update(gameTime);
+
             // Allows the game to exit
-            if (input.isKeyPressed(Keys.Escape))
+            if (input.IsKeyPressed(Keys.Escape))
                 this.Exit();
 
             spawnDelay++;
-            if (spawnDelay > 15 && lastUsedUnit != unitList.Count) { 
+            if (spawnDelay > 15 && lastUsedUnit != unitList.Count)
+            {
+<<<<<<< HEAD
+				unitsOnMap.Add(unitList[lastUsedUnit]);
+				lastUsedUnit++;
+				spawnDelay = 0;
+			}
+
+			switch (player.NewTowerType)
+			{
+                case 3: player.Tile = towerPlacementTextures[3]; break;
+				case 10: player.Tile = towerPlacementTextures[10]; break;
+				case 11: player.Tile = towerPlacementTextures[11]; break;
+				case 20: player.Tile = towerPlacementTextures[20]; break;
+				case 21: player.Tile = towerPlacementTextures[21]; break;
+				default: player.Tile = towerPlacementTextures[2]; break;
+			}
+=======
                 unitsOnMap.Add(unitList[lastUsedUnit]);
                 lastUsedUnit++;
                 spawnDelay = 0;
             }
 
-            foreach (Unit unit in unitsOnMap) {
+            switch (player.NewTowerType)
+            {
+                case 10: player.Tile = test[10]; break;
+                case 11: player.Tile = test[11]; break;
+                case 20: player.Tile = test[20]; break;
+                case 21: player.Tile = test[21]; break;
+                default: player.Tile = test[2]; break;
+            }
+>>>>>>> bb2bf063dac03dad84bbca7428cb598003c57508
+
+            foreach (Unit unit in unitsOnMap)
+            {
                 unit.Update();
             }
 
@@ -213,8 +367,18 @@ namespace immunity
             base.Update(gameTime);
         }
 
-        private void rangedTierOne(object sender, EventArgs e) {
-            player.NewTowerType = 2;
+        private void TowerButtonClicked(object sender, EventArgs e)
+        {
+            player.NewTowerType = ((Button)sender).type;
+            System.Diagnostics.Debug.WriteLine(player.NewTowerType);
+        }
+
+        private void PlaySong()
+        {
+            Song song = Content.Load<Song>("sounds//song");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.0f;
+            MediaPlayer.Play(song);
         }
     }
 }

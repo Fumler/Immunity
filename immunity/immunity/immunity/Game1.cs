@@ -16,8 +16,7 @@ namespace immunity
 
         private Gui topbar;
         private Gui actionbar;
-        private Button buttonOne;
-        private Button buttonTwo;
+		private Button buttonOne, buttonTwo, buttonThree;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -36,7 +35,12 @@ namespace immunity
 
         private Input input;
 
-        private Texture2D[] test;
+        /// <summary>
+        /// All the textures for towers and everything
+        /// that has to do with placing and removing towers.
+        /// </summary>
+        /// <param name="0">Provides a snapshot of timing values.</param>
+		private Texture2D[] towerPlacementTextures;
 
         public Game1()
         {
@@ -71,6 +75,7 @@ namespace immunity
             topbar.Draw(spriteBatch, 1, player);
             buttonOne.Draw(spriteBatch, 0);
             buttonTwo.Draw(spriteBatch, 0);
+            buttonThree.Draw(spriteBatch, 0);
 
             spriteBatch.End();
 
@@ -94,6 +99,7 @@ namespace immunity
             // Action bar objects
             buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10);
             buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20);
+            buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 
@@ -103,7 +109,7 @@ namespace immunity
             pathview = new PathView();
 
             // Player object
-            player = new Player(5, 15);
+			player = new Player(5, 1000);
 
             // Enemy objects
             unitsOnMap = new List<Unit>();
@@ -114,7 +120,7 @@ namespace immunity
             UnitFactory.CreateUnits(units, ref unitList);
             spawnDelay = 0;
             lastUsedUnit = 0;
-            test = new Texture2D[33];
+			towerPlacementTextures = new Texture2D[33];
 
             base.Initialize();
         }
@@ -127,6 +133,7 @@ namespace immunity
         {
             buttonOne.clicked += new EventHandler(TowerButtonClicked);
             buttonTwo.clicked += new EventHandler(TowerButtonClicked);
+            buttonThree.clicked += new EventHandler(TowerButtonClicked);
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -134,13 +141,14 @@ namespace immunity
             // Sets the mouse position in our window.
             Mouse.WindowHandle = this.Window.Handle;
 
-            test[0] = Content.Load<Texture2D>("sprites\\bg");
-            test[1] = Content.Load<Texture2D>("sprites\\tumor");
-            test[2] = Content.Load<Texture2D>("sprites\\hoverTile");
-            test[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
-            test[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
-            test[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
-            test[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
+			towerPlacementTextures[0] = Content.Load<Texture2D>("sprites\\bg");
+			towerPlacementTextures[1] = Content.Load<Texture2D>("sprites\\tumor");
+            towerPlacementTextures[2] = Content.Load<Texture2D>("sprites\\hoverTile");
+            towerPlacementTextures[3] = Content.Load<Texture2D>("sprites\\deleteTile");
+			towerPlacementTextures[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
+			towerPlacementTextures[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
+			towerPlacementTextures[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
+			towerPlacementTextures[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
 
             List<Texture2D> unitSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\RedCell"),
@@ -170,13 +178,14 @@ namespace immunity
 
             buttonOne.SetSprites(buttons);
             buttonTwo.SetSprites(buttons);
+            buttonThree.SetSprites(buttons);
             actionbar.SetSprites(guiSprites);
             actionbar.SetFonts(fonts);
             topbar.SetSprites(guiSprites);
             topbar.SetFonts(fonts);
             Unit.SetSprites(unitSprites);
             Ammunition.SetSprites(ammuitionSprites);
-            map.SetTextures(test);
+            map.SetTextures(towerPlacementTextures);
             player.Map(ref map);
 
             Thread thread = new Thread(new ThreadStart(PlaySong));
@@ -206,6 +215,7 @@ namespace immunity
             player.Update();
             buttonOne.Update(gameTime);
             buttonTwo.Update(gameTime);
+            buttonThree.Update(gameTime);
 
             // Allows the game to exit
             if (input.IsKeyPressed(Keys.Escape))
@@ -221,11 +231,12 @@ namespace immunity
 
             switch (player.NewTowerType)
             {
-                case 10: player.Tile = test[10]; break;
-                case 11: player.Tile = test[11]; break;
-                case 20: player.Tile = test[20]; break;
-                case 21: player.Tile = test[21]; break;
-                default: player.Tile = test[2]; break;
+                case 3: player.Tile = towerPlacementTextures[3]; break;
+				case 10: player.Tile = towerPlacementTextures[10]; break;
+				case 11: player.Tile = towerPlacementTextures[11]; break;
+				case 20: player.Tile = towerPlacementTextures[20]; break;
+				case 21: player.Tile = towerPlacementTextures[21]; break;
+				default: player.Tile = towerPlacementTextures[2]; break;
             }
 
             foreach (Unit unit in unitsOnMap)

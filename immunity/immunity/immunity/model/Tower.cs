@@ -56,10 +56,36 @@ namespace immunity
 		{
 			ammunitionList = new List<Ammunition>();
 			rotation = 0.0f;
-			fireRate = 1;
-			ammunitionSpeed = 1;
-			ammunitionTimer = 0;
+            UpdateAttributes(type);
 		}
+
+        public static int GetCost(int type) {
+            switch (type)
+            {
+                case 1:
+                    return 10;
+                    break;
+
+                case 10:
+                    return 100;
+                    break;
+
+                case 11:
+                    return 150;
+                    break;
+
+                case 20:
+                    return 200;
+                    break;
+
+                case 21:
+                    return 250;
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+        }
 
 		private void UpdateAttributes(int type)
 		{
@@ -67,27 +93,31 @@ namespace immunity
 			switch (type)
 			{
 				case 10:
-					fireRate = 1;
-					ammunitionSpeed = 1;
-					ammunitionTimer = 0;
+					fireRate = 2;
+					ammunitionSpeed = 2;
+					ammunitionTimer = 1.0f;
+                    damage = 50;
 					break;
 
 				case 11:
-					fireRate = 1;
-					ammunitionSpeed = 1;
-					ammunitionTimer = 0;
+					fireRate = 3;
+					ammunitionSpeed = 3;
+					ammunitionTimer = 0.5f;
+                    damage = 60;
 					break;
 
 				case 20:
 					fireRate = 1;
 					ammunitionSpeed = 1;
-					ammunitionTimer = 0;
+					ammunitionTimer = 3.0f;
+                    damage = 90;
 					break;
 
 				case 21:
 					fireRate = 1;
 					ammunitionSpeed = 1;
-					ammunitionTimer = 0;
+					ammunitionTimer = 1.0f;
+                    damage = 120;
 					break;
 			}
 		}
