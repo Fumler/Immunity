@@ -41,7 +41,7 @@ namespace immunity
         /// </summary>
         /// <param name="0">Provides a snapshot of timing values.</param>
         private Texture2D[] towerPlacementTextures;
-        private List<Texture2D> ammuitionSprites;
+        private List<Texture2D> ammunitionSprites;
         private List<SpriteFont> fonts;
         private List<Texture2D> buttons;
         private List<Texture2D> guiSprites;
@@ -176,11 +176,11 @@ namespace immunity
                 Content.Load<SpriteFont>("fonts\\miramonte")
             };
 
-            List<Texture2D> ammuitionSprites = new List<Texture2D>();
+            ammunitionSprites = new List<Texture2D>();
             for (int i = 0; i <= 33; i++)
             {
                 Texture2D temp = Content.Load<Texture2D>("sprites\\Ammo");
-                ammuitionSprites.Add(temp);
+                ammunitionSprites.Add(temp);
             }
 
                 pathview.Texture = Content.Load<Texture2D>("sprites\\path");
@@ -194,7 +194,7 @@ namespace immunity
             topbar.SetSprites(guiSprites);
             topbar.SetFonts(fonts);
             Unit.SetSprites(unitSprites);
-            Ammunition.SetSprites(ammuitionSprites);
+            Ammunition.SetSprites(ammunitionSprites);
             map.SetTextures(towerPlacementTextures);
             Tower.Turret = towerPlacementTextures[9];
             Button.Fonts = fonts;
