@@ -109,7 +109,7 @@ namespace immunity
             unitsOnMap = new List<Unit>();
             unitList = new List<Unit>();
             Unit.LoadPath(pathfinder, new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
-            pathview.path = Unit.GetPath();
+            pathview.Path = Unit.GetPath();
 
             UnitFactory.CreateUnits(units, ref unitList);
             spawnDelay = 0;
@@ -165,8 +165,8 @@ namespace immunity
                 Content.Load<Texture2D>("sprites\\Ammo")
             };
 
-            pathview.texture = Content.Load<Texture2D>("sprites\\path");
-            pathview.texture = Content.Load<Texture2D>("sprites\\path");
+            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
+            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
 
             buttonOne.SetSprites(buttons);
             buttonTwo.SetSprites(buttons);
