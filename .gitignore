@@ -10,7 +10,7 @@ TestResults
 
 # VC10 binary files #
 #####################
-
+*.cachefile
 *.suo
 *.sdf
 
