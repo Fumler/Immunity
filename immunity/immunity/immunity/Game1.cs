@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace immunity
 {
@@ -176,6 +179,9 @@ namespace immunity
             map.setTextures(test);
             player.Map(ref map);
 
+            Thread thread = new Thread(new ThreadStart(playSong));
+            thread.Start();
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -222,6 +228,8 @@ namespace immunity
                 unit.Update();
             }
 
+
+
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
@@ -229,5 +237,12 @@ namespace immunity
         private void rangedTierOne(object sender, EventArgs e) {
             player.NewTowerType = ((Button)sender).type;
         }
+
+        private void playSong() {
+            Song song = Content.Load<Song>("sounds//song");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.3f;
+            MediaPlayer.Play(song);
+}
     }
 }
