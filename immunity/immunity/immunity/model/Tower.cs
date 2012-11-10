@@ -7,7 +7,7 @@ namespace immunity
     internal class Tower
 	{
 		protected List<Ammunition> ammunitionList;
-		protected Vector2 position;
+		protected int cellPositionX, cellPositionY;
 		protected Vector2 center;
 		protected float rotation;
 		protected int type;
@@ -18,6 +18,7 @@ namespace immunity
 		protected float fireRate;
 		protected int ammunitionSpeed;
 		protected float ammunitionTimer;
+        private static Texture2D turret;
 
 		protected Unit target;
 
@@ -30,7 +31,10 @@ namespace immunity
 		{
 			get { return cost; }
 		}
-
+        public static Texture2D Turret
+        {
+            set { turret = value; }
+        }
 		public int Damage
 		{
 			get { return damage; }
@@ -52,8 +56,10 @@ namespace immunity
 			get { return target; }
 		}
 
-		public Tower(int type)
+		public Tower(int type, int cellX, int cellY)
 		{
+            cellPositionX = cellX;
+            cellPositionY = cellY;
 			ammunitionList = new List<Ammunition>();
 			rotation = 0.0f;
             UpdateAttributes(type);
@@ -64,26 +70,20 @@ namespace immunity
             {
                 case 1:
                     return 10;
-                    break;
 
                 case 10:
                     return 100;
-                    break;
 
                 case 11:
                     return 150;
-                    break;
 
                 case 20:
                     return 200;
-                    break;
 
                 case 21:
                     return 250;
-                    break;
                 default:
                     return 0;
-                    break;
             }
         }
 
@@ -152,7 +152,9 @@ namespace immunity
 		}
 
         public void Draw(SpriteBatch spriteBatch)
-		{
+        {
+            System.Diagnostics.Debug.WriteLine("-_-");
+            spriteBatch.Draw(turret, new Vector2(cellPositionX * Map.TILESIZE, (cellPositionY * Map.TILESIZE) + 24), Color.White);
 			foreach (Ammunition ammunition in ammunitionList)
 			{
 				ammunition.Draw(spriteBatch);

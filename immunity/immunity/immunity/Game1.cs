@@ -109,7 +109,7 @@ namespace immunity
             pathview = new PathView();
 
             // Player object
-			player = new Player(5, 1000);
+			player = new Player(5, 1000, ref map);
 
             // Enemy objects
             unitsOnMap = new List<Unit>();
@@ -145,6 +145,7 @@ namespace immunity
 			towerPlacementTextures[1] = Content.Load<Texture2D>("sprites\\tumor");
             towerPlacementTextures[2] = Content.Load<Texture2D>("sprites\\hoverTile");
             towerPlacementTextures[3] = Content.Load<Texture2D>("sprites\\deleteTile");
+            towerPlacementTextures[9] = Content.Load<Texture2D>("sprites\\towers\\turret");
 			towerPlacementTextures[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
 			towerPlacementTextures[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
 			towerPlacementTextures[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
@@ -186,7 +187,7 @@ namespace immunity
             Unit.SetSprites(unitSprites);
             Ammunition.SetSprites(ammuitionSprites);
             map.SetTextures(towerPlacementTextures);
-            player.Map(ref map);
+            Tower.Turret = towerPlacementTextures[9];
 
             Thread thread = new Thread(new ThreadStart(PlaySong));
             thread.IsBackground = true;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -18,12 +19,14 @@ namespace immunity
 
         private Texture2D tile;
 
-        private List<Tower> towers = new List<Tower>();
+        private Tower[,] towers;
 
-        public Player(int lives, int gold)
+        public Player(int lives, int gold, ref Map map)
         {
+            this.map = map;
             this.lives = lives;
             this.gold = gold;
+            towers = new Tower[map.Width, map.Height];
             //XElement xml = new XElement("player");
             //xml.Save("test.xml");
         }
@@ -55,11 +58,6 @@ namespace immunity
             get { return newTowerType; }
         }
 
-        public void Map(ref Map map)
-        {
-            this.map = map;
-        }
-
         public void Update()
         {
             mouse.Update();
@@ -84,13 +82,18 @@ namespace immunity
                                 System.Diagnostics.Debug.WriteLine("Nooooooo");
                                 map.AddToMap(cellX, cellY, 0);
                             }
+                            else
+                            {
+                                towers[cellX,cellY] = new Tower(newTowerType, cellX, cellY);
+                            }
                         }
                     }
-                    else if (map.GetIndex(cellX, cellY) != 0)
+                    else if (map.GetIndex(cellX, cellY) != 0 && newTowerType == 3)
                     {
                         int sellType = map.GetIndex(cellX, cellY);
                         gold += (Tower.GetCost(sellType) == 1) ? Tower.GetCost(sellType) : (int)(Tower.GetCost(sellType) * 0.5f);
                         map.AddToMap(cellX, cellY, 0);
+                        towers[cellX, cellY] = null;
                     }
                 }
             }
@@ -103,6 +106,16 @@ namespace immunity
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tile, new Vector2(cellX * 32, (cellY * 32) + 24), new Color(255, 255, 255, 50));
+            for (int y = 0; y < towers.GetLength(1); y++)
+            {
+                for (int x = 0; x < towers.GetLength(0); x++)
+                {
+                    if (towers[x, y] != null)
+                    {
+                        towers[x, y].Draw(spriteBatch);
+                    }
+                }
+            }
         }
     }
 }
