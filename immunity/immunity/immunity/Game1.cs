@@ -11,6 +11,14 @@ namespace immunity
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        public enum GameState
+        {
+            Menu,
+            Running
+        }
+
+        public static GameState gameState;
+
         public int height = 768;
         public int width = 1024;
 
@@ -102,6 +110,8 @@ namespace immunity
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            gameState = GameState.Menu;
 
             input = new Input();
             toast = new MessageHandler(width, height);
