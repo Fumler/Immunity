@@ -13,9 +13,16 @@ namespace immunity
         private Queue<Wave> waves = new Queue<Wave>();
 
         //Accessors
-        public Wave CurrentWave
+        public Wave GetCurrentWave()
         {
-            get { return waves.Peek(); }
+            if (waves.Count > 0)
+            {
+                return waves.Peek();
+            }
+            else
+            {
+               return new Wave(new List<int>{});
+            }
         }
 
         //Constructors
@@ -33,22 +40,29 @@ namespace immunity
         //Methods
         public void StartNextWave()
         {
-            CurrentWave.Start();
+            if (waves.Count > 0)
+            { 
+                GetCurrentWave().Start(); 
+            }
+            
         }
 
         public void Update(GameTime gameTime)
         {
-            if (CurrentWave.WaveFinished)
+            GetCurrentWave().Update(gameTime);
+
+            if (GetCurrentWave().WaveFinished)
             {
                 waves.Dequeue();
             }
-
-            CurrentWave.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            CurrentWave.Draw(spriteBatch);
+            if (waves.Count > 0)
+            { 
+                GetCurrentWave().Draw(spriteBatch); 
+            }
         }
     }
 }

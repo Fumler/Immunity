@@ -34,8 +34,20 @@ namespace immunity
         public event EventHandler clicked;
 
         public int type = 10;
-        private int width;
-        private int height;
+        private int cellX;
+        private int cellY;
+        private static int gameWidth;
+        private static int gameHeight;
+
+        public static int GameWidth {
+            set { gameWidth = value; }
+        }
+
+        public static int GameHeight {
+            set { gameHeight = value; }
+        }
+
+
 
         public static List<SpriteFont> Fonts
         {
@@ -56,13 +68,20 @@ namespace immunity
             this.type = type;
         }
 
-        public Button(Rectangle bounds, int type, string tooltip, int gamewidth, int gameheight)
+        public Button(Rectangle bounds, int type, string tooltip)
         {
             this.bounds = bounds;
             this.type = type;
             this.tooltip = tooltip;
-            this.width = gamewidth;
-            this.height = gameheight;
+        }
+
+        public Button(Rectangle bounds, int type, string tooltip, int cellX, int cellY)
+        {
+            this.bounds = bounds;
+            this.type = type;
+            this.tooltip = tooltip;
+            this.cellX = cellX;
+            this.cellY = cellY;
         }
 
         public void Update(GameTime gameTime)
@@ -117,7 +136,7 @@ namespace immunity
                     {
                         spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, measureString + 25, 20), Color.Black);
 
-                        if (bounds.X + 5 >= width - bounds.X)
+                        if (bounds.X + 5 >= gameWidth - bounds.X)
                         {
                             spriteBatch.Draw(buttons[1], new Rectangle(bounds.X + 60 - measureString, bounds.Y - 27, measureString + 25, 20), Color.Black);
                             spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 60 + 5 - measureString, bounds.Y - 25), Color.White);
