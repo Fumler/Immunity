@@ -195,7 +195,7 @@ namespace immunity
             {
                 waveHandler.StartNextWave();
             }
-            player.Update(ref waveHandler.CurrentWave.enemies, gameTime, toast);
+            player.Update(ref waveHandler.CurrentWave.enemies, gameTime, toast, ref pathview);
             toast.Update(gameTime.TotalGameTime);
             buttonOne.Update(gameTime);
             buttonTwo.Update(gameTime);

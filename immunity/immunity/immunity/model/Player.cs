@@ -58,7 +58,7 @@ namespace immunity
             get { return newTowerType; }
         }
 
-        public void Update(ref List<Unit> enemies, GameTime gameTime, MessageHandler toast)
+        public void Update(ref List<Unit> enemies, GameTime gameTime, MessageHandler toast, ref PathView path)
         {
             mouse.Update();
 
@@ -69,16 +69,27 @@ namespace immunity
             {
                 if (newTowerType != 0)
                 {
-                    if (map.GetIndex(cellX, cellY) != 0 && newTowerType == 3)
+                    if(towers[cellX, cellY] != null && newTowerType == 0){
+                        
+                    }
+                    else if (map.GetIndex(cellX, cellY) != 0 && newTowerType == 3)
                     {
                         int sellType = map.GetIndex(cellX, cellY);
-                        gold += (Tower.GetCost(sellType) == 1) ? Tower.GetCost(sellType) : (int)(Tower.GetCost(sellType) * 0.5f);
+                        if (sellType == 1)
+                        {
+                            gold += Tower.GetCost(sellType);
+                        }
+                        else
+                        {
+                            gold += (int)(Tower.GetCost(sellType) * 0.5f);
+                        }
                         map.AddToMap(cellX, cellY, 0);
                         towers[cellX, cellY] = null;
+                        Pathfinder p = new Pathfinder(map);
+                        path.Path = p.FindPath(new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
                     }
-                    else if (map.GetIndex(cellX, cellY) == 0)
+                    else if (map.GetIndex(cellX, cellY) == 0 && newTowerType != 3)
                     {
-                        
                         if (gold >= Tower.GetCost(newTowerType))
                         {
                             gold -= Tower.GetCost(newTowerType);
@@ -87,20 +98,19 @@ namespace immunity
                             List<Vector2> t = p.FindPath(new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
                             if (t.Count == 0)
                             {
-                                System.Diagnostics.Debug.WriteLine("Nooooooo");
                                 map.AddToMap(cellX, cellY, 0);
                                 toast.addMessage("ಠ_ಠ Du är for dårlig at bygga tårn.", new TimeSpan(0, 0, 3));
                                 gold += Tower.GetCost(newTowerType);
                             }
                             else
                             {
+                                path.Path = t;
                                 towers[cellX, cellY] = new Tower(newTowerType, cellX, cellY);
                             }
                         }
                         else
                         {
                             toast.addMessage("(╯°□°）╯︵ ʎǝuoɯ ǝɹoɯ ou", new TimeSpan(0, 0, 3));
-
                         }
                     }
                 }
