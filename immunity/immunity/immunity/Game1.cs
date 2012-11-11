@@ -140,70 +140,32 @@ namespace immunity
         /// </summary>
         protected override void LoadContent()
         {
-            buttonOne.clicked += new EventHandler(TowerButtonClicked);
-            buttonTwo.clicked += new EventHandler(TowerButtonClicked);
-            buttonThree.clicked += new EventHandler(TowerButtonClicked);
+            // Sets the mouse position in our window.
+            Mouse.WindowHandle = this.Window.Handle;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Sets the mouse position in our window.
-            Mouse.WindowHandle = this.Window.Handle;
+            ContentHolder.Load(Content);
 
-            towerPlacementTextures[0] = Content.Load<Texture2D>("sprites\\bg");
-            towerPlacementTextures[1] = Content.Load<Texture2D>("sprites\\tumor");
-            towerPlacementTextures[2] = Content.Load<Texture2D>("sprites\\hoverTile");
-            towerPlacementTextures[3] = Content.Load<Texture2D>("sprites\\deleteTile");
-            towerPlacementTextures[9] = Content.Load<Texture2D>("sprites\\towers\\turret");
-            towerPlacementTextures[10] = Content.Load<Texture2D>("sprites\\towers\\Tier1Ranged");
-            towerPlacementTextures[11] = Content.Load<Texture2D>("sprites\\towers\\Tier2Ranged");
-            towerPlacementTextures[20] = Content.Load<Texture2D>("sprites\\towers\\Tier1Splash");
-            towerPlacementTextures[21] = Content.Load<Texture2D>("sprites\\towers\\Tier2Splash");
+            // Button event function triggers
+            buttonOne.clicked += new EventHandler(TowerButtonClicked);
+            buttonTwo.clicked += new EventHandler(TowerButtonClicked);
+            buttonThree.clicked += new EventHandler(TowerButtonClicked);
 
-            unitSprites = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\RedCell"),
-                Content.Load<Texture2D>("sprites\\WhiteCell")
-            };
 
-            guiSprites = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\actionbar"),
-                Content.Load<Texture2D>("sprites\\topbar")
-            };
+            pathview.Texture = ContentHolder.TowerTextures[4];
 
-            buttons = new List<Texture2D>() {
-                Content.Load<Texture2D>("sprites\\buttons\\unit1"),
-                Content.Load<Texture2D>("sprites\\blackbox")
-            };
+            toast.InitVars(ContentHolder.Buttons[1], fonts);
+            Button.Buttons = ContentHolder.Buttons;
+            Gui.Font = ContentHolder.Fonts[1];
+            Gui.Sprites = ContentHolder.GuiSprites;
 
-            fonts = new List<SpriteFont>() {
-                Content.Load<SpriteFont>("fonts\\segoe"),
-                Content.Load<SpriteFont>("fonts\\miramonte"),
-                Content.Load<SpriteFont>("fonts\\miramonteBig")
-            };
-
-            ammunitionSprites = new List<Texture2D>();
-            for (int i = 0; i <= 33; i++)
-            {
-                Texture2D temp = Content.Load<Texture2D>("sprites\\Ammo");
-                ammunitionSprites.Add(temp);
-            }
-
-                pathview.Texture = Content.Load<Texture2D>("sprites\\path");
-            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
-
-            toast.InitVars(buttons[1], fonts);
-            buttonOne.SetSprites(buttons);
-            buttonTwo.SetSprites(buttons);
-            buttonThree.SetSprites(buttons);
-            actionbar.SetSprites(guiSprites);
-            topbar.Fonts = actionbar.Fonts = fonts[1];
-            topbar.SetSprites(guiSprites);
-           
-            Unit.SetSprites(unitSprites);
-            Ammunition.SetSprites(ammunitionSprites);
-            map.SetTextures(towerPlacementTextures);
-            Tower.Turret = towerPlacementTextures[9];
-            Button.Fonts = fonts;
+            Unit.SetSprites(ContentHolder.UnitSprites);
+            Ammunition.SetSprites(ContentHolder.AmmunitionSprites);
+            map.SetTextures(ContentHolder.TowerTextures);
+            Tower.Turret = ContentHolder.TowerTextures[9];
+            Button.Fonts = ContentHolder.Fonts;
 
             Thread thread = new Thread(new ThreadStart(PlaySong));
             thread.IsBackground = true;
