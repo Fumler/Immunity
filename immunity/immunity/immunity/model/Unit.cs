@@ -18,6 +18,7 @@ namespace immunity
 
         //Data
         private int health;
+        private bool alive = true;
         private int speed;
         private int unitType;
         private int positionInPath;
@@ -26,6 +27,12 @@ namespace immunity
         public Vector2 Center
         {
             get { return center; }
+        }
+
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
         }
 
         //Constructors
@@ -90,7 +97,10 @@ namespace immunity
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X, unitPosition.Y + 24), Color.White);
+            if (alive)
+            {
+                spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X, unitPosition.Y + 24), Color.White);
+            }
         }
 
         /// <summary>
@@ -98,6 +108,11 @@ namespace immunity
         /// </summary>
         public void Update()
         {
+            if (Health < 0)
+            {
+                alive = false;
+            }
+
             if (unitPosition != moveToPosition)
             {
                 if (moveToPosition.X != unitPosition.X)

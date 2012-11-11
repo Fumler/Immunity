@@ -65,7 +65,7 @@ namespace immunity
             cellPositionY = cellY;
             ammunitionList = new List<Ammunition>();
             rotation = 0.0f;
-            range = 100;
+            range = 200;
             UpdateAttributes(type);
             center = new Vector2(((cellPositionX * Map.TILESIZE) + Map.TILESIZE / 2), ((cellPositionY * Map.TILESIZE) + Map.TILESIZE / 2) +24);
             origin = new Vector2(turret.Width / 2, turret.Height / 2);
@@ -99,29 +99,29 @@ namespace immunity
             switch (type)
             {
                 case 10:
-                    fireDelay = 2;
-                    ammunitionSpeed = 4;
+                    fireDelay = 1;
+                    ammunitionSpeed = 8;
                     ammunitionTimer = 1.0f;
                     damage = 50;
                     break;
 
                 case 11:
-                    fireDelay = 3;
-                    ammunitionSpeed = 6;
+                    fireDelay = 1.5f;
+                    ammunitionSpeed = 12;
                     ammunitionTimer = 0.5f;
                     damage = 60;
                     break;
 
                 case 20:
-                    fireDelay = 1;
-                    ammunitionSpeed = 2;
+                    fireDelay = 0.5f;
+                    ammunitionSpeed = 4;
                     ammunitionTimer = 3.0f;
                     damage = 90;
                     break;
 
                 case 21:
-                    fireDelay = 1;
-                    ammunitionSpeed = 2;
+                    fireDelay = 0.5f;
+                    ammunitionSpeed = 4;
                     ammunitionTimer = 1.0f;
                     damage = 120;
                     break;
@@ -159,18 +159,14 @@ namespace immunity
             rotation = (float)Math.Atan2(-direction.X, direction.Y);
         }
 
-        public void Shoot()
-        {
-            Ammunition temp = new Ammunition(0, center, rotation, ammunitionSpeed, damage);
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(turret, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
             foreach (Ammunition ammunition in ammunitionList)
             {
                 ammunition.Draw(spriteBatch);
             }
+            spriteBatch.Draw(turret, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
+            
         }
 
         public void Update(ref List<Unit> enemies, GameTime gameTime)
@@ -178,15 +174,18 @@ namespace immunity
             ammunitionTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             GetClosestEnemy(ref enemies);
+
             if (target != null)
             {
                 FaceTarget();
 
                 if (ammunitionTimer >= fireDelay)
                 {
-                    Ammunition ammunition = new Ammunition(type, center, rotation, ammunitionSpeed, damage);
+                    Ammunition ammunition = new Ammunition(type, center, rotation, ammunitionSpeed, damage, ref target);
+                    ammunition.SetRotation(rotation);
                     ammunitionList.Add(ammunition);
                     ammunitionTimer = 0;
+                    
                 }
             }
             else
@@ -198,13 +197,12 @@ namespace immunity
             {
                 Ammunition ammunition = ammunitionList[i];
 
-                ammunition.SetRotation(rotation);
                 ammunition.Update();
 
                 if (!IsInRange(ammunition.Center))
                 {
                     ammunition.Kill();
-                }
+                }               
 
                 if (ammunition.IsDead())
                 {

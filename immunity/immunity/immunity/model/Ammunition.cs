@@ -24,6 +24,8 @@ namespace immunity
         private int age = 0;
         private int decayTimer = 100;
 
+        private Unit target;
+
         //Accessors
         public int Damage
         {
@@ -44,13 +46,14 @@ namespace immunity
         /// <param name="rotation">The rotation of the tower.</param>
         /// <param name="speed">How fast the ammunition moves.</param>
         /// <param name="damage">The towers damage.</param>
-        public Ammunition(int type, Vector2 position, float rotation, int speed, int damage)
+        public Ammunition(int type, Vector2 position, float rotation, int speed, int damage, ref Unit target)
         {
             this.type = type;
             this.position = position;
             this.rotation = rotation;
             this.speed = speed;
             this.damage = damage;
+            this.target = target;
         }
 
         //Static methods
@@ -78,7 +81,7 @@ namespace immunity
         /// </summary>
         public void Kill()
         {
-            age = ++decayTimer;
+            age += decayTimer;
         }
 
         /// <summary>
@@ -90,6 +93,12 @@ namespace immunity
             position += velocity;
             this.center = new Vector2(position.X + (sprites[type].Width / 2), position.Y + (sprites[type].Height / 2));
             this.origin = new Vector2(sprites[type].Width / 2, sprites[type].Height / 2);
+
+            if (target != null && Vector2.Distance(Center, target.Center) < 12)
+            {
+                target.Health -= Damage;
+                Kill();
+            }
         }
 
         /// <summary>
