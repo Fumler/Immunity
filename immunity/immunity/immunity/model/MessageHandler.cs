@@ -57,7 +57,7 @@ namespace immunity
             this.message.Add(text);
             Vector2 pos = new Vector2();
             pos.X = (int)((screenWidth / 2) - fonts[2].MeasureString(text).X * 0.5);
-            pos.Y = screenHeight / 2;
+            pos.Y = screenHeight / 2 - 20;
             this.position.Add(pos);
             System.Diagnostics.Debug.WriteLine("Added toast" + message.Count);
         }
@@ -67,6 +67,7 @@ namespace immunity
             {
                 for (int i = 0; i < message.Count; i++)
                 {
+                    spriteBatch.Draw(texture, new Rectangle((int)position[i].X - 10, (int)position[i].Y, (int)fonts[2].MeasureString(message[i]).X + 20, 40), Color.Black);
                     spriteBatch.DrawString(fonts[2], message[i], position[i], Color.White);
                 }
             }

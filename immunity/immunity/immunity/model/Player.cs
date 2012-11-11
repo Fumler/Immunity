@@ -81,13 +81,18 @@ namespace immunity
                             {
                                 System.Diagnostics.Debug.WriteLine("Nooooooo");
                                 map.AddToMap(cellX, cellY, 0);
-                                toast.addMessage("You can't build here", new TimeSpan(0, 0, 3));
+                                toast.addMessage("ಠ_ಠ Du är for dårlig at bygga tårn.", new TimeSpan(0, 0, 3));
                                 gold += Tower.GetCost(newTowerType);
                             }
                             else
                             {
-                                towers[cellX,cellY] = new Tower(newTowerType, cellX, cellY);
+                                towers[cellX, cellY] = new Tower(newTowerType, cellX, cellY);
                             }
+                        }
+                        else
+                        {
+                            toast.addMessage("(╯°□°）╯︵ ʎǝuoɯ ǝɹoɯ ou", new TimeSpan(0, 0, 3));
+
                         }
                     }
                     else if (map.GetIndex(cellX, cellY) != 0 && newTowerType == 3)
