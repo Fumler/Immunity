@@ -21,7 +21,7 @@ namespace immunity
             }
             else
             {
-               return new Wave(new List<int>{});
+               return new Wave(new List<int>{}); // Dirty fix to stop crashes after last wave
             }
         }
 
