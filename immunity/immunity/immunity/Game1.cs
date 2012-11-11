@@ -105,10 +105,10 @@ namespace immunity
             toast = new MessageHandler(width, height);
 
             // Action bar objects
-            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
-            buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.");
-            buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.");
-            buttonFour = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.");
+            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.", width, height);
+            buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.",width, height);
+            buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", width, height);
+            buttonFour = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.", width, height);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 

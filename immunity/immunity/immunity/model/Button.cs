@@ -34,6 +34,8 @@ namespace immunity
         public event EventHandler clicked;
 
         public int type = 10;
+        private int width;
+        private int height;
 
         public static List<SpriteFont> Fonts
         {
@@ -54,11 +56,13 @@ namespace immunity
             this.type = type;
         }
 
-        public Button(Rectangle bounds, int type, string tooltip)
+        public Button(Rectangle bounds, int type, string tooltip, int gamewidth, int gameheight)
         {
             this.bounds = bounds;
             this.type = type;
             this.tooltip = tooltip;
+            this.width = gamewidth;
+            this.height = gameheight;
         }
 
         public void Update(GameTime gameTime)
@@ -106,10 +110,24 @@ namespace immunity
 
                 case MouseStatus.Released:
                     spriteBatch.Draw(buttons[texture], bounds, Color.Blue);
+
+                    int measureString = (int)fonts[1].MeasureString(tooltip.ToUpper()).X;
+
                     if (tooltip != null)
                     {
-                        spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, (int)fonts[1].MeasureString(tooltip.ToUpper()).X + 25, 20), Color.Black);
-                        spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
+                        spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, measureString + 25, 20), Color.Black);
+
+                        if (bounds.X + 5 >= width - bounds.X)
+                        {
+                            spriteBatch.Draw(buttons[1], new Rectangle(bounds.X + 60 - measureString, bounds.Y - 27, measureString + 25, 20), Color.Black);
+                            spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 60 + 5 - measureString, bounds.Y - 25), Color.White);
+                        }
+                        else
+                        {
+                            spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, measureString + 25, 20), Color.Black);
+                            spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
+                        }
+                        
 
                     }
                     break;
