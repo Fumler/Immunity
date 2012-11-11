@@ -23,7 +23,7 @@ namespace immunity
         //Accessors
         public bool WaveFinished
         {
-            get { return enemies.Count == 0 && numOfEnemies == enemiesSpawned; }
+            get { return (enemies.Count == 0 && numOfEnemies == enemiesSpawned) && numOfEnemies != 0; }
         }
         
         public int EnemyAtEndOfPath

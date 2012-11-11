@@ -193,11 +193,7 @@ namespace immunity
             
 
             waveHandler.Update(gameTime);
-            if (waveHandler.CurrentWave.WaveFinished)
-            {
-                waveHandler.StartNextWave();
-            }
-            player.Update(ref waveHandler.CurrentWave.enemies, gameTime, toast);
+            player.Update(ref waveHandler.GetCurrentWave().enemies, gameTime, toast);
             toast.Update(gameTime.TotalGameTime);
             rangedTowerButton.Update(gameTime);
             splashTowerButton.Update(gameTime);
@@ -236,7 +232,7 @@ namespace immunity
 
             switch (actionType)
             {
-                case 0: 
+                case 0: waveHandler.StartNextWave(); break;
                     waveHandler.CurrentWave.Start();
                     //if ()
                     //{

@@ -109,14 +109,16 @@ namespace immunity
             {
                 newTowerType = 0;
             }
-
-            for (int y = 0; y < towers.GetLength(1); y++)
+            if (enemies != null)
             {
-                for (int x = 0; x < towers.GetLength(0); x++)
+                for (int y = 0; y < towers.GetLength(1); y++)
                 {
-                    if (towers[x, y] != null)
+                    for (int x = 0; x < towers.GetLength(0); x++)
                     {
-                        towers[x,y].Update(ref enemies, gameTime);
+                        if (towers[x, y] != null)
+                        {
+                            towers[x, y].Update(ref enemies, gameTime);
+                        }
                     }
                 }
             }
