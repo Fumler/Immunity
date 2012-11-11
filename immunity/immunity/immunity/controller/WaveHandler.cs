@@ -11,7 +11,6 @@ namespace immunity
     {
         private int numberOfWaves;
         private Queue<Wave> waves = new Queue<Wave>();
-        private bool waveFinished;
 
         //Accessors
         public Wave CurrentWave
@@ -24,7 +23,7 @@ namespace immunity
         {
             this.numberOfWaves = enemies.Length;
 
-            for (int i = 0; i < numberOfWaves - 1; i++)
+            for (int i = 0; i < numberOfWaves; i++)
             {
                 Wave wave = new Wave(enemies[i]);
                 waves.Enqueue(wave);
@@ -35,7 +34,6 @@ namespace immunity
         public void StartNextWave()
         {
             CurrentWave.Start();
-            waveFinished = false;
         }
 
         public void Update(GameTime gameTime)
