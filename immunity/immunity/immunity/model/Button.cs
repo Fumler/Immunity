@@ -15,7 +15,7 @@ namespace immunity
 
     internal class Button
     {
-        private Input mouse = new Input();
+        private Input input = new Input();
 
         private MouseState previousState;
 
@@ -32,6 +32,8 @@ namespace immunity
         GraphicsDevice graphicsDevice;
 
         public event EventHandler clicked;
+
+        private Keys key;
 
         public int type = 10;
         private int cellX;
@@ -63,45 +65,48 @@ namespace immunity
         {
             this.bounds = bounds;
         }
-        public Button(Rectangle bounds, int type) {
+        public Button(Rectangle bounds, int type, Keys key) {
             this.bounds = bounds;
             this.type = type;
+            this.key = key;
         }
 
-        public Button(Rectangle bounds, int type, string tooltip)
+        public Button(Rectangle bounds, int type, string tooltip, Keys key)
         {
             this.bounds = bounds;
             this.type = type;
             this.tooltip = tooltip;
+            this.key = key;
         }
 
-        public Button(Rectangle bounds, int type, string tooltip, int cellX, int cellY)
+        public Button(Rectangle bounds, int type, string tooltip, int cellX, int cellY, Keys key)
         {
             this.bounds = bounds;
             this.type = type;
             this.tooltip = tooltip;
             this.cellX = cellX;
             this.cellY = cellY;
+            this.key = key;
         }
 
         public void Update(GameTime gameTime)
         {
-            mouse.Update();
+            input.Update();
 
             state = MouseStatus.Normal;
 
-            bool isMouseOver = bounds.Contains((int)mouse.Position.X, (int)mouse.Position.Y);
+            bool isMouseOver = bounds.Contains((int)input.Position.X, (int)input.Position.Y);
 
-            if (isMouseOver && !mouse.LeftClick)
+            if (isMouseOver && !input.LeftClick)
             {
                 state = MouseStatus.Released;
             }
-            else if (!isMouseOver && !mouse.LeftClick)
+            else if (!isMouseOver && !input.LeftClick)
                 state = MouseStatus.Normal;
-            else if (isMouseOver && mouse.LeftClick)
+            else if (isMouseOver && input.LeftClick)
                 state = MouseStatus.Clicked;
 
-            if (mouse.NewLeftClick)
+            if (input.NewLeftClick)
             {
                 if (isMouseOver)
                 {
@@ -109,12 +114,21 @@ namespace immunity
                 }
             }
 
-            if (mouse.ReleaseLeftClick)
+            if (input.ReleaseLeftClick)
             {
                 if (isMouseOver)
                 {
                     state = MouseStatus.Released;
                 }
+            }
+
+            if (input.IsKeyPressed(key))
+            {
+                if (clicked != null)
+                {
+                    clicked(this, EventArgs.Empty);
+                }
+
             }
         }
 
@@ -152,7 +166,7 @@ namespace immunity
                     break;
 
                 case MouseStatus.Clicked:
-                    if (mouse.currentMouseState.LeftButton != mouse.previousMouseState.LeftButton)
+                    if (input.currentMouseState.LeftButton != input.previousMouseState.LeftButton)
                     {
                         if (clicked != null)
                         {
@@ -168,6 +182,8 @@ namespace immunity
 
                     break;
             }
+
+            
         }
     }
 }

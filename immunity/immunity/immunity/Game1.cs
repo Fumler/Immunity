@@ -105,10 +105,10 @@ namespace immunity
             toast = new MessageHandler(width, height);
 
             // Action bar objects
-            rangedTowerButton = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
-            splashTowerButton = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.");
-            deleteTowerButton = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.");
-            nextWaveButton = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.", width, height);
+            rangedTowerButton = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
+            splashTowerButton = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2);
+            deleteTowerButton = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D3);
+            nextWaveButton = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.", Keys.N);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
             Button.GameHeight = height;
@@ -232,18 +232,19 @@ namespace immunity
 
             switch (actionType)
             {
-                case 0: 
-            
-                    if (waveHandler.GetCurrentWave().SpawningEnemies == true)
-                    {
-                        toast.addMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
+                case 0:
 
-                    }
+                    //if (waveHandler.GetCurrentWave().SpawningEnemies == true)
+                    //{
+                    //    toast.addMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
+
+                    //}
                     waveHandler.StartNextWave();
                     break;
                 default: player.NewTowerType = ((Button)sender).type; break;
             }
-            
+
+           
         }
 
         private void PlaySong()
