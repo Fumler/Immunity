@@ -19,7 +19,7 @@ namespace immunity
 
         private MouseState previousState;
 
-        private List<Texture2D> buttons;
+        private static List<Texture2D> buttons;
 
         private Rectangle bounds;
 
@@ -38,6 +38,11 @@ namespace immunity
         public static List<SpriteFont> Fonts
         {
             set { fonts = value; }
+        }
+
+        public static List<Texture2D> Buttons
+        {
+            set { buttons = value; }
         }
 
         public Button(Rectangle bounds)
@@ -88,11 +93,6 @@ namespace immunity
                     state = MouseStatus.Released;
                 }
             }
-        }
-
-        public void SetSprites(List<Texture2D> sprites)
-        {
-            this.buttons = sprites;
         }
 
         public void Draw(SpriteBatch spriteBatch, int texture)

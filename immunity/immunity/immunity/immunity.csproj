@@ -112,12 +112,14 @@
     <Compile Include="controller\WaveHandler.cs" />
     <Compile Include="model\Ammunition.cs" />
     <Compile Include="model\Button.cs" />
+    <Compile Include="model\ContentHolder.cs" />
     <Compile Include="model\MessageHandler.cs" />
     <Compile Include="model\Level.cs" />
     <Compile Include="model\Gui.cs" />
     <Compile Include="model\Map.cs" />
     <Compile Include="model\Path.cs" />
     <Compile Include="model\Player.cs" />
+    <Compile Include="model\ScreenObject.cs" />
     <Compile Include="model\SearchNode.cs" />
     <Compile Include="model\Sound.cs" />
     <Compile Include="model\Tower.cs" />
