@@ -12,7 +12,7 @@ namespace immunity
         private Game1 game = new Game1();
         private static List<Texture2D> sprites;
         private Vector2 textPosition;
-        private Player playerObject;
+        private String text;
 
         private String topbarText;
 
@@ -30,16 +30,25 @@ namespace immunity
         {
             this.actionbar = actionbar;
         }
+        public Gui(Rectangle actionbar, String text)
+        {
+            this.actionbar = actionbar;
+            this.text = text;
+        }
 
         public void Draw(SpriteBatch spriteBatch, int texture, Player player)
         {
-            topbarText = String.Format("GOLD: {0} - WAVE: {1} - LIVES: {2}", player.Gold, player.Wave, player.Lives);
-            Vector2 stringCenter = font.MeasureString(topbarText);
-            textPosition.X = (int)((game.width / 2) - stringCenter.X * 0.5);
-            textPosition.Y = 5;
+            
             spriteBatch.Draw(sprites[texture], actionbar, Color.White);
-            spriteBatch.DrawString(font, topbarText, textPosition, Color.White);
 
+            if (text != null)
+            {
+	            topbarText = String.Format(text, player.Gold, player.Wave, player.Lives);
+	            Vector2 stringCenter = font.MeasureString(topbarText);
+	            textPosition.X = (int)((game.width / 2) - stringCenter.X * 0.5);
+	            textPosition.Y = 5;
+	            spriteBatch.DrawString(font, topbarText, textPosition, Color.White);
+            }
         }
     }
 }

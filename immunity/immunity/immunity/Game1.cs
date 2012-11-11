@@ -14,8 +14,7 @@ namespace immunity
         public int height = 768;
         public int width = 1024;
 
-        private Gui topbar;
-        private Gui actionbar;
+        private Gui topbar, actionbar;
         private Button buttonOne, buttonTwo, buttonThree;
         private MessageHandler toast;
 
@@ -28,24 +27,11 @@ namespace immunity
 
         private Player player;
 
-        private List<Unit> unitList;
-        private List<Unit> unitsOnMap;
+        private List<Unit> unitList, unitsOnMap;
         private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
-        private int spawnDelay;
-        private int lastUsedUnit;
+        private int spawnDelay, lastUsedUnit;
 
         private Input input;
-
-        /// <summary>
-        /// All the textures for towers and everything
-        /// that has to do with placing and removing towers.
-        /// </summary>
-        /// <param name="0">Provides a snapshot of timing values.</param>
-        private List<Texture2D> ammunitionSprites;
-        private List<SpriteFont> fonts;
-        private List<Texture2D> buttons;
-        private List<Texture2D> guiSprites;
-        private List<Texture2D> unitSprites;
 
         public Game1()
         {
@@ -108,7 +94,7 @@ namespace immunity
             buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
             buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.");
             buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.");
-            topbar = new Gui(new Rectangle(0, 0, width, 24));
+            topbar = new Gui(new Rectangle(0, 0, width, 24), "GOLD: {0} - WAVE: {1} - LIVES: {2}");
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 
             // Map object

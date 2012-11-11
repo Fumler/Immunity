@@ -26,7 +26,6 @@ namespace immunity
             this.fonts = fonts;
         }
 
-
         public MessageHandler(int width, int height)
         {
             this.screenHeight = height;
