@@ -84,8 +84,10 @@ namespace immunity
             sprites = textures;
         }
 
-        public static void SetPathfinder(Pathfinder pathfinder)
+        public static void SetPathfinder(Pathfinder pathfinder, Map map)
         {
+            path.Start = map.Start;
+            path.End = map.End;
             path.PFinder = pathfinder;
         }
 

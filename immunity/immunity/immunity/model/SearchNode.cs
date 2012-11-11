@@ -30,7 +30,22 @@ namespace immunity
         public SearchNode(Point coords, Map map)
         {
             position = coords;
-            walkable = map.GetIndex(position.X, position.Y) == 0;
+            if (map.GetIndex(position.X, position.Y) == 0)
+            {
+                walkable = true;
+            }
+            else if (map.GetIndex(position.X, position.Y) == -1)
+            {
+                walkable = true;
+            }
+            else if (map.GetIndex(position.X, position.Y) == -2)
+            {
+                walkable = true;
+            }
+            else
+            {
+                walkable = false;
+            }
         }
     }
 }

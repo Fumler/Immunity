@@ -18,7 +18,7 @@ namespace immunity
         /// </summary>
         private int[,] layout = new int[,]
         {
-            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+            { -1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
             { 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0 },
             { 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0 },
             { 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0 },
@@ -37,10 +37,13 @@ namespace immunity
             { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
             { 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0 },
             { 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 },
-            { 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0 },
-            { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0 },
+            { 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, -2 },
 
         };
+
+        private Point start;
+        private Point end;
 
         private Texture2D[] textures;
 
@@ -60,13 +63,35 @@ namespace immunity
             get { return layout.GetLength(0); }
         }
 
+        public Point Start
+        {
+            get { return start; }
+        }
+
+        public Point End
+        {
+            get { return end; }
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
         public Map()
         {
-            System.Diagnostics.Debug.WriteLine(Height);
-            System.Diagnostics.Debug.WriteLine(Width);
+            for (int y = 0; y < Width; y++)
+            {
+                for (int x = 0; x < Height; x++)
+                {
+                    if (layout[x, y] == -1)
+                    {
+                        start = new Point(y, x);
+                    }
+                    else if (layout[x, y] == -2)
+                    {
+                        end = new Point(y, x);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -93,7 +118,7 @@ namespace immunity
 
             return layout[cellY, cellX];
         }
-
+        
         /// <summary>
         /// Draws the map.
         /// </summary>
@@ -109,6 +134,10 @@ namespace immunity
                 for (int y = 0; y < Height; y++)
                 {
                     int index = layout[y, x];
+                    if (index == -1 || index == -2)
+                    {
+                        index = 0;
+                    }
                     spriteBatch.Draw(textures[index], new Vector2(x * TILESIZE, y * TILESIZE + 24), Color.White);
                 }
             }
