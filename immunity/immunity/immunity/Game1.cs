@@ -16,7 +16,7 @@ namespace immunity
 
         private Gui topbar;
         private Gui actionbar;
-        private Button buttonOne, buttonTwo, buttonThree;
+        private Button buttonOne, buttonTwo, buttonThree, buttonFour;
         private MessageHandler toast;
 
         private GraphicsDeviceManager graphics;
@@ -80,6 +80,7 @@ namespace immunity
             buttonOne.Draw(spriteBatch, 0);
             buttonTwo.Draw(spriteBatch, 0);
             buttonThree.Draw(spriteBatch, 0);
+            buttonFour.Draw(spriteBatch, 0);
 
             toast.Draw(spriteBatch);
 
@@ -107,6 +108,7 @@ namespace immunity
             buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
             buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.");
             buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.");
+            buttonFour = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.");
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 
@@ -147,6 +149,7 @@ namespace immunity
             buttonOne.clicked += new EventHandler(TowerButtonClicked);
             buttonTwo.clicked += new EventHandler(TowerButtonClicked);
             buttonThree.clicked += new EventHandler(TowerButtonClicked);
+            buttonFour.clicked += new EventHandler(ActionButtonClicked);
 
 
             pathview.Texture = ContentHolder.TowerTextures[4];
@@ -198,6 +201,7 @@ namespace immunity
             buttonOne.Update(gameTime);
             buttonTwo.Update(gameTime);
             buttonThree.Update(gameTime);
+            buttonFour.Update(gameTime);
 
             // Allows the game to exit
             if (input.IsKeyPressed(Keys.Escape))
@@ -227,8 +231,14 @@ namespace immunity
 
         private void TowerButtonClicked(object sender, EventArgs e)
         {
-            player.NewTowerType = ((Button)sender).type;
-            System.Diagnostics.Debug.WriteLine(player.NewTowerType);
+            int actionType = ((Button)sender).type;
+
+            switch (actionType)
+            {
+                case 0: break;
+                default: player.NewTowerType = ((Button)sender).type; break;
+            }
+            
         }
 
         private void PlaySong()
