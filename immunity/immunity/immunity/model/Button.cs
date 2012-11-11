@@ -108,8 +108,8 @@ namespace immunity
                     spriteBatch.Draw(buttons[texture], bounds, Color.Blue);
                     if (tooltip != null)
                     {
-                        spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, tooltip.Length * 7, 20), Color.Black);
-                        spriteBatch.DrawString(fonts[1], tooltip, new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
+                        spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, (int)fonts[1].MeasureString(tooltip.ToUpper()).X + 25, 20), Color.Black);
+                        spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
 
                     }
                     break;
