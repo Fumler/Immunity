@@ -16,6 +16,7 @@ namespace immunity
         public List<Vector2> TravelPath
         {
             get { return travelPath; }
+            set { travelPath = value; }
         }
 
         public Point Start

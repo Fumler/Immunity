@@ -72,7 +72,7 @@ namespace immunity
                     if(towers[cellX, cellY] != null && newTowerType == 0){
                         
                     }
-                    else if (map.GetIndex(cellX, cellY) != 0 && newTowerType == 3)
+                    else if (map.GetIndex(cellX, cellY) != 0 && towers[cellX,cellY] != null && newTowerType == 3)
                     {
                         int sellType = map.GetIndex(cellX, cellY);
                         if (sellType == 1)
@@ -86,7 +86,9 @@ namespace immunity
                         map.AddToMap(cellX, cellY, 0);
                         towers[cellX, cellY] = null;
                         Pathfinder p = new Pathfinder(map);
-                        path.Path = p.FindPath(new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
+                        List<Vector2> newPath = p.FindPath(new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
+                        path.Path = newPath;
+                        Unit.Path = newPath;
                     }
                     else if (map.GetIndex(cellX, cellY) == 0 && newTowerType != 3)
                     {
@@ -105,6 +107,7 @@ namespace immunity
                             else
                             {
                                 path.Path = t;
+                                Unit.Path = t;
                                 towers[cellX, cellY] = new Tower(newTowerType, cellX, cellY);
                             }
                         }

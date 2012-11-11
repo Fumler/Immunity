@@ -95,9 +95,10 @@ namespace immunity
         /// Returns the path the units follow.
         /// </summary>
         /// <returns></returns>
-        public static List<Vector2> GetPath()
+        public static List<Vector2> Path
         {
-            return path.TravelPath;
+            get { return path.TravelPath; }
+            set { path.TravelPath = value; }
         }
 
         //Methods
