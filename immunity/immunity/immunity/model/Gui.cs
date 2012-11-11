@@ -41,10 +41,5 @@ namespace immunity
             spriteBatch.DrawString(font, topbarText, textPosition, Color.White);
 
         }
-
-        public void SetSprites(List<Texture2D> sprites)
-        {
-            this.sprites = sprites;
-        }
     }
 }

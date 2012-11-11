@@ -45,11 +45,6 @@ namespace immunity
             set { buttons = value; }
         }
 
-        public List<Texture2D> Buttons
-        {
-            set { this.buttons = value; }
-        }
-
         public Button(Rectangle bounds)
         {
             this.bounds = bounds;
@@ -98,11 +93,6 @@ namespace immunity
                     state = MouseStatus.Released;
                 }
             }
-        }
-
-        public void SetSprites(List<Texture2D> sprites)
-        {
-            this.buttons = sprites;
         }
 
         public void Draw(SpriteBatch spriteBatch, int texture)

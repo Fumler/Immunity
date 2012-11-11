@@ -41,7 +41,6 @@ namespace immunity
         /// that has to do with placing and removing towers.
         /// </summary>
         /// <param name="0">Provides a snapshot of timing values.</param>
-        private Texture2D[] towerPlacementTextures;
         private List<Texture2D> ammunitionSprites;
         private List<SpriteFont> fonts;
         private List<Texture2D> buttons;
@@ -129,7 +128,7 @@ namespace immunity
             UnitFactory.CreateUnits(units, ref unitList);
             spawnDelay = 0;
             lastUsedUnit = 0;
-            towerPlacementTextures = new Texture2D[33];
+            ContentHolder.Initialize();
 
             base.Initialize();
         }
@@ -156,7 +155,7 @@ namespace immunity
 
             pathview.Texture = ContentHolder.TowerTextures[4];
 
-            toast.InitVars(ContentHolder.Buttons[1], fonts);
+            toast.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
             Button.Buttons = ContentHolder.Buttons;
             Gui.Font = ContentHolder.Fonts[1];
             Gui.Sprites = ContentHolder.GuiSprites;
@@ -222,12 +221,12 @@ namespace immunity
 
             switch (player.NewTowerType)
             {
-                case 3: player.Tile = towerPlacementTextures[3]; break;
-                case 10: player.Tile = towerPlacementTextures[10]; break;
-                case 11: player.Tile = towerPlacementTextures[11]; break;
-                case 20: player.Tile = towerPlacementTextures[20]; break;
-                case 21: player.Tile = towerPlacementTextures[21]; break;
-                default: player.Tile = towerPlacementTextures[2]; break;
+                case 3: player.Tile = ContentHolder.TowerTextures[3]; break;
+                case 10: player.Tile = ContentHolder.TowerTextures[10]; break;
+                case 11: player.Tile = ContentHolder.TowerTextures[11]; break;
+                case 20: player.Tile = ContentHolder.TowerTextures[20]; break;
+                case 21: player.Tile = ContentHolder.TowerTextures[21]; break;
+                default: player.Tile = ContentHolder.TowerTextures[2]; break;
             }
       
             // TODO: Add your update logic here

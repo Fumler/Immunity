@@ -46,6 +46,11 @@ namespace immunity
             get { return fonts; }
         }
 
+        public static void Initialize()
+        {   
+            towerTextures = new Texture2D[33];
+        }
+
         public static void Load(ContentManager Content)
         {
             towerTextures[0] = Content.Load<Texture2D>("sprites\\bg");

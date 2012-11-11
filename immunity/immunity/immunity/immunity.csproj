@@ -112,6 +112,7 @@
     <Compile Include="controller\UnitFactory.cs" />
     <Compile Include="model\Ammunition.cs" />
     <Compile Include="model\Button.cs" />
+    <Compile Include="model\ContentHolder.cs" />
     <Compile Include="model\MessageHandler.cs" />
     <Compile Include="model\Level.cs" />
     <Compile Include="model\Gui.cs" />
