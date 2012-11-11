@@ -61,8 +61,6 @@ namespace immunity
                     speed = 2;
                     break;
             }
-
-            
         }
 
         //Static methods
@@ -72,9 +70,9 @@ namespace immunity
         /// <param name="pathfinder"></param>
         /// <param name="start">Start node.</param>
         /// <param name="end">End node</param>
-        public static void LoadPath(Pathfinder pathfinder, Point start, Point end)
+        public static void LoadPath()
         {
-            path.GetPath(pathfinder, start, end);
+            path.GetPath();
         }
 
         /// <summary>
@@ -84,6 +82,11 @@ namespace immunity
         public static void SetSprites(List<Texture2D> textures)
         {
             sprites = textures;
+        }
+
+        public static void SetPathfinder(Pathfinder pathfinder)
+        {
+            path.PFinder = pathfinder;
         }
 
         /// <summary>

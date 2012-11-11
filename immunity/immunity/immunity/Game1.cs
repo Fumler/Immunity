@@ -123,7 +123,8 @@ namespace immunity
             player = new Player(5, 1000, ref map);
 
             // Enemy objects
-            Unit.LoadPath(pathfinder, new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
+            Unit.SetPathfinder(pathfinder);
+            Unit.LoadPath();
             pathview.Path = Unit.GetPath();
             waveHandler = new WaveHandler(enemies);
 

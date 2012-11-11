@@ -8,12 +8,34 @@ namespace immunity
     {
         //Variables
         private List<Vector2> travelPath;
+        private Pathfinder pfinder;
+        private Point start;
+        private Point end;
 
         //Accessors
         public List<Vector2> TravelPath
         {
             get { return travelPath; }
         }
+
+        public Point Start
+        {
+            get { return start; }
+            set { start = value; }
+        }
+
+        public Point End
+        {
+            get { return end; }
+            set { end = value; }
+        }
+
+        public Pathfinder PFinder
+        {
+            get { return pfinder; }
+            set { pfinder = value; }
+        }
+        
 
         //Constructors
         public Path()
@@ -27,10 +49,12 @@ namespace immunity
         /// <param name="pathfinder"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
-        public void GetPath(Pathfinder pathfinder, Point start, Point end)
+        public void GetPath()
         {
-            travelPath = pathfinder.FindPath(start, end);
+            travelPath = pfinder.FindPath(start, end);
         }
+
+
 
         /// <summary>
         /// Checks if the next step in the path is valid.
