@@ -40,6 +40,11 @@ namespace immunity
             set { fonts = value; }
         }
 
+        public List<Texture2D> Buttons
+        {
+            set { this.buttons = value; }
+        }
+
         public Button(Rectangle bounds)
         {
             this.bounds = bounds;
