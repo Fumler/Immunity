@@ -28,11 +28,12 @@ namespace immunity
 
         private Player player;
 
-        private List<Unit> unitList;
-        private List<Unit> unitsOnMap;
-        private int[] units = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
-        private int spawnDelay;
-        private int lastUsedUnit;
+        private List<int>[] enemies = new List<int>[]
+        {
+            new List<int> { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 },
+            new List<int> { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
+        };
+        private WaveHandler waveHandler;
 
         private Input input;
 
@@ -72,10 +73,8 @@ namespace immunity
 
             pathview.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            foreach (Unit unit in unitList)
-            {
-                unit.Draw(spriteBatch);
-            }
+
+            waveHandler.Draw(spriteBatch);
 
             actionbar.Draw(spriteBatch, 0, player);
             topbar.Draw(spriteBatch, 1, player);
@@ -121,14 +120,11 @@ namespace immunity
             player = new Player(5, 1000, ref map);
 
             // Enemy objects
-            unitsOnMap = new List<Unit>();
-            unitList = new List<Unit>();
             Unit.LoadPath(pathfinder, new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
             pathview.Path = Unit.GetPath();
+            waveHandler = new WaveHandler(enemies);
+            waveHandler.CurrentWave.Start();
 
-            UnitFactory.CreateUnits(units, ref unitList);
-            spawnDelay = 0;
-            lastUsedUnit = 0;
             towerPlacementTextures = new Texture2D[33];
 
             base.Initialize();
@@ -188,7 +184,7 @@ namespace immunity
                 ammunitionSprites.Add(temp);
             }
 
-                pathview.Texture = Content.Load<Texture2D>("sprites\\path");
+            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
             pathview.Texture = Content.Load<Texture2D>("sprites\\path");
 
             toast.InitVars(buttons[1], fonts);
@@ -230,17 +226,13 @@ namespace immunity
         {
             input.Update();
             
-            for (int i = 0; i < unitsOnMap.Count; i++)
+
+            waveHandler.Update(gameTime);
+            if (waveHandler.CurrentWave.WaveFinished)
             {
-                Unit unit = unitsOnMap[i];
-                unit.Update();
-                if (unit.Health < 0)
-                {
-                    unitsOnMap.Remove(unit);
-                    i--;
-                }
+                waveHandler.StartNextWave();
             }
-            player.Update(ref unitsOnMap, gameTime, toast);
+            player.Update(ref waveHandler.CurrentWave.enemies, gameTime, toast);
             toast.Update(gameTime.TotalGameTime);
             buttonOne.Update(gameTime);
             buttonTwo.Update(gameTime);
@@ -250,13 +242,13 @@ namespace immunity
             if (input.IsKeyPressed(Keys.Escape))
                 this.Exit();
 
-            spawnDelay++;
-            if (spawnDelay > 15 && lastUsedUnit != unitList.Count)
-            {
-                unitsOnMap.Add(unitList[lastUsedUnit]);
-                lastUsedUnit++;
-                spawnDelay = 0;
-            }
+            //spawnDelay++;
+            //if (spawnDelay > 15 && lastUsedUnit != unitList.Count)
+            //{
+            //    unitsOnMap.Add(unitList[lastUsedUnit]);
+            //    lastUsedUnit++;
+            //    spawnDelay = 0;
+            //}
 
             switch (player.NewTowerType)
             {

@@ -185,7 +185,6 @@ namespace immunity
                     ammunition.SetRotation(rotation);
                     ammunitionList.Add(ammunition);
                     ammunitionTimer = 0;
-                    
                 }
             }
             else
@@ -195,18 +194,16 @@ namespace immunity
 
             for (int i = 0; i < ammunitionList.Count; i++)
             {
-                Ammunition ammunition = ammunitionList[i];
+                ammunitionList[i].Update(ref enemies);
 
-                ammunition.Update(ref enemies);
-
-                if (!IsInRange(ammunition.Center))
+                if (!IsInRange(ammunitionList[i].Center))
                 {
-                    ammunition.Kill();
-                }               
+                    ammunitionList[i].Kill();
+                }
 
-                if (ammunition.IsDead())
+                if (ammunitionList[i].IsDead())
                 {
-                    ammunitionList.Remove(ammunition);
+                    ammunitionList.Remove(ammunitionList[i]);
                     i--;
                 }
             }

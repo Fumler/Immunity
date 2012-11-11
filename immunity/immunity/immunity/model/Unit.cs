@@ -35,6 +35,11 @@ namespace immunity
             set { health = value; }
         }
 
+        public bool IsDead
+        {
+            get { return health < 1/* || 'at end of path'*/; }
+        }
+
         //Constructors
         /// <summary>
         /// Creates a new unit.
