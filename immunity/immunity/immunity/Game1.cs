@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Xna.Framework;
@@ -16,7 +16,7 @@ namespace immunity
 
         private Gui topbar;
         private Gui actionbar;
-        private Button buttonOne, buttonTwo, buttonThree, buttonFour;
+        private Button rangedTowerButton, splashTowerButton, deleteTowerButton, nextWaveButton, upgradeTowerButton;
         private MessageHandler toast;
 
         private GraphicsDeviceManager graphics;
@@ -77,10 +77,10 @@ namespace immunity
 
             actionbar.Draw(spriteBatch, 0, player);
             topbar.Draw(spriteBatch, 1, player);
-            buttonOne.Draw(spriteBatch, 0);
-            buttonTwo.Draw(spriteBatch, 0);
-            buttonThree.Draw(spriteBatch, 0);
-            buttonFour.Draw(spriteBatch, 0);
+            rangedTowerButton.Draw(spriteBatch, 0);
+            splashTowerButton.Draw(spriteBatch, 0);
+            deleteTowerButton.Draw(spriteBatch, 0);
+            nextWaveButton.Draw(spriteBatch, 0);
 
             toast.Draw(spriteBatch);
 
@@ -105,12 +105,14 @@ namespace immunity
             toast = new MessageHandler(width, height);
 
             // Action bar objects
-            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.", width, height);
-            buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.",width, height);
-            buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", width, height);
-            buttonFour = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.", width, height);
+            rangedTowerButton = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
+            splashTowerButton = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.");
+            deleteTowerButton = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.");
+            nextWaveButton = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.", width, height);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
+            Button.GameHeight = height;
+            Button.GameWidth = width;
 
             // Map object
             map = new Map();
@@ -145,10 +147,10 @@ namespace immunity
             ContentHolder.Load(Content);
 
             // Button event function triggers
-            buttonOne.clicked += new EventHandler(ButtonClicked);
-            buttonTwo.clicked += new EventHandler(ButtonClicked);
-            buttonThree.clicked += new EventHandler(ButtonClicked);
-            buttonFour.clicked += new EventHandler(ButtonClicked);
+            rangedTowerButton.clicked += new EventHandler(ButtonClicked);
+            splashTowerButton.clicked += new EventHandler(ButtonClicked);
+            deleteTowerButton.clicked += new EventHandler(ButtonClicked);
+            nextWaveButton.clicked += new EventHandler(ButtonClicked);
 
 
             pathview.Texture = ContentHolder.TowerTextures[4];
@@ -197,10 +199,10 @@ namespace immunity
             }
             player.Update(ref waveHandler.CurrentWave.enemies, gameTime, toast);
             toast.Update(gameTime.TotalGameTime);
-            buttonOne.Update(gameTime);
-            buttonTwo.Update(gameTime);
-            buttonThree.Update(gameTime);
-            buttonFour.Update(gameTime);
+            rangedTowerButton.Update(gameTime);
+            splashTowerButton.Update(gameTime);
+            deleteTowerButton.Update(gameTime);
+            nextWaveButton.Update(gameTime);
 
             // Allows the game to exit
             if (input.IsKeyPressed(Keys.Escape))
@@ -234,7 +236,14 @@ namespace immunity
 
             switch (actionType)
             {
-                case 0: waveHandler.CurrentWave.Start(); break;
+                case 0: 
+                    waveHandler.CurrentWave.Start();
+                    //if ()
+                    //{
+                    //    toast.addMessage("Dude, you can't start a new wave yet....... ಠ_ಠ", new TimeSpan(0, 0, 3));
+
+                    //}
+                    break;
                 default: player.NewTowerType = ((Button)sender).type; break;
             }
             
