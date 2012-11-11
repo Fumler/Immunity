@@ -71,7 +71,8 @@ namespace immunity
 
             guiSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\actionbar"),
-                Content.Load<Texture2D>("sprites\\topbar")
+                Content.Load<Texture2D>("sprites\\topbar"),
+                Content.Load<Texture2D>("sprites\\cursor")
             };
 
             buttons = new List<Texture2D>() {

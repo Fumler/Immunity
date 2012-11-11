@@ -14,6 +14,8 @@ namespace immunity
         public int height = 768;
         public int width = 1024;
 
+        private Vector2 mousePosition;
+
         private Gui topbar;
         private Gui actionbar;
         private Button rangedTowerButton, splashTowerButton, deleteTowerButton, nextWaveButton, upgradeTowerButton;
@@ -84,6 +86,8 @@ namespace immunity
 
             toast.Draw(spriteBatch);
 
+            spriteBatch.Draw(ContentHolder.GuiSprites[2], mousePosition, new Color(255,255,255,255));
+
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -98,8 +102,6 @@ namespace immunity
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            this.IsMouseVisible = true;
 
             input = new Input();
             toast = new MessageHandler(width, height);
@@ -221,6 +223,11 @@ namespace immunity
                 case 21: player.Tile = ContentHolder.TowerTextures[21]; break;
                 default: player.Tile = ContentHolder.TowerTextures[2]; break;
             }
+
+            mousePosition.X = Mouse.GetState().X;
+            mousePosition.Y = Mouse.GetState().Y;
+
+            
       
             // TODO: Add your update logic here
             base.Update(gameTime);
