@@ -58,7 +58,7 @@ namespace immunity
             get { return newTowerType; }
         }
 
-        public void Update(ref List<Unit> enemies, GameTime gameTime)
+        public void Update(ref List<Unit> enemies, GameTime gameTime, MessageHandler toast)
         {
             mouse.Update();
 
@@ -81,7 +81,8 @@ namespace immunity
                             {
                                 System.Diagnostics.Debug.WriteLine("Nooooooo");
                                 map.AddToMap(cellX, cellY, 0);
-
+                                toast.addMessage("You can't build here", new TimeSpan(0, 0, 3));
+                                gold += Tower.GetCost(newTowerType);
                             }
                             else
                             {

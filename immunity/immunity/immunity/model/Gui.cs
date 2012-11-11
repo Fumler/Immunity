@@ -8,19 +8,13 @@ namespace immunity
     internal class Gui
     {
         private Rectangle actionbar;
-        private List<SpriteFont> fonts;
+        private SpriteFont fonts;
         private Game1 game = new Game1();
         private List<Texture2D> sprites;
         private Vector2 textPosition;
-        private static Player playerObject;
+        private Player playerObject;
 
-        private static String topbarText;
-
-
-        public static void PlayerObject (ref Player player) {
-            playerObject = player;
-            topbarText = String.Format("GOLD: {0} - WAVE: {1} - LIVES: {2}", playerObject.Gold, playerObject.Wave, playerObject.Lives);
-        }
+        private String topbarText;
 
         public Gui(Rectangle actionbar)
         {
@@ -29,18 +23,18 @@ namespace immunity
 
         public void Draw(SpriteBatch spriteBatch, int texture, Player player)
         {
+            topbarText = String.Format("GOLD: {0} - WAVE: {1} - LIVES: {2}", player.Gold, player.Wave, player.Lives);
+            Vector2 stringCenter = fonts.MeasureString(topbarText);
+            textPosition.X = (int)((game.width / 2) - stringCenter.X * 0.5);
+            textPosition.Y = 5;
             spriteBatch.Draw(sprites[texture], actionbar, Color.White);
-            spriteBatch.DrawString(fonts[1], topbarText, textPosition, Color.White);
+            spriteBatch.DrawString(fonts, topbarText, textPosition, Color.White);
 
         }
 
-        public void SetFonts(List<SpriteFont> fonts)
+        public SpriteFont Fonts
         {
-            this.fonts = fonts;
-
-            Vector2 stringCenter = fonts[1].MeasureString(topbarText);
-            textPosition.X = (int)((game.width / 2) - stringCenter.X * 0.5);
-            textPosition.Y = 5;
+            set { this.fonts = value; }
         }
 
         public void SetSprites(List<Texture2D> sprites)

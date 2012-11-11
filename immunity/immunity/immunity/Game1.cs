@@ -17,6 +17,7 @@ namespace immunity
         private Gui topbar;
         private Gui actionbar;
         private Button buttonOne, buttonTwo, buttonThree;
+        private MessageHandler toast;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -66,7 +67,7 @@ namespace immunity
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-
+            
             map.Draw(spriteBatch);
 
             pathview.Draw(spriteBatch);
@@ -82,7 +83,7 @@ namespace immunity
             buttonTwo.Draw(spriteBatch, 0);
             buttonThree.Draw(spriteBatch, 0);
 
-            System.Diagnostics.Debug.WriteLine("TotalGameTime: " + gameTime.TotalGameTime + " - ElapsedGameTime: " + gameTime.ElapsedGameTime);
+            toast.Draw(spriteBatch);
 
             spriteBatch.End();
 
@@ -102,6 +103,7 @@ namespace immunity
             this.IsMouseVisible = true;
 
             input = new Input();
+            toast = new MessageHandler(width, height);
 
             // Action bar objects
             buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
@@ -175,7 +177,8 @@ namespace immunity
 
             fonts = new List<SpriteFont>() {
                 Content.Load<SpriteFont>("fonts\\segoe"),
-                Content.Load<SpriteFont>("fonts\\miramonte")
+                Content.Load<SpriteFont>("fonts\\miramonte"),
+                Content.Load<SpriteFont>("fonts\\miramonteBig")
             };
 
             ammunitionSprites = new List<Texture2D>();
@@ -188,14 +191,14 @@ namespace immunity
                 pathview.Texture = Content.Load<Texture2D>("sprites\\path");
             pathview.Texture = Content.Load<Texture2D>("sprites\\path");
 
+            toast.InitVars(buttons[1], fonts);
             buttonOne.SetSprites(buttons);
             buttonTwo.SetSprites(buttons);
             buttonThree.SetSprites(buttons);
             actionbar.SetSprites(guiSprites);
-            Gui.PlayerObject(ref player);
-            actionbar.SetFonts(fonts);
+            topbar.Fonts = actionbar.Fonts = fonts[1];
             topbar.SetSprites(guiSprites);
-            topbar.SetFonts(fonts);
+           
             Unit.SetSprites(unitSprites);
             Ammunition.SetSprites(ammunitionSprites);
             map.SetTextures(towerPlacementTextures);
@@ -225,14 +228,15 @@ namespace immunity
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            
 
+            
             input.Update();
             foreach (Unit unit in unitsOnMap)
             {
                 unit.Update();
             }
-            player.Update(ref unitsOnMap, gameTime);
+            player.Update(ref unitsOnMap, gameTime, toast);
+            toast.Update(gameTime.TotalGameTime);
             buttonOne.Update(gameTime);
             buttonTwo.Update(gameTime);
             buttonThree.Update(gameTime);
