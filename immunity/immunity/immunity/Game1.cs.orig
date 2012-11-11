@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Xna.Framework;
@@ -16,7 +16,7 @@ namespace immunity
 
         private Gui topbar;
         private Gui actionbar;
-        private Button buttonOne, buttonTwo, buttonThree;
+        private Button rangedTowerButton, splashTowerButton, deleteTowerButton, nextWaveButton, upgradeTowerButton;
         private MessageHandler toast;
 
         private GraphicsDeviceManager graphics;
@@ -77,9 +77,10 @@ namespace immunity
 
             actionbar.Draw(spriteBatch, 0, player);
             topbar.Draw(spriteBatch, 1, player);
-            buttonOne.Draw(spriteBatch, 0);
-            buttonTwo.Draw(spriteBatch, 0);
-            buttonThree.Draw(spriteBatch, 0);
+            rangedTowerButton.Draw(spriteBatch, 0);
+            splashTowerButton.Draw(spriteBatch, 0);
+            deleteTowerButton.Draw(spriteBatch, 0);
+            nextWaveButton.Draw(spriteBatch, 0);
 
             toast.Draw(spriteBatch);
 
@@ -104,11 +105,14 @@ namespace immunity
             toast = new MessageHandler(width, height);
 
             // Action bar objects
-            buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
-            buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.");
-            buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.");
+            rangedTowerButton = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
+            splashTowerButton = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.");
+            deleteTowerButton = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.");
+            nextWaveButton = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.", width, height);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
+            Button.GameHeight = height;
+            Button.GameWidth = width;
 
             // Map object
             map = new Map();
@@ -122,16 +126,8 @@ namespace immunity
             Unit.LoadPath(pathfinder, new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
             pathview.Path = Unit.GetPath();
             waveHandler = new WaveHandler(enemies);
-            waveHandler.CurrentWave.Start();
 
-<<<<<<< HEAD
-            towerPlacementTextures = new Texture2D[33];
-=======
-            UnitFactory.CreateUnits(units, ref unitList);
-            spawnDelay = 0;
-            lastUsedUnit = 0;
             ContentHolder.Initialize();
->>>>>>> RefactorBranch
 
             base.Initialize();
         }
@@ -151,9 +147,10 @@ namespace immunity
             ContentHolder.Load(Content);
 
             // Button event function triggers
-            buttonOne.clicked += new EventHandler(TowerButtonClicked);
-            buttonTwo.clicked += new EventHandler(TowerButtonClicked);
-            buttonThree.clicked += new EventHandler(TowerButtonClicked);
+            rangedTowerButton.clicked += new EventHandler(ButtonClicked);
+            splashTowerButton.clicked += new EventHandler(ButtonClicked);
+            deleteTowerButton.clicked += new EventHandler(ButtonClicked);
+            nextWaveButton.clicked += new EventHandler(ButtonClicked);
 
 
             pathview.Texture = ContentHolder.TowerTextures[4];
@@ -163,30 +160,11 @@ namespace immunity
             Gui.Font = ContentHolder.Fonts[1];
             Gui.Sprites = ContentHolder.GuiSprites;
 
-<<<<<<< HEAD
-            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
-            pathview.Texture = Content.Load<Texture2D>("sprites\\path");
-
-            toast.InitVars(buttons[1], fonts);
-            buttonOne.SetSprites(buttons);
-            buttonTwo.SetSprites(buttons);
-            buttonThree.SetSprites(buttons);
-            actionbar.SetSprites(guiSprites);
-            topbar.Fonts = actionbar.Fonts = fonts[1];
-            topbar.SetSprites(guiSprites);
-           
-            Unit.SetSprites(unitSprites);
-            Ammunition.SetSprites(ammunitionSprites);
-            map.SetTextures(towerPlacementTextures);
-            Tower.Turret = towerPlacementTextures[9];
-            Button.Fonts = fonts;
-=======
             Unit.SetSprites(ContentHolder.UnitSprites);
             Ammunition.SetSprites(ContentHolder.AmmunitionSprites);
             map.SetTextures(ContentHolder.TowerTextures);
             Tower.Turret = ContentHolder.TowerTextures[9];
             Button.Fonts = ContentHolder.Fonts;
->>>>>>> RefactorBranch
 
             Thread thread = new Thread(new ThreadStart(PlaySong));
             thread.IsBackground = true;
@@ -215,15 +193,12 @@ namespace immunity
             
 
             waveHandler.Update(gameTime);
-            if (waveHandler.CurrentWave.WaveFinished)
-            {
-                waveHandler.StartNextWave();
-            }
-            player.Update(ref waveHandler.CurrentWave.enemies, gameTime, toast);
+            player.Update(ref waveHandler.GetCurrentWave().enemies, gameTime, toast);
             toast.Update(gameTime.TotalGameTime);
-            buttonOne.Update(gameTime);
-            buttonTwo.Update(gameTime);
-            buttonThree.Update(gameTime);
+            rangedTowerButton.Update(gameTime);
+            splashTowerButton.Update(gameTime);
+            deleteTowerButton.Update(gameTime);
+            nextWaveButton.Update(gameTime);
 
             // Allows the game to exit
             if (input.IsKeyPressed(Keys.Escape))
@@ -251,10 +226,27 @@ namespace immunity
             base.Update(gameTime);
         }
 
-        private void TowerButtonClicked(object sender, EventArgs e)
+        private void ButtonClicked(object sender, EventArgs e)
         {
-            player.NewTowerType = ((Button)sender).type;
-            System.Diagnostics.Debug.WriteLine(player.NewTowerType);
+            int actionType = ((Button)sender).type;
+
+            switch (actionType)
+            {
+<<<<<<< HEAD
+                case 0: 
+                    waveHandler.CurrentWave.Start();
+                    //if ()
+                    //{
+                    //    toast.addMessage("Dude, you can't start a new wave yet....... ಠ_ಠ", new TimeSpan(0, 0, 3));
+
+                    //}
+                    break;
+=======
+                case 0: waveHandler.StartNextWave(); break;
+>>>>>>> c9d3a005321c4ddd3675092f0cb04c7a0e5e220b
+                default: player.NewTowerType = ((Button)sender).type; break;
+            }
+            
         }
 
         private void PlaySong()
