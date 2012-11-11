@@ -124,7 +124,6 @@ namespace immunity
             Unit.LoadPath(pathfinder, new Point(0, 0), new Point(map.Width - 1, map.Height - 1));
             pathview.Path = Unit.GetPath();
             waveHandler = new WaveHandler(enemies);
-            waveHandler.CurrentWave.Start();
 
             ContentHolder.Initialize();
 
@@ -146,10 +145,10 @@ namespace immunity
             ContentHolder.Load(Content);
 
             // Button event function triggers
-            buttonOne.clicked += new EventHandler(TowerButtonClicked);
-            buttonTwo.clicked += new EventHandler(TowerButtonClicked);
-            buttonThree.clicked += new EventHandler(TowerButtonClicked);
-            buttonFour.clicked += new EventHandler(ActionButtonClicked);
+            buttonOne.clicked += new EventHandler(ButtonClicked);
+            buttonTwo.clicked += new EventHandler(ButtonClicked);
+            buttonThree.clicked += new EventHandler(ButtonClicked);
+            buttonFour.clicked += new EventHandler(ButtonClicked);
 
 
             pathview.Texture = ContentHolder.TowerTextures[4];
@@ -229,13 +228,13 @@ namespace immunity
             base.Update(gameTime);
         }
 
-        private void TowerButtonClicked(object sender, EventArgs e)
+        private void ButtonClicked(object sender, EventArgs e)
         {
             int actionType = ((Button)sender).type;
 
             switch (actionType)
             {
-                case 0: break;
+                case 0: waveHandler.CurrentWave.Start(); break;
                 default: player.NewTowerType = ((Button)sender).type; break;
             }
             
