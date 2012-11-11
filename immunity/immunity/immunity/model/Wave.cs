@@ -31,6 +31,11 @@ namespace immunity
             get { return enemiesAtEndOfPath; }
         }
 
+        public bool SpawningEnemies
+        {
+            get { return spawingEnemies; }
+        }
+
         //Constructor
         public Wave(List<int> enemyTypes) 
         {
