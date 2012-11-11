@@ -197,7 +197,7 @@ namespace immunity
             {
                 Ammunition ammunition = ammunitionList[i];
 
-                ammunition.Update();
+                ammunition.Update(ref enemies);
 
                 if (!IsInRange(ammunition.Center))
                 {

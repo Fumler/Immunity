@@ -87,17 +87,20 @@ namespace immunity
         /// <summary>
         /// Updates the ammunition
         /// </summary>
-        public void Update()
+        public void Update(ref List<Unit> enemies)
         {
             age++;
             position += velocity;
             this.center = new Vector2(position.X + (sprites[type].Width / 2), position.Y + (sprites[type].Height / 2));
             this.origin = new Vector2(sprites[type].Width / 2, sprites[type].Height / 2);
 
-            if (target != null && Vector2.Distance(Center, target.Center) < 12)
+            foreach (Unit enemy in enemies)
             {
-                target.Health -= Damage;
-                Kill();
+                if (Vector2.Distance(Center, enemy.Center) < 12)
+                {
+                    enemy.Health -= Damage;
+                    Kill();
+                }
             }
         }
 
