@@ -107,6 +107,10 @@ with.
         <Start>&#633;</Start>
         <End>&#633;</End>
       </CharacterRegion>
+      <CharacterRegion>
+        <Start>&#x76CA;</Start>
+        <End>&#x76CA;</End>
+      </CharacterRegion>
     </CharacterRegions>
   </Asset>
 </XnaContent>
