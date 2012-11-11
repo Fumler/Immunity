@@ -148,11 +148,9 @@ namespace immunity
 
                     if (tooltip != null)
                     {
-                        spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, measureString + 25, 20), Color.Black);
-
                         if (bounds.X + 5 >= gameWidth - bounds.X)
                         {
-                            spriteBatch.Draw(buttons[1], new Rectangle(bounds.X + 60 - measureString, bounds.Y - 27, measureString + 25, 20), Color.Black);
+                            spriteBatch.Draw(buttons[1], new Rectangle(bounds.X + 60 - measureString, bounds.Y - 27, measureString + 20, 20), Color.Black);
                             spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 60 + 5 - measureString, bounds.Y - 25), Color.White);
                         }
                         else
@@ -160,8 +158,6 @@ namespace immunity
                             spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, measureString + 25, 20), Color.Black);
                             spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
                         }
-                        
-
                     }
                     break;
 
