@@ -119,7 +119,7 @@ namespace immunity
             // Action bar objects
             rangedTowerButton = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
             splashTowerButton = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2);
-            deleteTowerButton = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D3);
+            deleteTowerButton = new Button(new Rectangle(width - 65 - 65, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D);
             nextWaveButton = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.", Keys.N);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
