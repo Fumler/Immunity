@@ -10,8 +10,9 @@ namespace immunity
 {
     class MessageHandler
     {
-        public MessageHandler()
+        public MessageHandler(GameTime gameTime, List<SpriteFont> fonts)
         {
+
 
         }
     }

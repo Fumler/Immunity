@@ -82,6 +82,8 @@ namespace immunity
             buttonTwo.Draw(spriteBatch, 0);
             buttonThree.Draw(spriteBatch, 0);
 
+            System.Diagnostics.Debug.WriteLine("TotalGameTime: " + gameTime.TotalGameTime + " - ElapsedGameTime: " + gameTime.ElapsedGameTime);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -103,8 +105,8 @@ namespace immunity
 
             // Action bar objects
             buttonOne = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.");
-            buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20);
-            buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3);
+            buttonTwo = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.");
+            buttonThree = new Button(new Rectangle(135, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.");
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
 
@@ -190,6 +192,7 @@ namespace immunity
             buttonTwo.SetSprites(buttons);
             buttonThree.SetSprites(buttons);
             actionbar.SetSprites(guiSprites);
+            Gui.PlayerObject(ref player);
             actionbar.SetFonts(fonts);
             topbar.SetSprites(guiSprites);
             topbar.SetFonts(fonts);

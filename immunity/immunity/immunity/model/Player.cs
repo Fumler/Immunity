@@ -81,6 +81,7 @@ namespace immunity
                             {
                                 System.Diagnostics.Debug.WriteLine("Nooooooo");
                                 map.AddToMap(cellX, cellY, 0);
+
                             }
                             else
                             {
