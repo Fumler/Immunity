@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace immunity
+namespace immunity.model
 {
     class ScreenObject
     {
@@ -35,7 +35,7 @@ namespace immunity
             get { return type; }
         }
 
-        public void ScreenObject(Texture2D texture, Vector2 position)
+        public ScreenObject(Texture2D texture, Vector2 position)
         {
             this.texture = texture;
             this.position = position;
