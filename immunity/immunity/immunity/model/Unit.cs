@@ -48,12 +48,12 @@ namespace immunity
             {
                 case 0:
                     health = 100;
-                    speed = 2;
+                    speed = 1;
                     break;
 
                 case 1:
                     health = 200;
-                    speed = 4;
+                    speed = 2;
                     break;
             }
 
