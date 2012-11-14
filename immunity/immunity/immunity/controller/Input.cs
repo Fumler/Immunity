@@ -95,6 +95,14 @@ namespace immunity
             return (currentKeyState.IsKeyDown(key));
         }
 
+        public bool IsKeyPressedOnce(Keys key)
+        {
+            if (currentKeyState.IsKeyUp(key) && previousKeyState.IsKeyDown(key))
+                return true;
+
+            return false;
+        }
+
         ////////////////////////////////////////////////////////////////////////// OTHER
 
         public void Update()

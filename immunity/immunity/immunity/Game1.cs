@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
 
 namespace immunity
 {
@@ -27,6 +26,7 @@ namespace immunity
         private Gui topbar;
         private Gui actionbar;
         private Button rangedTowerButton, splashTowerButton, deleteTowerButton, nextWaveButton, upgradeTowerButton;
+        private Button menuOne, menuTwo, menuThree, menuFour;
         private MessageHandler toast;
 
         private GraphicsDeviceManager graphics;
@@ -43,6 +43,7 @@ namespace immunity
             new List<int> { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 },
             new List<int> { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
         };
+
         private WaveHandler waveHandler;
 
         private Input input;
@@ -53,6 +54,7 @@ namespace immunity
         /// </summary>
         /// <param name="0">Provides a snapshot of timing values.</param>
         private List<Texture2D> ammunitionSprites;
+
         private List<SpriteFont> fonts;
         private List<Texture2D> buttons;
         private List<Texture2D> guiSprites;
@@ -77,24 +79,33 @@ namespace immunity
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            
-            map.Draw(spriteBatch);
 
-            pathview.Draw(spriteBatch);
-            player.Draw(spriteBatch);
+            if (gameState == GameState.Menu)
+            {
+                graphics.GraphicsDevice.Clear(Color.DarkRed);
 
-            waveHandler.Draw(spriteBatch);
-
-            actionbar.Draw(spriteBatch, 0, player);
-            topbar.Draw(spriteBatch, 1, player);
-            rangedTowerButton.Draw(spriteBatch, 0);
-            splashTowerButton.Draw(spriteBatch, 0);
-            deleteTowerButton.Draw(spriteBatch, 0);
-            nextWaveButton.Draw(spriteBatch, 0);
+                // menu buttons
+                menuOne.Draw(spriteBatch, 0);
+                menuTwo.Draw(spriteBatch, 0);
+                menuThree.Draw(spriteBatch, 0);
+                menuFour.Draw(spriteBatch, 0);
+            }
+            else if (gameState == GameState.Running)
+            {
+                map.Draw(spriteBatch);
+                pathview.Draw(spriteBatch);
+                player.Draw(spriteBatch);
+                waveHandler.Draw(spriteBatch);
+                actionbar.Draw(spriteBatch, 0, player);
+                topbar.Draw(spriteBatch, 1, player);
+                rangedTowerButton.Draw(spriteBatch, 0);
+                splashTowerButton.Draw(spriteBatch, 0);
+                deleteTowerButton.Draw(spriteBatch, 0);
+                nextWaveButton.Draw(spriteBatch, 0);
+            }
 
             toast.Draw(spriteBatch);
-
-            spriteBatch.Draw(ContentHolder.GuiSprites[2], mousePosition, new Color(255,255,255,255));
+            spriteBatch.Draw(ContentHolder.GuiSprites[2], mousePosition, new Color(255, 255, 255, 255));
 
             spriteBatch.End();
 
@@ -125,6 +136,12 @@ namespace immunity
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
             Button.GameHeight = height;
             Button.GameWidth = width;
+
+            // Menu objects
+            menuOne = new Button(new Rectangle(width / 2 - 30, 200, 60, 60), 13, "Start a new game.", Keys.D1);
+            menuTwo = new Button(new Rectangle(width / 2 - 30, 200 + 65, 60, 60), 14, "Customize your game settings.", Keys.D2);
+            menuThree = new Button(new Rectangle(width / 2 - 30, 200 + 65 + 65, 60, 60), 15, "Check the game controls.", Keys.D3);
+            menuFour = new Button(new Rectangle(width / 2 - 30, 200 + 65 + 65 + 65, 60, 60), 16, "Exit the game.", Keys.D4);
 
             // Map object
             map = new Map();
@@ -165,6 +182,11 @@ namespace immunity
             deleteTowerButton.clicked += new EventHandler(ButtonClicked);
             nextWaveButton.clicked += new EventHandler(ButtonClicked);
 
+            // Menu button events
+            menuOne.clicked += new EventHandler(ButtonClicked);
+            menuTwo.clicked += new EventHandler(ButtonClicked);
+            menuThree.clicked += new EventHandler(ButtonClicked);
+            menuFour.clicked += new EventHandler(ButtonClicked);
 
             pathview.Texture = ContentHolder.TowerTextures[4];
 
@@ -203,19 +225,37 @@ namespace immunity
         protected override void Update(GameTime gameTime)
         {
             input.Update();
-            
 
-            waveHandler.Update(gameTime);
-            player.Update(ref waveHandler.GetCurrentWave().enemies, gameTime, toast, ref pathview);
+            if (gameState == GameState.Menu)
+            {
+                if (input.IsKeyPressed(Keys.Escape))
+                    gameState = GameState.Running;
+
+                menuOne.Update(gameTime);
+                menuTwo.Update(gameTime);
+                menuThree.Update(gameTime);
+                menuFour.Update(gameTime);
+            }
+            else if (gameState == GameState.Running)
+            {
+                if (input.IsKeyPressed(Keys.Escape))
+                    gameState = GameState.Menu;
+
+                waveHandler.Update(gameTime);
+                player.Update(ref waveHandler.GetCurrentWave().enemies, gameTime, toast, ref pathview);
+                rangedTowerButton.Update(gameTime);
+                splashTowerButton.Update(gameTime);
+                deleteTowerButton.Update(gameTime);
+                nextWaveButton.Update(gameTime);
+
+
+            }
+
             toast.Update(gameTime.TotalGameTime);
-            rangedTowerButton.Update(gameTime);
-            splashTowerButton.Update(gameTime);
-            deleteTowerButton.Update(gameTime);
-            nextWaveButton.Update(gameTime);
 
             // Allows the game to exit
-            if (input.IsKeyPressed(Keys.Escape))
-                this.Exit();
+
+            
 
             //spawnDelay++;
             //if (spawnDelay > 15 && lastUsedUnit != unitList.Count)
@@ -238,8 +278,6 @@ namespace immunity
             mousePosition.X = Mouse.GetState().X;
             mousePosition.Y = Mouse.GetState().Y;
 
-            
-      
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
@@ -259,10 +297,13 @@ namespace immunity
                     //}
                     waveHandler.StartNextWave();
                     break;
+
+                case 13: gameState = GameState.Running; break;
+                case 14: /* open options */ break;
+                case 15: /* show controls */ break;
+                case 16: this.Exit(); break;
                 default: player.NewTowerType = ((Button)sender).type; break;
             }
-
-           
         }
 
         private void PlaySong()

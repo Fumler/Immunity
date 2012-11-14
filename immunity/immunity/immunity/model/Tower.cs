@@ -196,7 +196,7 @@ namespace immunity
             {
                 ammunitionList[i].Update(ref enemies);
 
-                if (!IsInRange(ammunitionList[i].Center))
+                if (!IsInRange(ammunitionList[i].Center)) 
                 {
                     ammunitionList[i].Kill();
                 }
