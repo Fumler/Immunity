@@ -167,6 +167,7 @@ namespace immunity
                         if (clicked != null)
                         {
                             clicked(this, EventArgs.Empty);
+                            state = MouseStatus.Normal;
                         }
                     }
                     spriteBatch.Draw(buttons[texture], bounds, Color.Red);

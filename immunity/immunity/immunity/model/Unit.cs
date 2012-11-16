@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,6 +11,7 @@ namespace immunity
         //Statics
         private static Path path = new Path();
         private static List<Texture2D> sprites;
+        private static SpriteFont font;
 
         //Location
         private Vector2 unitPosition;
@@ -22,6 +24,9 @@ namespace immunity
         private int speed;
         private int unitType;
         private int positionInPath;
+
+        // Events
+        public static event EventHandler onDeath;
 
         //Accessors
         public Vector2 Center
@@ -79,9 +84,10 @@ namespace immunity
         /// Set the sprite list for Units.
         /// </summary>
         /// <param name="textures"></param>
-        public static void SetSprites(List<Texture2D> textures)
+        public static void SetSprites(List<Texture2D> textures, SpriteFont theFont)
         {
             sprites = textures;
+            font = theFont;
         }
 
         public static void SetPathfinder(Pathfinder pathfinder, Map map)
@@ -102,6 +108,14 @@ namespace immunity
         }
 
         //Methods
+        public void OnBulletHit(int damage)
+        {
+            this.health -= damage;
+            if (this.health <= 0)
+            {
+                onDeath(this, EventArgs.Empty);
+            }
+        }
         /// <summary>
         /// Draws the unit.
         /// </summary>
@@ -110,6 +124,7 @@ namespace immunity
         {
             if (alive)
             {
+                spriteBatch.DrawString(font, this.health.ToString(), new Vector2(unitPosition.X, unitPosition.Y), Color.White);
                 spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X, unitPosition.Y + 24), Color.White);
             }
         }

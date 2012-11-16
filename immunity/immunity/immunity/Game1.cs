@@ -48,18 +48,6 @@ namespace immunity
 
         private Input input;
 
-        /// <summary>
-        /// All the textures for towers and everything
-        /// that has to do with placing and removing towers.
-        /// </summary>
-        /// <param name="0">Provides a snapshot of timing values.</param>
-        private List<Texture2D> ammunitionSprites;
-
-        private List<SpriteFont> fonts;
-        private List<Texture2D> buttons;
-        private List<Texture2D> guiSprites;
-        private List<Texture2D> unitSprites;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -188,6 +176,9 @@ namespace immunity
             menuThree.clicked += new EventHandler(ButtonClicked);
             menuFour.clicked += new EventHandler(ButtonClicked);
 
+            // Event trigger for unit death
+            Unit.onDeath += new EventHandler(UnitDeath);
+
             pathview.Texture = ContentHolder.TowerTextures[4];
 
             toast.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
@@ -195,7 +186,7 @@ namespace immunity
             Gui.Font = ContentHolder.Fonts[1];
             Gui.Sprites = ContentHolder.GuiSprites;
 
-            Unit.SetSprites(ContentHolder.UnitSprites);
+            Unit.SetSprites(ContentHolder.UnitSprites, ContentHolder.Fonts[0]);
             Ammunition.SetSprites(ContentHolder.AmmunitionSprites);
             map.SetTextures(ContentHolder.TowerTextures);
             Tower.Turret = ContentHolder.TowerTextures[9];
@@ -228,8 +219,10 @@ namespace immunity
 
             if (gameState == GameState.Menu)
             {
-                if (input.IsKeyPressed(Keys.Escape))
+                if (input.IsKeyPressedOnce(Keys.Escape))
+                {
                     gameState = GameState.Running;
+                }
 
                 menuOne.Update(gameTime);
                 menuTwo.Update(gameTime);
@@ -238,8 +231,10 @@ namespace immunity
             }
             else if (gameState == GameState.Running)
             {
-                if (input.IsKeyPressed(Keys.Escape))
+                if (input.IsKeyPressedOnce(Keys.Escape))
+                {
                     gameState = GameState.Menu;
+                }
 
                 waveHandler.Update(gameTime);
                 player.Update(ref waveHandler.GetCurrentWave().enemies, gameTime, toast, ref pathview);
@@ -298,14 +293,18 @@ namespace immunity
                     waveHandler.StartNextWave();
                     break;
 
-                case 13: gameState = GameState.Running; break;
+                case 13: gameState = GameState.Running; System.Diagnostics.Debug.WriteLine("Boop"); break;
                 case 14: /* open options */ break;
                 case 15: /* show controls */ break;
                 case 16: this.Exit(); break;
                 default: player.NewTowerType = ((Button)sender).type; break;
             }
         }
-
+        private void UnitDeath(object sender, EventArgs e)
+        {
+            toast.addMessage("Unit dead ", new TimeSpan(0,0,3));
+            player.Gold += 50;
+        }
         private void PlaySong()
         {
             Song song = Content.Load<Song>("sounds//song");

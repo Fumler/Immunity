@@ -98,7 +98,7 @@ namespace immunity
             {
                 if (Vector2.Distance(Center, enemy.Center) < 12)
                 {
-                    enemy.Health -= Damage;
+                    enemy.OnBulletHit(Damage);
                     Kill();
                 }
             }
