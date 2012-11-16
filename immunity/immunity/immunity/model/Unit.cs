@@ -26,7 +26,7 @@ namespace immunity
         private int positionInPath;
 
         // Events
-        public static event EventHandler onDeath;
+        public static event EventHandler onDeath, onLastTile;
 
         //Accessors
         public Vector2 Center
@@ -67,7 +67,6 @@ namespace immunity
                     break;
             }
         }
-
         //Static methods
         /// <summary>
         /// Updates the path the units follow.
@@ -116,6 +115,16 @@ namespace immunity
                 onDeath(this, EventArgs.Empty);
             }
         }
+
+        public bool IsOnLastTile()
+        {
+            if (this.unitPosition.X == path.End.X * 32 && this.unitPosition.Y == (path.End.Y * 32))
+            {
+                this.health = 0;
+                return true;
+            }
+            return false;
+        }
         /// <summary>
         /// Draws the unit.
         /// </summary>
@@ -134,7 +143,7 @@ namespace immunity
         /// </summary>
         public void Update()
         {
-            if (Health < 0)
+            if (Health <= 0)
             {
                 alive = false;
             }
@@ -166,15 +175,21 @@ namespace immunity
             }
             else
             {
-                moveToPosition = path.GetNextStep(positionInPath);
-
-                if (moveToPosition == new Vector2(-1f, -1f))
+                if (IsOnLastTile())
                 {
-                    moveToPosition = unitPosition;
+                    onLastTile(this, EventArgs.Empty);
                 }
                 else
                 {
-                    positionInPath++;
+                    moveToPosition = path.GetNextStep(positionInPath);
+                    if (moveToPosition == new Vector2(-1f, -1f))
+                    {
+                        moveToPosition = unitPosition;
+                    }
+                    else
+                    {
+                        positionInPath++;
+                    }
                 }
             }
 

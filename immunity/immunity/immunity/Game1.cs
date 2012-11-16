@@ -178,6 +178,7 @@ namespace immunity
 
             // Event trigger for unit death
             Unit.onDeath += new EventHandler(UnitDeath);
+            Unit.onLastTile += new EventHandler(UnitReachEnd);
 
             pathview.Texture = ContentHolder.TowerTextures[4];
 
@@ -243,7 +244,6 @@ namespace immunity
                 deleteTowerButton.Update(gameTime);
                 nextWaveButton.Update(gameTime);
 
-
             }
 
             toast.Update(gameTime.TotalGameTime);
@@ -302,8 +302,13 @@ namespace immunity
         }
         private void UnitDeath(object sender, EventArgs e)
         {
-            toast.addMessage("Unit dead ", new TimeSpan(0,0,3));
+            toast.addMessage("Virus anihalated!", new TimeSpan(0, 0, 3));
             player.Gold += 50;
+        }
+        private void UnitReachEnd(object sender, EventArgs e)
+        {
+            toast.addMessage("Virus made it to your brain!", new TimeSpan(0, 0, 3));
+            player.Lives--;
         }
         private void PlaySong()
         {
