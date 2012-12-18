@@ -122,6 +122,7 @@
     <Compile Include="model\ScreenObject.cs" />
     <Compile Include="model\SearchNode.cs" />
     <Compile Include="model\Sound.cs" />
+    <Compile Include="model\StorageHandler.cs" />
     <Compile Include="model\Tower.cs" />
     <Compile Include="model\Unit.cs" />
     <Compile Include="model\Wave.cs" />

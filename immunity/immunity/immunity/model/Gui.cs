@@ -39,7 +39,6 @@ namespace immunity
             textPosition.Y = 5;
             spriteBatch.Draw(sprites[texture], actionbar, Color.White);
             spriteBatch.DrawString(font, topbarText, textPosition, Color.White);
-
         }
     }
 }

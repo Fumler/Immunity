@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Xml.Linq;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,7 +10,7 @@ namespace immunity
         private int lives;
         private int gold;
         private int currentMap;
-        private int wave = 1;
+        private int wave;
         private int cellX, cellY, tileX, tileY;
         private int newTowerType = 0;
         private Input mouse = new Input();
@@ -26,7 +25,9 @@ namespace immunity
             this.map = map;
             this.lives = lives;
             this.gold = gold;
+            this.wave = 0;
             towers = new Tower[map.Width, map.Height];
+
             //XElement xml = new XElement("player");
             //xml.Save("test.xml");
         }
@@ -36,11 +37,13 @@ namespace immunity
             get { return lives; }
             set { this.lives = value; }
         }
+
         public int Wave
         {
             get { return wave; }
             set { this.wave = value; }
         }
+
         public int Gold
         {
             get { return gold; }
@@ -69,10 +72,10 @@ namespace immunity
             {
                 if (newTowerType != 0)
                 {
-                    if(towers[cellX, cellY] != null && newTowerType == 0){
-                        
+                    if (towers[cellX, cellY] != null && newTowerType == 0)
+                    {
                     }
-                    else if (map.GetIndex(cellX, cellY) != 0 && towers[cellX,cellY] != null && newTowerType == 3)
+                    else if (map.GetIndex(cellX, cellY) != 0 && towers[cellX, cellY] != null && newTowerType == 3)
                     {
                         int sellType = map.GetIndex(cellX, cellY);
                         if (sellType == 1)
@@ -122,7 +125,7 @@ namespace immunity
             {
                 newTowerType = 0;
             }
-           
+
             for (int y = 0; y < towers.GetLength(1); y++)
             {
                 for (int x = 0; x < towers.GetLength(0); x++)
@@ -132,7 +135,7 @@ namespace immunity
                         towers[x, y].Update(ref enemies, gameTime);
                     }
                 }
-            }   
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

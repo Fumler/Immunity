@@ -7,15 +7,18 @@ namespace immunity
         //Variables
         //Position
         public Point position;
+
         public float distanceToGoal;
         public float distanceTraveled;
-        
+
         //Relations
         public SearchNode[] neighbors;
+
         public SearchNode parent;
 
         //Connection to lists
         public bool inOpenList;
+
         public bool inClosedList;
 
         //Unit interaction

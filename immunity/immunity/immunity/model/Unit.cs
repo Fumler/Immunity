@@ -10,16 +10,19 @@ namespace immunity
         //Variables
         //Statics
         private static Path path = new Path();
+
         private static List<Texture2D> sprites;
         private static SpriteFont font;
 
         //Location
         private Vector2 unitPosition;
+
         private Vector2 moveToPosition;
         private Vector2 center;
 
         //Data
         private int health;
+
         private bool alive = true;
         private int speed;
         private int unitType;
@@ -67,6 +70,7 @@ namespace immunity
                     break;
             }
         }
+
         //Static methods
         /// <summary>
         /// Updates the path the units follow.
@@ -125,6 +129,7 @@ namespace immunity
             }
             return false;
         }
+
         /// <summary>
         /// Draws the unit.
         /// </summary>
