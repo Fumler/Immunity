@@ -8,7 +8,7 @@ namespace immunity
         /// <summary>
         /// Handles the states of the mouse and keyboard.
         /// </summary>
-        private KeyboardState previousKeyState, currentKeyState;
+        public KeyboardState previousKeyState, currentKeyState;
 
         public MouseState previousMouseState, currentMouseState;
 
@@ -109,7 +109,7 @@ namespace immunity
         {
             previousKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
-
+            
             previousMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
 
