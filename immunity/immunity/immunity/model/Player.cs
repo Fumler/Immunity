@@ -11,6 +11,7 @@ namespace immunity
         private int gold;
         private int currentMap;
         private int wave;
+        private int kills, towersBuilt;
         private int cellX, cellY, tileX, tileY;
         private int newTowerType = 0;
         private Input mouse = new Input();
@@ -42,6 +43,11 @@ namespace immunity
         {
             get { return wave; }
             set { this.wave = value; }
+        }
+        public int Kills
+        {
+            get { return kills; }
+            set { this.kills = value; }
         }
 
         public int Gold

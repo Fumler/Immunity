@@ -13,7 +13,8 @@ namespace immunity
         public enum GameState
         {
             Menu,
-            Running
+            Running,
+            Lobby
         }
 
         public static GameState gameState;
@@ -49,6 +50,7 @@ namespace immunity
         private WaveHandler waveHandler;
 
         private Input input;
+        private TextInput serverName;
 
         private StorageHandler storageHandler;
 
@@ -62,50 +64,7 @@ namespace immunity
         }
 
         /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(new Color(51, 0, 0));
-
-            // TODO: Add your drawing code here
-            spriteBatch.Begin();
-
-            if (gameState == GameState.Menu)
-            {
-                graphics.GraphicsDevice.Clear(Color.DarkRed);
-
-                // menu buttons
-                menuOne.Draw(spriteBatch, 0);
-                menuTwo.Draw(spriteBatch, 0);
-                menuThree.Draw(spriteBatch, 0);
-                menuFour.Draw(spriteBatch, 0);
-            }
-            else if (gameState == GameState.Running)
-            {
-                map.Draw(spriteBatch);
-                pathview.Draw(spriteBatch);
-                player.Draw(spriteBatch);
-                waveHandler.Draw(spriteBatch);
-                actionbar.Draw(spriteBatch, 0, player);
-                topbar.Draw(spriteBatch, 1, player);
-                rangedTowerButton.Draw(spriteBatch, 0);
-                splashTowerButton.Draw(spriteBatch, 0);
-                deleteTowerButton.Draw(spriteBatch, 0);
-                nextWaveButton.Draw(spriteBatch, 0);
                 saveGameButton.Draw(spriteBatch, 0);
-            }
-
-            toast.Draw(spriteBatch);
-            spriteBatch.Draw(ContentHolder.GuiSprites[2], mousePosition, new Color(255, 255, 255, 255));
-
-            spriteBatch.End();
-
-            base.Draw(gameTime);
-        }
-
-        /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
         /// related content.  Calling base.Initialize will enumerate through any components
@@ -119,6 +78,7 @@ namespace immunity
 
             input = new Input();
             toast = new MessageHandler(width, height);
+            serverName = new TextInput(new Rectangle((width / 2)-200, 50, 200, 50));
 
             // Action bar objects
             rangedTowerButton = new Button(new Rectangle(5, height - BUTTONOFFSET, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
@@ -133,7 +93,7 @@ namespace immunity
 
             // Menu objects
             menuOne = new Button(new Rectangle(width / 2 - 30, 200, 60, 60), 13, "Start a new game.", Keys.D1);
-            menuTwo = new Button(new Rectangle(width / 2 - 30, 200 + 65, 60, 60), 14, "Customize your game settings.", Keys.D2);
+            menuTwo = new Button(new Rectangle(width / 2 - 30, 200 + 65, 60, 60), 14, "Multiplayer.", Keys.D2);
             menuThree = new Button(new Rectangle(width / 2 - 30, 200 + 65 + 65, 60, 60), 15, "Check the game controls.", Keys.D3);
             menuFour = new Button(new Rectangle(width / 2 - 30, 200 + 65 + 65 + 65, 60, 60), 16, "Exit the game.", Keys.D4);
 
@@ -156,6 +116,8 @@ namespace immunity
 
             storageHandler = new StorageHandler();
 
+            Network.ConnectToServer();
+            
             base.Initialize();
         }
 
@@ -193,6 +155,7 @@ namespace immunity
             pathview.Texture = ContentHolder.TowerTextures[4];
 
             toast.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
+            serverName.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
             Button.Buttons = ContentHolder.Buttons;
             Gui.Font = ContentHolder.Fonts[1];
             Gui.Sprites = ContentHolder.GuiSprites;
@@ -218,7 +181,52 @@ namespace immunity
         {
             // TODO: Unload any non ContentManager content here
         }
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(new Color(51, 0, 0));
 
+            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            if (gameState == GameState.Menu)
+            {
+                graphics.GraphicsDevice.Clear(Color.DarkRed);
+
+                // menu buttons
+                menuOne.Draw(spriteBatch, 0);
+                menuTwo.Draw(spriteBatch, 0);
+                menuThree.Draw(spriteBatch, 0);
+                menuFour.Draw(spriteBatch, 0);
+            }
+            else if (gameState == GameState.Running)
+            {
+                map.Draw(spriteBatch);
+                pathview.Draw(spriteBatch);
+                player.Draw(spriteBatch);
+                waveHandler.Draw(spriteBatch);
+                actionbar.Draw(spriteBatch, 0, player);
+                topbar.Draw(spriteBatch, 1, player);
+                rangedTowerButton.Draw(spriteBatch, 0);
+                splashTowerButton.Draw(spriteBatch, 0);
+                deleteTowerButton.Draw(spriteBatch, 0);
+                nextWaveButton.Draw(spriteBatch, 0);
+            }
+            else if (gameState == GameState.Lobby)
+            {
+                serverName.Draw(spriteBatch);
+            }
+
+            toast.Draw(spriteBatch);
+            spriteBatch.Draw(ContentHolder.GuiSprites[2], mousePosition, new Color(255, 255, 255, 255));
+
+            spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -254,6 +262,13 @@ namespace immunity
                 deleteTowerButton.Update(gameTime);
                 nextWaveButton.Update(gameTime);
                 saveGameButton.Update(gameTime);
+            }else if(gameState == GameState.Lobby)
+            {
+                if (input.IsKeyPressedOnce(Keys.F5))
+                    Network.FetchGames();
+                if (input.IsKeyPressedOnce(Keys.F1))
+                    Network.StartGame();
+                serverName.Update();
             }
 
             toast.Update(gameTime.TotalGameTime);
@@ -287,8 +302,8 @@ namespace immunity
                     SaveGame("Auto_Save");
                     break;
 
-                case 13: gameState = GameState.Running; System.Diagnostics.Debug.WriteLine("Boop"); break;
-                case 14: /* open options */ break;
+                case 13: gameState = GameState.Running; break;
+                case 14: gameState = GameState.Lobby; System.Diagnostics.Debug.WriteLine("Boop");/* Multiplayer */ break;
                 case 15: /* show controls */ break;
                 case 16: this.Exit(); break;
                 case 17: SaveGame("Player_Save"); break;
@@ -301,6 +316,8 @@ namespace immunity
         {
             toast.addMessage("Virus annihilated!", new TimeSpan(0, 0, 3));
             player.Gold += 50;
+            player.Kills++;
+            System.Diagnostics.Debug.WriteLine(player.Kills);
         }
 
         private void UnitReachEnd(object sender, EventArgs e)

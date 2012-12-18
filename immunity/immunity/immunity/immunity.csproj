@@ -112,6 +112,8 @@
     <Compile Include="controller\WaveHandler.cs" />
     <Compile Include="model\Ammunition.cs" />
     <Compile Include="model\Button.cs" />
+    <Compile Include="model\Network.cs" />
+    <Compile Include="model\TextInput.cs" />
     <Compile Include="model\ContentHolder.cs" />
     <Compile Include="model\MessageHandler.cs" />
     <Compile Include="model\Level.cs" />
