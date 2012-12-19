@@ -5,6 +5,7 @@ using System.Text;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
+using System.Net;
 
 namespace immunity
 {
@@ -29,7 +30,7 @@ namespace immunity
             try
             {
                 connection = new TcpClient();
-                connection.Connect("127.0.0.1", 8080);
+                connection.Connect("whg.no", 7707);
                 connected = true;
                 toastnet.AddMessage("Connected to server!", new TimeSpan(0, 0, 3), 10, 10);
                 System.Diagnostics.Debug.WriteLine("Connected");
