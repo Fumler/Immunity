@@ -336,6 +336,8 @@ namespace immunity
             }else if(gameState == GameState.ServerList)
             {
                 serverName.Update();
+                if (input.IsKeyPressedOnce(Keys.F3))
+                    network.Deliver("joinlobby;" + serverName.Value);
                 if (input.IsKeyPressedOnce(Keys.F2))
                     network.Deliver("createlobby;"+serverName.Value);
                 if (input.IsKeyPressedOnce(Keys.F1))
