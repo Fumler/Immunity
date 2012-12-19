@@ -28,7 +28,7 @@ namespace immunity
         private Gui actionbar;
         private Button rangedTowerButton, splashTowerButton, deleteTowerButton, nextWaveButton, upgradeTowerButton;
         private Button menuOne, menuTwo, menuThree, menuFour;
-        private MessageHandler toast;
+        private MessageHandler toast, networkMessages;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -49,6 +49,7 @@ namespace immunity
 
         private Input input;
         private TextInput serverName;
+        private Network network;
 
         public Game1()
         {
@@ -73,7 +74,9 @@ namespace immunity
 
             input = new Input();
             toast = new MessageHandler(width, height);
+            networkMessages = new MessageHandler(width, height);
             serverName = new TextInput(new Rectangle((width / 2)-200, 50, 200, 50));
+            network = new Network();
 
             // Action bar objects
             rangedTowerButton = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
@@ -107,8 +110,6 @@ namespace immunity
 
             ContentHolder.Initialize();
 
-            Network.ConnectToServer();
-
             base.Initialize();
         }
 
@@ -138,13 +139,18 @@ namespace immunity
             menuThree.clicked += new EventHandler(ButtonClicked);
             menuFour.clicked += new EventHandler(ButtonClicked);
 
+            network.received += new Network.EventHandler(ReceivedNetwork);
+
             // Event trigger for unit death
             Unit.onDeath += new EventHandler(UnitDeath);
             Unit.onLastTile += new EventHandler(UnitReachEnd);
 
             pathview.Texture = ContentHolder.TowerTextures[4];
 
-            toast.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
+            toast.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts[2]);
+            networkMessages.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts[1]);
+            network.Toast(ref networkMessages);
+
             serverName.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
             Button.Buttons = ContentHolder.Buttons;
             Gui.Font = ContentHolder.Fonts[1];
@@ -211,6 +217,7 @@ namespace immunity
             }
 
             toast.Draw(spriteBatch);
+            networkMessages.Draw(spriteBatch);
             spriteBatch.Draw(ContentHolder.GuiSprites[2], mousePosition, new Color(255, 255, 255, 255));
 
             spriteBatch.End();
@@ -254,14 +261,15 @@ namespace immunity
 
             }else if(gameState == GameState.Lobby)
             {
-                if (input.IsKeyPressedOnce(Keys.F5))
-                    Network.FetchGames();
-                if (input.IsKeyPressedOnce(Keys.F1))
-                    Network.StartGame();
                 serverName.Update();
+                if (input.IsKeyPressedOnce(Keys.F5))
+                    network.Deliver("createGame;");
+                if (input.IsKeyPressedOnce(Keys.F1))
+                    network.Deliver("username;"+serverName.Value);
             }
 
             toast.Update(gameTime.TotalGameTime);
+            networkMessages.Update(gameTime.TotalGameTime);
 
             // Allows the game to exit
 
@@ -292,6 +300,17 @@ namespace immunity
             base.Update(gameTime);
         }
 
+        private void ReceivedNetwork(string n)
+        {
+            string[] action = n.Split(new string[] { ";" }, StringSplitOptions.None);
+            switch (action[0])
+            {
+                case "startgame":
+                    gameState = GameState.Running;
+                    break;
+            }
+        }
+
         private void ButtonClicked(object sender, EventArgs e)
         {
             int actionType = ((Button)sender).type;
@@ -302,14 +321,14 @@ namespace immunity
 
                     //if (waveHandler.GetCurrentWave().SpawningEnemies == true)
                     //{
-                    //    toast.addMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
-
+                    //    toast.AddMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
+                   
                     //}
                     waveHandler.StartNextWave();
                     break;
 
                 case 13: gameState = GameState.Running; break;
-                case 14: gameState = GameState.Lobby; System.Diagnostics.Debug.WriteLine("Boop");/* Multiplayer */ break;
+                case 14: gameState = GameState.Lobby; /* Multiplayer */ break;
                 case 15: /* show controls */ break;
                 case 16: this.Exit(); break;
                 default: player.NewTowerType = ((Button)sender).type; break;
@@ -317,14 +336,14 @@ namespace immunity
         }
         private void UnitDeath(object sender, EventArgs e)
         {
-            toast.addMessage("Virus annihalated!", new TimeSpan(0, 0, 3));
+            toast.AddMessage("Virus annihalated!", new TimeSpan(0, 0, 3));
             player.Gold += 50;
             player.Kills++;
             System.Diagnostics.Debug.WriteLine(player.Kills);
         }
         private void UnitReachEnd(object sender, EventArgs e)
         {
-            toast.addMessage("Virus made it to your brain!", new TimeSpan(0, 0, 3));
+            toast.AddMessage("Virus made it to your brain!", new TimeSpan(0, 0, 3));
             player.Lives--;
         }
         private void PlaySong()
