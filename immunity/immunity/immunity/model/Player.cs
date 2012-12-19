@@ -110,7 +110,7 @@ namespace immunity
                             if (t.Count == 0)
                             {
                                 map.AddToMap(cellX, cellY, 0);
-                                toast.addMessage("ಠ_ಠ Du är for dårlig at bygga tårn.", new TimeSpan(0, 0, 3));
+                                toast.AddMessage("ಠ_ಠ Du är for dårlig at bygga tårn.", new TimeSpan(0, 0, 3));
                                 gold += Tower.GetCost(newTowerType);
                             }
                             else
@@ -122,7 +122,7 @@ namespace immunity
                         }
                         else
                         {
-                            toast.addMessage("(╯°□°）╯︵ ʎǝuoɯ ǝɹoɯ ou", new TimeSpan(0, 0, 3));
+                            toast.AddMessage("(╯°□°）╯︵ ʎǝuoɯ ǝɹoɯ ou", new TimeSpan(0, 0, 3));
                         }
                     }
                 }

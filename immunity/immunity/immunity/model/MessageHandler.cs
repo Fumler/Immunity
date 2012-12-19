@@ -7,21 +7,20 @@ namespace immunity
 {
     internal class MessageHandler
     {
-        private List<SpriteFont> fonts;
+        SpriteFont font;
+        Texture2D texture;
 
         private List<TimeSpan> timeToLive = new List<TimeSpan>();
         private List<String> message = new List<String>();
         private List<Vector2> position = new List<Vector2>();
 
-        private Texture2D texture;
-
         private TimeSpan gameTime;
         private int screenHeight, screenWidth;
 
-        public void InitVars(Texture2D texture, List<SpriteFont> fonts)
+        public void InitVars(Texture2D texture, SpriteFont font)
         {
             this.texture = texture;
-            this.fonts = fonts;
+            this.font = font;
         }
 
         public MessageHandler(int width, int height)
@@ -48,27 +47,33 @@ namespace immunity
                 }
             }
         }
-
-        public void addMessage(String text, TimeSpan timeTilDeath)
+        public void AddMessage(String text, TimeSpan timeTilDeath)
         {
             TimeSpan temp = gameTime + timeTilDeath;
             this.timeToLive.Add(temp);
             this.message.Add(text);
             Vector2 pos = new Vector2();
-            pos.X = (int)((screenWidth / 2) - fonts[2].MeasureString(text).X * 0.5);
+            pos.X = (int)((screenWidth / 2) - font.MeasureString(text).X * 0.5);
             pos.Y = screenHeight / 2 - 20;
             this.position.Add(pos);
             System.Diagnostics.Debug.WriteLine("Added toast" + message.Count);
         }
-
+        public void AddMessage(String text, TimeSpan timeTilDeath, int x, int y)
+        {
+            TimeSpan temp = gameTime + timeTilDeath;
+            this.timeToLive.Add(temp);
+            this.message.Add(text);
+            this.position.Add(new Vector2(x, y));
+            System.Diagnostics.Debug.WriteLine("Added toast" + message.Count);
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             if (message.Count > 0)
             {
                 for (int i = 0; i < message.Count; i++)
                 {
-                    spriteBatch.Draw(texture, new Rectangle((int)position[i].X - 10, (int)position[i].Y, (int)fonts[2].MeasureString(message[i]).X + 20, 40), Color.Black);
-                    spriteBatch.DrawString(fonts[2], message[i], position[i], Color.White);
+                    spriteBatch.Draw(texture, new Rectangle((int)position[i].X - 10, (int)position[i].Y, (int)font.MeasureString(message[i]).X + 20, 40), Color.Black);
+                    spriteBatch.DrawString(font, message[i], position[i], Color.White);
                 }
             }
         }

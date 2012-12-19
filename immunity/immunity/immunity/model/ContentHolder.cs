@@ -70,11 +70,22 @@ namespace immunity
             guiSprites = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\actionbar"),
                 Content.Load<Texture2D>("sprites\\topbar"),
-                Content.Load<Texture2D>("sprites\\cursor")
+                Content.Load<Texture2D>("sprites\\cursor"),
+                Content.Load<Texture2D>("sprites\\gametitle")
             };
 
             buttons = new List<Texture2D>() {
                 Content.Load<Texture2D>("sprites\\buttons\\unit1"),
+                Content.Load<Texture2D>("sprites\\buttons\\tower1"),
+                Content.Load<Texture2D>("sprites\\buttons\\tower1upgrade1"),
+                Content.Load<Texture2D>("sprites\\buttons\\tower2"),
+                Content.Load<Texture2D>("sprites\\buttons\\tower2upgrade1"),
+                Content.Load<Texture2D>("sprites\\buttons\\delete"),
+                Content.Load<Texture2D>("sprites\\buttons\\newwave"),
+                Content.Load<Texture2D>("sprites\\buttons\\newgame"),
+                Content.Load<Texture2D>("sprites\\buttons\\multiplayer"),
+                Content.Load<Texture2D>("sprites\\buttons\\controls"),
+                Content.Load<Texture2D>("sprites\\buttons\\exit"),
                 Content.Load<Texture2D>("sprites\\blackbox")
             };
 

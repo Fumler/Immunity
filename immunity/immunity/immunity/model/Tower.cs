@@ -5,14 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity
 {
-    internal class Tower
+    internal class Tower : ScreenObject
     {
         protected List<Ammunition> ammunitionList;
         protected int cellPositionX, cellPositionY;
-        protected Vector2 center;
-        protected float rotation;
-        protected Vector2 origin;
-        protected int type;
         protected int cost;
         protected int damage;
         protected int level;
@@ -23,12 +19,7 @@ namespace immunity
         private static Texture2D turret;
 
         protected Unit target;
-
-        public int Type
-        {
-            get { return type; }
-        }
-
+        
         public int Cost
         {
             get { return cost; }
@@ -60,7 +51,7 @@ namespace immunity
             get { return target; }
         }
 
-        public Tower(int type, int cellX, int cellY)
+        public Tower(int type, int cellX, int cellY) : base(turret)
         {
             cellPositionX = cellX;
             cellPositionY = cellY;
@@ -69,7 +60,7 @@ namespace immunity
             range = 200;
             UpdateAttributes(type);
             center = new Vector2(((cellPositionX * Map.TILESIZE) + Map.TILESIZE / 2), ((cellPositionY * Map.TILESIZE) + Map.TILESIZE / 2) + 24);
-            origin = new Vector2(turret.Width / 2, turret.Height / 2);
+            origin = new Vector2(texture.Width / 2, texture.Height / 2);
         }
 
         public static int GetCost(int type)
@@ -90,6 +81,7 @@ namespace immunity
 
                 case 21:
                     return 250;
+
                 default:
                     return 0;
             }
@@ -161,13 +153,13 @@ namespace immunity
             rotation = (float)Math.Atan2(-direction.X, direction.Y);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             foreach (Ammunition ammunition in ammunitionList)
             {
                 ammunition.Draw(spriteBatch);
             }
-            spriteBatch.Draw(turret, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
         }
 
         public void Update(ref List<Unit> enemies, GameTime gameTime)
