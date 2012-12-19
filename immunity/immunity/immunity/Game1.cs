@@ -382,6 +382,8 @@ namespace immunity
                     gameState = GameState.Lobby;
                     break;
                 case "msglobby":
+                    if (chatlog.Count > 30)
+                        chatlog.RemoveAt(0);
                     chatlog.Add(action[1]);
                     break;
             }
