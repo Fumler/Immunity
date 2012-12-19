@@ -64,7 +64,6 @@ namespace immunity
         }
 
         /// <summary>
-                saveGameButton.Draw(spriteBatch, 0);
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
         /// related content.  Calling base.Initialize will enumerate through any components
@@ -116,7 +115,7 @@ namespace immunity
 
             storageHandler = new StorageHandler();
 
-            Network.ConnectToServer();
+            //Network.ConnectToServer();
             
             base.Initialize();
         }
@@ -214,6 +213,7 @@ namespace immunity
                 splashTowerButton.Draw(spriteBatch, 0);
                 deleteTowerButton.Draw(spriteBatch, 0);
                 nextWaveButton.Draw(spriteBatch, 0);
+                saveGameButton.Draw(spriteBatch, 0);
             }
             else if (gameState == GameState.Lobby)
             {
@@ -265,9 +265,9 @@ namespace immunity
             }else if(gameState == GameState.Lobby)
             {
                 if (input.IsKeyPressedOnce(Keys.F5))
-                    Network.FetchGames();
+                    //Network.FetchGames();
                 if (input.IsKeyPressedOnce(Keys.F1))
-                    Network.StartGame();
+                    //Network.StartGame();
                 serverName.Update();
             }
 
