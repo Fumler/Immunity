@@ -14,6 +14,7 @@ namespace immunity
         {
             Menu,
             Running,
+            ServerList,
             Lobby
         }
 
@@ -50,6 +51,8 @@ namespace immunity
             new List<int> { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 }
         };
 
+        private List<string> chatlog;
+
         private WaveHandler waveHandler;
 
         private Input input;
@@ -84,6 +87,7 @@ namespace immunity
             networkMessages = new MessageHandler(width, height);
             serverName = new TextInput(new Rectangle((width / 2)-200, 50, 200, 50));
             network = new Network();
+            chatlog = new List<string>();
 
             // Action bar objects
             rangedTowerButton = new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
@@ -266,9 +270,19 @@ namespace immunity
                 nextWaveButton.Draw(spriteBatch, 6);
                 saveGameButton.Draw(spriteBatch, 0);
             }
+            else if (gameState == GameState.ServerList)
+            {
+                serverName.Draw(spriteBatch);
+            }
             else if (gameState == GameState.Lobby)
             {
                 serverName.Draw(spriteBatch);
+                int i = 0;
+                foreach (String text in chatlog)
+                {
+                    spriteBatch.DrawString(ContentHolder.Fonts[1], text, new Vector2(30, 50 + i), Color.White);
+                    i += 20;
+                }
             }
 
             toast.Draw(spriteBatch);
@@ -314,13 +328,22 @@ namespace immunity
                 deleteTowerButton.Update(gameTime);
                 nextWaveButton.Update(gameTime);
                 saveGameButton.Update(gameTime);
+            }else if(gameState == GameState.ServerList)
+            {
+                serverName.Update();
+                if (input.IsKeyPressedOnce(Keys.F2))
+                    network.Deliver("createlobby;"+serverName.Value);
+                if (input.IsKeyPressedOnce(Keys.F1))
+                    network.Deliver("username;"+serverName.Value);
+
             }else if(gameState == GameState.Lobby)
             {
                 serverName.Update();
-                if (input.IsKeyPressedOnce(Keys.F5))
-                    network.Deliver("createGame;");
-                if (input.IsKeyPressedOnce(Keys.F1))
-                    network.Deliver("username;"+serverName.Value);
+                if (input.IsKeyPressedOnce(Keys.Enter))
+                {
+                    network.Deliver("msglobby;" + serverName.Value);
+                    serverName.Value = "";
+                }
             }
 
             toast.Update(gameTime.TotalGameTime);
@@ -348,8 +371,11 @@ namespace immunity
             string[] action = n.Split(new string[] { ";" }, StringSplitOptions.None);
             switch (action[0])
             {
-                case "startgame":
-                    gameState = GameState.Running;
+                case "startlobby":
+                    gameState = GameState.Lobby;
+                    break;
+                case "msglobby":
+                    chatlog.Add(action[1]);
                     break;
             }
         }
@@ -368,7 +394,7 @@ namespace immunity
                     break;
 
                 case 13: gameState = GameState.Running; break;
-                case 14: gameState = GameState.Lobby; /* Multiplayer */ break;
+                case 14: gameState = GameState.ServerList; /* Multiplayer */ break;
                 case 15: /* show controls */ break;
                 case 16:
                     /* CLOSE GAME */

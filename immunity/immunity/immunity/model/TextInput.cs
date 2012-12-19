@@ -27,6 +27,7 @@ namespace immunity
 
         public string Value
         {
+            set { this.input = value; }
             get { return input; }
         }
 
