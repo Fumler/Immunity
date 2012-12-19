@@ -156,8 +156,17 @@ namespace immunity
                         }
                         else
                         {
-                            spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, measureString + 25, 20), Color.Black);
-                            spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
+                            if (bounds.X >= 100)
+                            {
+                                spriteBatch.Draw(buttons[1], new Rectangle(bounds.X + 7, bounds.Y - 13, measureString + 25, 20), Color.Black);
+                                spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 13, bounds.Y - 9), Color.White);
+                            }
+                            else
+                            {
+                                spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, measureString + 25, 20), Color.Black);
+                                spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
+                            }
+                            
                         }
                     }
                     break;

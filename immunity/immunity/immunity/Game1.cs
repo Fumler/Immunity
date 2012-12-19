@@ -22,7 +22,7 @@ namespace immunity
         public int height = 768;
         public int width = 1024;
 
-        private int gameStateNumber = 0;
+        private bool gameStateNumber;
 
         private Vector2 mousePosition;
 
@@ -31,8 +31,7 @@ namespace immunity
         private const int ACTIONBUTTONOFFSET_X = 65;
         private const int MENUBUTTONOFFSET_X = 200;
         private Button rangedTowerButton, splashTowerButton, deleteTowerButton, nextWaveButton, upgradeTowerButton;
-        private Button menuOne, menuTwo, menuThree, menuFour;
-        private Button saveGameButton;
+        private Button menuOne, menuTwo, menuThree, menuFour, menuFive;
         private MessageHandler toast, networkMessages;
 
         private GraphicsDeviceManager graphics;
@@ -78,6 +77,7 @@ namespace immunity
             // TODO: Add your initialization logic here
 
             gameState = GameState.Menu;
+            gameStateNumber = true;
 
             input = new Input();
             toast = new MessageHandler(width, height);
@@ -88,9 +88,8 @@ namespace immunity
             // Action bar objects
             rangedTowerButton = new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
             splashTowerButton = new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2);
-            deleteTowerButton = new Button(new Rectangle(5 + (ACTIONBUTTONOFFSET_X * 3), height - ACTIONBUTTONOFFSET_X, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D);
+            deleteTowerButton = new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D);
             nextWaveButton = new Button(new Rectangle(width - ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), 0, "Starts a new wave.", Keys.N);
-            saveGameButton = new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), 17, "Save game.", Keys.F1);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
             Button.GameHeight = height;
@@ -99,8 +98,9 @@ namespace immunity
             // Menu objects
             menuOne = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X, 400, 70), 13, "Start a new game.", Keys.D1);
             menuTwo = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75, 400, 70), 14, "Multiplayer.", Keys.D2);
-            menuThree = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75 + 75, 400, 70), 15, "Check the game controls.", Keys.D3);
-            menuFour = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75 + 75 + 75, 400, 70), 16, "Exit the game.", Keys.D4);
+            menuThree = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 2), 400, 70), 15, "Check the game controls.", Keys.D3);
+            menuFour = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 3), 400, 70), 17, "Save the game.", Keys.D4);
+            menuFive = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 4), 400, 70), 16, "Exit the game.", Keys.D5);
 
             // Map object
             map = new Map();
@@ -143,13 +143,15 @@ namespace immunity
             splashTowerButton.clicked += new EventHandler(ButtonClicked);
             deleteTowerButton.clicked += new EventHandler(ButtonClicked);
             nextWaveButton.clicked += new EventHandler(ButtonClicked);
-            saveGameButton.clicked += new EventHandler(ButtonClicked);
+            
 
             // Menu button events
             menuOne.clicked += new EventHandler(ButtonClicked);
             menuTwo.clicked += new EventHandler(ButtonClicked);
             menuThree.clicked += new EventHandler(ButtonClicked);
             menuFour.clicked += new EventHandler(ButtonClicked);
+            menuFive.clicked += new EventHandler(ButtonClicked);
+            
 
             network.received += new Network.EventHandler(ReceivedNetwork);
 
@@ -171,6 +173,7 @@ namespace immunity
             // 10 - exit menu
             // 11 - blackbox
             // 12 - resume
+            // 13 - Save game
 
             pathview.Texture = ContentHolder.TowerTextures[4];
 
@@ -229,31 +232,30 @@ namespace immunity
             // 10 - exit menu
             // 11 - blackbox
             // 12 - resume
+            // 13 - Save game
 
             if (gameState == GameState.Menu)
             {
                 graphics.GraphicsDevice.Clear(Color.DarkRed);
 
                 // menu buttons
-                if (gameStateNumber == 0)
-                {
-                    menuOne.Draw(spriteBatch, 12);
-
-                }
-                else
+                if (gameStateNumber)
                 {
                     menuOne.Draw(spriteBatch, 7);
 
-                }
+                } else
+                    menuOne.Draw(spriteBatch, 12);
+
+                
                 menuTwo.Draw(spriteBatch, 8);
                 menuThree.Draw(spriteBatch, 9);
-                menuFour.Draw(spriteBatch, 10);
+                menuFour.Draw(spriteBatch, 13);
+                menuFive.Draw(spriteBatch, 10);
 
                 spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
             }
             else if (gameState == GameState.Running)
             {
-                gameStateNumber = 1;
                 map.Draw(spriteBatch);
                 pathview.Draw(spriteBatch);
                 player.Draw(spriteBatch);
@@ -264,7 +266,6 @@ namespace immunity
                 splashTowerButton.Draw(spriteBatch, 3);
                 deleteTowerButton.Draw(spriteBatch, 5);
                 nextWaveButton.Draw(spriteBatch, 6);
-                saveGameButton.Draw(spriteBatch, 0);
             }
             else if (gameState == GameState.Lobby)
             {
@@ -299,6 +300,7 @@ namespace immunity
                 menuTwo.Update(gameTime);
                 menuThree.Update(gameTime);
                 menuFour.Update(gameTime);
+                menuFive.Update(gameTime);
             }
             else if (gameState == GameState.Running)
             {
@@ -313,7 +315,6 @@ namespace immunity
                 splashTowerButton.Update(gameTime);
                 deleteTowerButton.Update(gameTime);
                 nextWaveButton.Update(gameTime);
-                saveGameButton.Update(gameTime);
             }else if(gameState == GameState.Lobby)
             {
                 serverName.Update();
@@ -367,7 +368,10 @@ namespace immunity
                     SaveGame("Auto_Save");
                     break;
 
-                case 13: gameState = GameState.Running; break;
+                case 13: 
+                    gameState = GameState.Running; 
+                    gameStateNumber = false; 
+                    break;
                 case 14: gameState = GameState.Lobby; /* Multiplayer */ break;
                 case 15: /* show controls */ break;
                 case 16:
@@ -383,7 +387,7 @@ namespace immunity
 
         private void UnitDeath(object sender, EventArgs e)
         {
-            toast.AddMessage("Virus annihalated!", new TimeSpan(0, 0, 3));
+            toast.AddMessage("Virus annihilated!", new TimeSpan(0, 0, 3));
             player.Gold += 50;
             player.Kills++;
             System.Diagnostics.Debug.WriteLine(player.Kills);
