@@ -26,7 +26,8 @@ namespace immunity
 
         private Gui topbar;
         private Gui actionbar;
-        private const int BUTTONOFFSET = 65;
+        private const int ACTIONBUTTONOFFSET_X = 65;
+        private const int MENUBUTTONOFFSET_X = 200;
         private Button rangedTowerButton, splashTowerButton, deleteTowerButton, nextWaveButton, upgradeTowerButton;
         private Button menuOne, menuTwo, menuThree, menuFour;
         private Button saveGameButton;
@@ -83,21 +84,21 @@ namespace immunity
             network = new Network();
 
             // Action bar objects
-            rangedTowerButton = new Button(new Rectangle(5, height - BUTTONOFFSET, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
-            splashTowerButton = new Button(new Rectangle(5 + BUTTONOFFSET, height - BUTTONOFFSET, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2);
-            deleteTowerButton = new Button(new Rectangle(5 + (BUTTONOFFSET * 3), height - BUTTONOFFSET, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D);
-            nextWaveButton = new Button(new Rectangle(width - BUTTONOFFSET, height - BUTTONOFFSET, 60, 60), 0, "Starts a new wave.", Keys.N);
-            saveGameButton = new Button(new Rectangle(width - (BUTTONOFFSET * 3), height - BUTTONOFFSET, 60, 60), 17, "Save game.", Keys.F1);
+            rangedTowerButton = new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
+            splashTowerButton = new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2);
+            deleteTowerButton = new Button(new Rectangle(5 + (ACTIONBUTTONOFFSET_X * 3), height - ACTIONBUTTONOFFSET_X, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D);
+            nextWaveButton = new Button(new Rectangle(width - ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), 0, "Starts a new wave.", Keys.N);
+            saveGameButton = new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), 17, "Save game.", Keys.F1);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
             Button.GameHeight = height;
             Button.GameWidth = width;
 
             // Menu objects
-            menuOne = new Button(new Rectangle(width / 2 - 200, 200, 400, 70), 13, "Start a new game.", Keys.D1);
-            menuTwo = new Button(new Rectangle(width / 2 - 200, 200 + 75, 400, 70), 14, "Multiplayer.", Keys.D2);
-            menuThree = new Button(new Rectangle(width / 2 - 200, 200 + 75 + 75, 400, 70), 15, "Check the game controls.", Keys.D3);
-            menuFour = new Button(new Rectangle(width / 2 - 200, 200 + 75 + 75 + 75, 400, 70), 16, "Exit the game.", Keys.D4);
+            menuOne = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X, 400, 70), 13, "Start a new game.", Keys.D1);
+            menuTwo = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75, 400, 70), 14, "Multiplayer.", Keys.D2);
+            menuThree = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75 + 75, 400, 70), 15, "Check the game controls.", Keys.D3);
+            menuFour = new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75 + 75 + 75, 400, 70), 16, "Exit the game.", Keys.D4);
 
             // Map object
             map = new Map();
