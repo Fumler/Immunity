@@ -401,11 +401,11 @@ namespace immunity
                     player.Wave = waveHandler.WaveNumber;
                     SaveGame("Auto_Save");
                     break;
- 
-                case 13: gameState = GameState.Running; break;
-                case 14: gameState = GameState.ServerList; /* Multiplayer */ break;
-                    gameStateNumber = false; 
+
+                case 13: gameState = GameState.Running;
+                    gameStateNumber = false;
                     break;
+                case 14: gameState = GameState.ServerList; /* Multiplayer */ break;
                 case 15: /* show controls */ break;
                 case 16:
                     /* CLOSE GAME */
