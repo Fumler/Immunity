@@ -86,7 +86,8 @@ namespace immunity
                 Content.Load<Texture2D>("sprites\\buttons\\multiplayer"),
                 Content.Load<Texture2D>("sprites\\buttons\\controls"),
                 Content.Load<Texture2D>("sprites\\buttons\\exit"),
-                Content.Load<Texture2D>("sprites\\blackbox")
+                Content.Load<Texture2D>("sprites\\blackbox"),
+                Content.Load<Texture2D>("sprites\\buttons\\resume")
             };
 
             fonts = new List<SpriteFont>() {

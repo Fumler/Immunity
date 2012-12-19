@@ -22,6 +22,8 @@ namespace immunity
         public int height = 768;
         public int width = 1024;
 
+        private int gameStateNumber = 0;
+
         private Vector2 mousePosition;
 
         private Gui topbar;
@@ -172,6 +174,7 @@ namespace immunity
             // 9 - controls menu
             // 10 - exit menu
             // 11 - blackbox
+            // 12 - resume
 
             pathview.Texture = ContentHolder.TowerTextures[4];
 
@@ -229,13 +232,23 @@ namespace immunity
             // 9 - controls menu
             // 10 - exit menu
             // 11 - blackbox
+            // 12 - resume
 
             if (gameState == GameState.Menu)
             {
                 graphics.GraphicsDevice.Clear(Color.DarkRed);
 
                 // menu buttons
-                menuOne.Draw(spriteBatch, 7);
+                if (gameStateNumber == 0)
+                {
+                    menuOne.Draw(spriteBatch, 12);
+
+                }
+                else
+                {
+                    menuOne.Draw(spriteBatch, 7);
+
+                }
                 menuTwo.Draw(spriteBatch, 8);
                 menuThree.Draw(spriteBatch, 9);
                 menuFour.Draw(spriteBatch, 10);
@@ -244,6 +257,7 @@ namespace immunity
             }
             else if (gameState == GameState.Running)
             {
+                gameStateNumber = 1;
                 map.Draw(spriteBatch);
                 pathview.Draw(spriteBatch);
                 player.Draw(spriteBatch);
