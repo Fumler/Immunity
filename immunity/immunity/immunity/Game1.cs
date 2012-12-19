@@ -380,6 +380,7 @@ namespace immunity
             player.Lives--;
         }
 
+        private void PlaySong()
         {
             Song song = Content.Load<Song>("sounds//song");
             MediaPlayer.IsRepeating = true;
