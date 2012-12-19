@@ -65,7 +65,6 @@ namespace immunity
         }
 
         /// <summary>
-                saveGameButton.Draw(spriteBatch, 0);
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
         /// related content.  Calling base.Initialize will enumerate through any components
@@ -220,6 +219,7 @@ namespace immunity
                 splashTowerButton.Draw(spriteBatch, 0);
                 deleteTowerButton.Draw(spriteBatch, 0);
                 nextWaveButton.Draw(spriteBatch, 0);
+                saveGameButton.Draw(spriteBatch, 0);
             }
             else if (gameState == GameState.Lobby)
             {
@@ -325,7 +325,11 @@ namespace immunity
                 case 13: gameState = GameState.Running; break;
                 case 14: gameState = GameState.Lobby; /* Multiplayer */ break;
                 case 15: /* show controls */ break;
-                case 16: this.Exit(); break;
+                case 16:
+                    /* CLOSE GAME */
+                    network.Disconnect();
+
+                    this.Exit(); break;
                 case 17: SaveGame("Player_Save"); break;
 
                 default: player.NewTowerType = ((Button)sender).type; break;

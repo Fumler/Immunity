@@ -13,8 +13,8 @@ namespace immunity
         private TcpClient connection;
         private bool connected = false;
         private MessageHandler toastnet;
-        private Thread netmsgs;
-        private bool runThread = true;
+        private Thread netmsgs, net;
+        private bool running =  true;
 
         public event EventHandler received;
         public delegate void EventHandler(string n);
@@ -42,7 +42,7 @@ namespace immunity
         }
         public Network()
         {
-            Thread net = new Thread(new ThreadStart(startConnecting));
+            net = new Thread(new ThreadStart(startConnecting));
             net.Start();
         }
         private void startConnecting()
@@ -50,10 +50,15 @@ namespace immunity
             do
             {
                 Thread.Sleep(3000);
+                if (!running)
+                    connected = true;
                 ConnectToServer();
             } while (!connected);
-            netmsgs = new Thread(new ThreadStart(Receive));
-            netmsgs.Start();
+            if(running)
+            {
+                netmsgs = new Thread(new ThreadStart(Receive));
+                netmsgs.Start();
+            }
         }
         public void Receive()
         {
@@ -62,7 +67,7 @@ namespace immunity
             string reply = null;
             try
             {
-                while (runThread)
+                while (true)
                 {
                     System.Diagnostics.Debug.WriteLine("Thread");
 
@@ -107,7 +112,9 @@ namespace immunity
         }
         public void Disconnect()
         {
-            connection.Close();
+            running = false;
+            if (connected)
+                connection.Close();
         }
     }
 }
