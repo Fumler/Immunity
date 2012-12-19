@@ -142,7 +142,7 @@ namespace immunity
                     break;
 
                 case MouseStatus.Released:
-                    spriteBatch.Draw(buttons[texture], bounds, Color.Blue);
+                    spriteBatch.Draw(buttons[texture], bounds, Color.DarkGray);
 
                     int measureString = (int)fonts[1].MeasureString(tooltip.ToUpper()).X;
 
@@ -150,8 +150,8 @@ namespace immunity
                     {
                         if (bounds.X + 5 >= gameWidth - bounds.X)
                         {
-                            spriteBatch.Draw(buttons[1], new Rectangle(bounds.X + 60 - measureString, bounds.Y - 27, measureString + 20, 20), Color.Black);
-                            spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 60 + 5 - measureString, bounds.Y - 25), Color.White);
+                            spriteBatch.Draw(buttons[1], new Rectangle(bounds.X + buttons[1].Width - measureString, bounds.Y - 27, measureString + 20, 20), Color.Black);
+                            spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + buttons[1].Width + 5 - measureString, bounds.Y - 25), Color.White);
                         }
                         else
                         {
