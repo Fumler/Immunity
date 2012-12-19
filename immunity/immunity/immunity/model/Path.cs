@@ -8,6 +8,7 @@ namespace immunity
     {
         //Variables
         private List<Vector2> travelPath;
+
         private Pathfinder pfinder;
         private Point start;
         private Point end;
@@ -36,7 +37,6 @@ namespace immunity
             get { return pfinder; }
             set { pfinder = value; }
         }
-        
 
         //Constructors
         public Path()
@@ -54,8 +54,6 @@ namespace immunity
         {
             travelPath = pfinder.FindPath(start, end);
         }
-
-
 
         /// <summary>
         /// Checks if the next step in the path is valid.

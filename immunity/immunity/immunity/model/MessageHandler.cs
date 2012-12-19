@@ -1,36 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 
 namespace immunity
 {
-    class MessageHandler
+    internal class MessageHandler
     {
         SpriteFont font;
         Texture2D texture;
 
-        List<TimeSpan> timeToLive = new List<TimeSpan>();
-        List<String> message = new List<String>();
-        List<Vector2> position = new List<Vector2>();
+        private List<TimeSpan> timeToLive = new List<TimeSpan>();
+        private List<String> message = new List<String>();
+        private List<Vector2> position = new List<Vector2>();
 
-        TimeSpan gameTime;
-        int screenHeight, screenWidth;
+        private TimeSpan gameTime;
+        private int screenHeight, screenWidth;
 
-        public void InitVars(Texture2D texture, SpriteFont font) {
+        public void InitVars(Texture2D texture, SpriteFont font)
+        {
             this.texture = texture;
             this.font = font;
         }
-
 
         public MessageHandler(int width, int height)
         {
             this.screenHeight = height;
             this.screenWidth = width;
         }
+
         public void Update(TimeSpan gameTime)
         {
             this.gameTime = gameTime;
@@ -80,6 +78,4 @@ namespace immunity
             }
         }
     }
-
-
 }

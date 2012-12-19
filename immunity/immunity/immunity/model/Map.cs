@@ -39,7 +39,6 @@ namespace immunity
             { 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 },
             { 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0 },
             { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, -2 },
-
         };
 
         private Point start;
@@ -118,7 +117,12 @@ namespace immunity
 
             return layout[cellY, cellX];
         }
-        
+
+        public int[,] SaveMap()
+        {
+            return layout;
+        }
+
         /// <summary>
         /// Draws the map.
         /// </summary>

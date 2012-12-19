@@ -12,6 +12,7 @@ namespace immunity
 
         //Location
         private Vector2 position;
+
         private Vector2 velocity;
         private Vector2 center;
         private Vector2 origin;
@@ -19,6 +20,7 @@ namespace immunity
 
         //Data
         private int type;
+
         private int damage;
         private int speed;
         private int age = 0;
@@ -39,7 +41,7 @@ namespace immunity
 
         //Constructors
         /// <summary>
-        /// Creates a new instance of Ammunition. 
+        /// Creates a new instance of Ammunition.
         /// </summary>
         /// <param name="type">The tower type.</param>
         /// <param name="position">The center of the tower.</param>
@@ -65,7 +67,7 @@ namespace immunity
         {
             sprites = textures;
         }
-       
+
         //Methods
         /// <summary>
         /// Checks if the ammunition is old and should  be removed.

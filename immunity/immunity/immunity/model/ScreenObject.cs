@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity.model
 {
-    class ScreenObject
+    internal class ScreenObject
     {
         protected Texture2D texture;
 
@@ -44,7 +40,6 @@ namespace immunity.model
                 position.Y + texture.Height / 2 + 24);
 
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
-
         }
 
         public virtual void Update(GameTime gameTime)
@@ -57,7 +52,5 @@ namespace immunity.model
         {
             spriteBatch.Draw(texture, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
         }
-
-
     }
 }

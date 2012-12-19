@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity
 {
-    class Wave
+    internal class Wave
     {
         private int numOfEnemies = 0;
         private int enemiesSpawned = 0;
@@ -23,9 +20,9 @@ namespace immunity
         //Accessors
         public bool WaveFinished
         {
-            get { return (enemies.Count == 0 && numOfEnemies == enemiesSpawned) && numOfEnemies != 0; } //
+            get { return (enemies.Count == 0 && numOfEnemies == enemiesSpawned) && numOfEnemies != 0; }
         }
-        
+
         public int EnemyAtEndOfPath
         {
             get { return enemiesAtEndOfPath; }
@@ -37,11 +34,10 @@ namespace immunity
         }
 
         //Constructor
-        public Wave(List<int> enemyTypes) 
+        public Wave(List<int> enemyTypes)
         {
             this.numOfEnemies = enemyTypes.Count;
             this.enemyTypes = enemyTypes;
-
         }
 
         //Methods
@@ -53,7 +49,7 @@ namespace immunity
             enemiesSpawned++;
         }
 
-        public void Start() 
+        public void Start()
         {
             spawingEnemies = true;
         }

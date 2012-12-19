@@ -8,6 +8,7 @@ namespace immunity
     {
         //Variables
         private List<Vector2> thePath;
+
         private Texture2D pathTile;
 
         //Accessors
