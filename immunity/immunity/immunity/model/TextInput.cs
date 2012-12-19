@@ -25,6 +25,11 @@ namespace immunity
             this.lastPressedKeys = new Keys[0];
         }
 
+        public string Value
+        {
+            get { return input; }
+        }
+
         public void InitVars(Texture2D texture, List<SpriteFont> fonts)
         {
             this.texture = texture;

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace immunity
 {
-    class ContentHolder
+    internal class ContentHolder
     {
         private static Texture2D[] towerTextures;
         private static List<Texture2D> unitSprites, guiSprites, buttons, ammunitionSprites;
@@ -18,11 +14,13 @@ namespace immunity
         private static List<Song> songs;
         private static List<SoundEffect> sounds;
 
-        public static Texture2D[] TowerTextures {
+        public static Texture2D[] TowerTextures
+        {
             get { return towerTextures; }
         }
 
-        public static List<Texture2D> UnitSprites {
+        public static List<Texture2D> UnitSprites
+        {
             get { return unitSprites; }
         }
 
@@ -47,7 +45,7 @@ namespace immunity
         }
 
         public static void Initialize()
-        {   
+        {
             towerTextures = new Texture2D[33];
         }
 

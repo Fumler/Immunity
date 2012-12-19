@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity
 {
-    class WaveHandler
+    internal class WaveHandler
     {
+        private int waveNumber;
         private int numberOfWaves;
         private Queue<Wave> waves = new Queue<Wave>();
 
@@ -21,14 +19,20 @@ namespace immunity
             }
             else
             {
-               return new Wave(new List<int>{}); // Dirty fix to stop crashes after last wave
+                return new Wave(new List<int> { }); // Dirty fix to stop crashes after last wave
             }
+        }
+
+        public int WaveNumber
+        {
+            get { return waveNumber; }
         }
 
         //Constructors
         public WaveHandler(List<int>[] enemies)
         {
             this.numberOfWaves = enemies.Length;
+            waveNumber = 1;
 
             for (int i = 0; i < numberOfWaves; i++)
             {
@@ -41,10 +45,9 @@ namespace immunity
         public void StartNextWave()
         {
             if (waves.Count > 0)
-            { 
-                GetCurrentWave().Start(); 
+            {
+                GetCurrentWave().Start();
             }
-            
         }
 
         public void Update(GameTime gameTime)
@@ -54,14 +57,15 @@ namespace immunity
             if (GetCurrentWave().WaveFinished)
             {
                 waves.Dequeue();
+                waveNumber++;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if (waves.Count > 0)
-            { 
-                GetCurrentWave().Draw(spriteBatch); 
+            {
+                GetCurrentWave().Draw(spriteBatch);
             }
         }
     }

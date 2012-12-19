@@ -29,7 +29,7 @@ namespace immunity
 
         private String tooltip;
 
-        GraphicsDevice graphicsDevice;
+        private GraphicsDevice graphicsDevice;
 
         public event EventHandler clicked;
 
@@ -41,15 +41,15 @@ namespace immunity
         private static int gameWidth;
         private static int gameHeight;
 
-        public static int GameWidth {
+        public static int GameWidth
+        {
             set { gameWidth = value; }
         }
 
-        public static int GameHeight {
+        public static int GameHeight
+        {
             set { gameHeight = value; }
         }
-
-
 
         public static List<SpriteFont> Fonts
         {
@@ -65,7 +65,9 @@ namespace immunity
         {
             this.bounds = bounds;
         }
-        public Button(Rectangle bounds, int type, Keys key) {
+
+        public Button(Rectangle bounds, int type, Keys key)
+        {
             this.bounds = bounds;
             this.type = type;
             this.key = key;
@@ -128,7 +130,6 @@ namespace immunity
                 {
                     clicked(this, EventArgs.Empty);
                 }
-
             }
         }
 
@@ -138,7 +139,7 @@ namespace immunity
             {
                 case MouseStatus.Normal:
                     spriteBatch.Draw(buttons[texture], bounds, Color.White);
-                    
+
                     break;
 
                 case MouseStatus.Released:
@@ -179,8 +180,6 @@ namespace immunity
 
                     break;
             }
-
-            
         }
     }
 }

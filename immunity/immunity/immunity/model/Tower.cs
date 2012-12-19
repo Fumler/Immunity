@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-
 namespace immunity
 {
     internal class Tower
@@ -34,10 +33,12 @@ namespace immunity
         {
             get { return cost; }
         }
+
         public static Texture2D Turret
         {
             set { turret = value; }
         }
+
         public int Damage
         {
             get { return damage; }
@@ -67,11 +68,12 @@ namespace immunity
             rotation = 0.0f;
             range = 200;
             UpdateAttributes(type);
-            center = new Vector2(((cellPositionX * Map.TILESIZE) + Map.TILESIZE / 2), ((cellPositionY * Map.TILESIZE) + Map.TILESIZE / 2) +24);
+            center = new Vector2(((cellPositionX * Map.TILESIZE) + Map.TILESIZE / 2), ((cellPositionY * Map.TILESIZE) + Map.TILESIZE / 2) + 24);
             origin = new Vector2(turret.Width / 2, turret.Height / 2);
         }
 
-        public static int GetCost(int type) {
+        public static int GetCost(int type)
+        {
             switch (type)
             {
                 case 1:
@@ -166,7 +168,6 @@ namespace immunity
                 ammunition.Draw(spriteBatch);
             }
             spriteBatch.Draw(turret, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
-            
         }
 
         public void Update(ref List<Unit> enemies, GameTime gameTime)
@@ -196,7 +197,7 @@ namespace immunity
             {
                 ammunitionList[i].Update(ref enemies);
 
-                if (!IsInRange(ammunitionList[i].Center)) 
+                if (!IsInRange(ammunitionList[i].Center))
                 {
                     ammunitionList[i].Kill();
                 }

@@ -26,9 +26,11 @@ namespace immunity
 
         private Gui topbar;
         private Gui actionbar;
+        private const int BUTTONOFFSET = 65;
         private Button rangedTowerButton, splashTowerButton, deleteTowerButton, nextWaveButton, upgradeTowerButton;
         private Button menuOne, menuTwo, menuThree, menuFour;
-        private MessageHandler toast;
+        private Button saveGameButton;
+        private MessageHandler toast, networkMessages;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -49,6 +51,9 @@ namespace immunity
 
         private Input input;
         private TextInput serverName;
+        private Network network;
+
+        private StorageHandler storageHandler;
 
         public Game1()
         {
@@ -73,13 +78,16 @@ namespace immunity
 
             input = new Input();
             toast = new MessageHandler(width, height);
+            networkMessages = new MessageHandler(width, height);
             serverName = new TextInput(new Rectangle((width / 2)-200, 50, 200, 50));
+            network = new Network();
 
             // Action bar objects
-            rangedTowerButton = new Button(new Rectangle(5, height - 65, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
-            splashTowerButton = new Button(new Rectangle(70, height - 65, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2);
-            deleteTowerButton = new Button(new Rectangle(width - 65 - 65, height - 65, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D);
-            nextWaveButton = new Button(new Rectangle(width - 65, height - 65, 60, 60), 0, "Starts a new wave.", Keys.N);
+            rangedTowerButton = new Button(new Rectangle(5, height - BUTTONOFFSET, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1);
+            splashTowerButton = new Button(new Rectangle(5 + BUTTONOFFSET, height - BUTTONOFFSET, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2);
+            deleteTowerButton = new Button(new Rectangle(5 + (BUTTONOFFSET * 3), height - BUTTONOFFSET, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D);
+            nextWaveButton = new Button(new Rectangle(width - BUTTONOFFSET, height - BUTTONOFFSET, 60, 60), 0, "Starts a new wave.", Keys.N);
+            saveGameButton = new Button(new Rectangle(width - (BUTTONOFFSET * 3), height - BUTTONOFFSET, 60, 60), 17, "Save game.", Keys.F1);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
             Button.GameHeight = height;
@@ -95,10 +103,7 @@ namespace immunity
             map = new Map();
             pathfinder = new Pathfinder(map);
             pathview = new PathView();
-
-            // Player object
-            player = new Player(5, 1000, ref map);
-
+            
             // Enemy objects
             Unit.SetPathfinder(pathfinder, map);
             Unit.LoadPath();
@@ -107,7 +112,11 @@ namespace immunity
 
             ContentHolder.Initialize();
 
-            //Network.ConnectToServer();
+            // Player object
+            player = new Player(5, 1000, ref map);
+            player.Wave = waveHandler.WaveNumber;
+
+            storageHandler = new StorageHandler();
 
             base.Initialize();
         }
@@ -131,12 +140,15 @@ namespace immunity
             splashTowerButton.clicked += new EventHandler(ButtonClicked);
             deleteTowerButton.clicked += new EventHandler(ButtonClicked);
             nextWaveButton.clicked += new EventHandler(ButtonClicked);
+            saveGameButton.clicked += new EventHandler(ButtonClicked);
 
             // Menu button events
             menuOne.clicked += new EventHandler(ButtonClicked);
             menuTwo.clicked += new EventHandler(ButtonClicked);
             menuThree.clicked += new EventHandler(ButtonClicked);
             menuFour.clicked += new EventHandler(ButtonClicked);
+
+            network.received += new Network.EventHandler(ReceivedNetwork);
 
             // Event trigger for unit death
             Unit.onDeath += new EventHandler(UnitDeath);
@@ -158,7 +170,10 @@ namespace immunity
 
             pathview.Texture = ContentHolder.TowerTextures[4];
 
-            toast.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
+            toast.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts[2]);
+            networkMessages.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts[1]);
+            network.Toast(ref networkMessages);
+
             serverName.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
             Button.Buttons = ContentHolder.Buttons;
             Gui.Font = ContentHolder.Fonts[1];
@@ -234,6 +249,7 @@ namespace immunity
                 splashTowerButton.Draw(spriteBatch, 3);
                 deleteTowerButton.Draw(spriteBatch, 5);
                 nextWaveButton.Draw(spriteBatch, 6);
+                saveGameButton.Draw(spriteBatch, 0);
             }
             else if (gameState == GameState.Lobby)
             {
@@ -241,6 +257,7 @@ namespace immunity
             }
 
             toast.Draw(spriteBatch);
+            networkMessages.Draw(spriteBatch);
             spriteBatch.Draw(ContentHolder.GuiSprites[2], mousePosition, new Color(255, 255, 255, 255));
 
             spriteBatch.End();
@@ -281,29 +298,18 @@ namespace immunity
                 splashTowerButton.Update(gameTime);
                 deleteTowerButton.Update(gameTime);
                 nextWaveButton.Update(gameTime);
-
+                saveGameButton.Update(gameTime);
             }else if(gameState == GameState.Lobby)
             {
-                if (input.IsKeyPressedOnce(Keys.F5))
-                    //Network.FetchGames();
-                if (input.IsKeyPressedOnce(Keys.F1))
-                   // Network.StartGame();
                 serverName.Update();
+                if (input.IsKeyPressedOnce(Keys.F5))
+                    network.Deliver("createGame;");
+                if (input.IsKeyPressedOnce(Keys.F1))
+                    network.Deliver("username;"+serverName.Value);
             }
 
             toast.Update(gameTime.TotalGameTime);
-
-            // Allows the game to exit
-
-            
-
-            //spawnDelay++;
-            //if (spawnDelay > 15 && lastUsedUnit != unitList.Count)
-            //{
-            //    unitsOnMap.Add(unitList[lastUsedUnit]);
-            //    lastUsedUnit++;
-            //    spawnDelay = 0;
-            //}
+            networkMessages.Update(gameTime.TotalGameTime);
 
             switch (player.NewTowerType)
             {
@@ -322,6 +328,17 @@ namespace immunity
             base.Update(gameTime);
         }
 
+        private void ReceivedNetwork(string n)
+        {
+            string[] action = n.Split(new string[] { ";" }, StringSplitOptions.None);
+            switch (action[0])
+            {
+                case "startgame":
+                    gameState = GameState.Running;
+                    break;
+            }
+        }
+
         private void ButtonClicked(object sender, EventArgs e)
         {
             int actionType = ((Button)sender).type;
@@ -329,40 +346,69 @@ namespace immunity
             switch (actionType)
             {
                 case 0:
-
-                    //if (waveHandler.GetCurrentWave().SpawningEnemies == true)
-                    //{
-                    //    toast.addMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
-
-                    //}
+                    //    toast.AddMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
                     waveHandler.StartNextWave();
+                    player.Wave = waveHandler.WaveNumber;
+                    SaveGame("Auto_Save");
                     break;
 
                 case 13: gameState = GameState.Running; break;
-                case 14: gameState = GameState.Lobby; System.Diagnostics.Debug.WriteLine("Boop");/* Multiplayer */ break;
+                case 14: gameState = GameState.Lobby; /* Multiplayer */ break;
                 case 15: /* show controls */ break;
-                case 16: this.Exit(); break;
+                case 16:
+                    /* CLOSE GAME */
+                    network.Disconnect();
+
+                    this.Exit(); break;
+                case 17: SaveGame("Player_Save"); break;
+
                 default: player.NewTowerType = ((Button)sender).type; break;
             }
         }
+
         private void UnitDeath(object sender, EventArgs e)
         {
-            //toast.addMessage("Virus annihalated!", new TimeSpan(0, 0, 3));
+            toast.AddMessage("Virus annihalated!", new TimeSpan(0, 0, 3));
             player.Gold += 50;
             player.Kills++;
             System.Diagnostics.Debug.WriteLine(player.Kills);
         }
+
         private void UnitReachEnd(object sender, EventArgs e)
         {
-            toast.addMessage("Virus made it to your brain!", new TimeSpan(0, 0, 3));
+            toast.AddMessage("Virus made it to your brain!", new TimeSpan(0, 0, 3));
             player.Lives--;
         }
-        private void PlaySong() // test function
+
         {
             Song song = Content.Load<Song>("sounds//song");
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.0f;
+            MediaPlayer.Volume = 0.25f;
             MediaPlayer.Play(song);
+        }
+
+        private void SaveGame(String fileName)
+        {
+            StorageHandler.SaveGameData save = new StorageHandler.SaveGameData();
+
+            save.lives = player.Lives;
+            save.gold = player.Gold;
+            save.wave = player.Wave;
+
+            //Turn the map into a one dimensional array as the xml serializer does not support multidimensional arrays.
+            int[] singleDimMap = new int[map.Height * map.Width];
+            int i = 0;
+            for (int y = 0; y < map.Height; y++)
+            {
+                for (int x = 0; x < map.Width; x++)
+                {
+                    singleDimMap[i] = map.GetIndex(x, y);
+                    i++;
+                }
+            }
+            save.map = singleDimMap;
+            
+            storageHandler.SaveGame(save, "Immunity_Container", fileName+ ".sav");
         }
     }
 }
