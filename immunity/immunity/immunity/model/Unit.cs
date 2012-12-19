@@ -5,38 +5,28 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace immunity
 {
-    internal class Unit
+    internal class Unit : ScreenObject
     {
         //Variables
         //Statics
         private static Path path = new Path();
-
+        
         private static List<Texture2D> sprites;
         private static SpriteFont font;
 
         //Location
-        private Vector2 unitPosition;
-
+        private int positionInPath;
         private Vector2 moveToPosition;
-        private Vector2 center;
 
         //Data
-        private int health;
-
         private bool alive = true;
+        private int health;
         private int speed;
-        private int unitType;
-        private int positionInPath;
-
+        
         // Events
         public static event EventHandler onDeath, onLastTile;
 
         //Accessors
-        public Vector2 Center
-        {
-            get { return center; }
-        }
-
         public int Health
         {
             get { return health; }
@@ -52,21 +42,21 @@ namespace immunity
         /// <summary>
         /// Creates a new unit.
         /// </summary>
-        /// <param name="unitType">The type of unit you want ot create.</param>
-        public Unit(int unitType)
+        /// <param name="type">The type of unit you want ot create.</param>
+        public Unit(int type) : base(Unit.sprites[type])
         {
             positionInPath = 1;
-            this.unitType = unitType;
-            switch (unitType)
+            this.type = type;
+            switch (type)
             {
                 case 0:
-                    health = 100;
-                    speed = 1;
+                    health = 400;
+                    speed = 2;
                     break;
 
                 case 1:
                     health = 200;
-                    speed = 2;
+                    speed = 4;
                     break;
             }
         }
@@ -122,7 +112,7 @@ namespace immunity
 
         public bool IsOnLastTile()
         {
-            if (this.unitPosition.X == path.End.X * 32 && this.unitPosition.Y == (path.End.Y * 32))
+            if (this.position.X == path.End.X * 32 && this.position.Y == (path.End.Y * 32))
             {
                 this.health = 0;
                 return true;
@@ -134,12 +124,12 @@ namespace immunity
         /// Draws the unit.
         /// </summary>
         /// <param name="spriteBatch"></param>
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (alive)
             {
-                spriteBatch.DrawString(font, this.health.ToString(), new Vector2(unitPosition.X, unitPosition.Y), Color.White);
-                spriteBatch.Draw(sprites[unitType], new Vector2(unitPosition.X, unitPosition.Y + 24), Color.White);
+                spriteBatch.DrawString(font, this.health.ToString(), new Vector2(position.X, position.Y), Color.White);
+                spriteBatch.Draw(texture, new Vector2(position.X, position.Y + 24), Color.White);
             }
         }
 
@@ -151,30 +141,31 @@ namespace immunity
             if (Health <= 0)
             {
                 alive = false;
+                return;
             }
 
-            if (unitPosition != moveToPosition)
+            if (position != moveToPosition)
             {
-                if (moveToPosition.X != unitPosition.X)
+                if (moveToPosition.X != position.X)
                 {
-                    if (moveToPosition.X > unitPosition.X)
+                    if (moveToPosition.X > position.X)
                     {
-                        unitPosition.X += speed;
+                        position.X += speed;
                     }
                     else
                     {
-                        unitPosition.X -= speed;
+                        position.X -= speed;
                     }
                 }
                 else
                 {
-                    if (moveToPosition.Y > unitPosition.Y)
+                    if (moveToPosition.Y > position.Y)
                     {
-                        unitPosition.Y += speed;
+                        position.Y += speed;
                     }
                     else
                     {
-                        unitPosition.Y -= speed;
+                        position.Y -= speed;
                     }
                 }
             }
@@ -189,7 +180,7 @@ namespace immunity
                     moveToPosition = path.GetNextStep(positionInPath);
                     if (moveToPosition == new Vector2(-1f, -1f))
                     {
-                        moveToPosition = unitPosition;
+                        moveToPosition = position;
                     }
                     else
                     {
@@ -198,7 +189,7 @@ namespace immunity
                 }
             }
 
-            center = new Vector2(unitPosition.X + (sprites[unitType].Width / 2), unitPosition.Y + (sprites[unitType].Height / 2) + 24);
+            center = new Vector2(position.X + (texture.Width / 2), position.Y + (texture.Height / 2) + 24);
         }
     }
 }
