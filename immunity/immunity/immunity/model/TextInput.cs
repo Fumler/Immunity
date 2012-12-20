@@ -62,7 +62,6 @@ namespace immunity
                                 if(input.Length > 0)
                                     input = input.Remove(input.Length-1);
                                 break;
-                            case Keys.Enter:
                             case Keys.Escape:
                                 this.typing = false;
                                 break;
