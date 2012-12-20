@@ -30,6 +30,8 @@ namespace immunity
         private String tooltip;
 
         private GraphicsDevice graphicsDevice;
+        private static GameTime gametime;
+        private int textureID;
 
         public event EventHandler clicked;
 
@@ -49,6 +51,16 @@ namespace immunity
         public static int GameHeight
         {
             set { gameHeight = value; }
+        }
+
+        public static GameTime Gametime
+        {
+            set { gametime = value; }
+        }
+
+        public int TextureID
+        {
+            set { this.textureID = value; }
         }
 
         public static List<SpriteFont> Fonts
@@ -73,12 +85,13 @@ namespace immunity
             this.key = key;
         }
 
-        public Button(Rectangle bounds, int type, string tooltip, Keys key)
+        public Button(Rectangle bounds, int type, string tooltip, Keys key, int texture)
         {
             this.bounds = bounds;
             this.type = type;
             this.tooltip = tooltip;
             this.key = key;
+            this.textureID = texture;
         }
 
         public Button(Rectangle bounds, int type, string tooltip, int cellX, int cellY, Keys key)
@@ -91,7 +104,7 @@ namespace immunity
             this.key = key;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             input.Update();
 
@@ -133,17 +146,17 @@ namespace immunity
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, int texture)
+        public void Draw(SpriteBatch spriteBatch)
         {
             switch (state)
             {
                 case MouseStatus.Normal:
-                    spriteBatch.Draw(buttons[texture], bounds, Color.White);
+                    spriteBatch.Draw(buttons[textureID], bounds, Color.White);
 
                     break;
 
                 case MouseStatus.Released:
-                    spriteBatch.Draw(buttons[texture], bounds, Color.DarkGray);
+                    spriteBatch.Draw(buttons[textureID], bounds, Color.DarkGray);
 
                     int measureString = (int)fonts[1].MeasureString(tooltip.ToUpper()).X;
 
@@ -180,12 +193,12 @@ namespace immunity
                             state = MouseStatus.Normal;
                         }
                     }
-                    spriteBatch.Draw(buttons[texture], bounds, Color.Red);
+                    spriteBatch.Draw(buttons[textureID], bounds, Color.Red);
 
                     break;
 
                 default:
-                    spriteBatch.Draw(buttons[texture], bounds, Color.Black);
+                    spriteBatch.Draw(buttons[textureID], bounds, Color.Black);
 
                     break;
             }

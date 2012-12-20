@@ -15,10 +15,15 @@ namespace immunity
         private bool connected = false;
         private MessageHandler toastnet;
         private Thread netmsgs, net;
-        private bool running =  true;
+        private bool running = true;
 
         public event EventHandler received;
         public delegate void EventHandler(string n);
+
+        public bool Connected
+        {
+            get { return connected; }
+        }
 
         public void Toast(ref MessageHandler messageHandler)
         {
