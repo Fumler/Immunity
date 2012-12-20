@@ -73,9 +73,9 @@ namespace immunity
                     System.Diagnostics.Debug.WriteLine("Thread");
 
                     reply = reader.ReadLine();
-                    toastnet.AddMessage(reply, new TimeSpan(0, 0, 3), 10, 10);
                     if (reply != "")
                     {
+                        toastnet.AddMessage(reply, new TimeSpan(0, 0, 3), 10, 10);
                         string[] action = reply.Split(new string[] { ";" }, StringSplitOptions.None);
                         switch (action[0])
                         {

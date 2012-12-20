@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Collections;
 
 namespace immunity
 {
@@ -61,6 +62,8 @@ namespace immunity
         private Input input;
         private TextInput serverName;
         private Network network;
+        private List<Gui> lobbyList;
+
 
         private StorageHandler storageHandler;
 
@@ -92,6 +95,7 @@ namespace immunity
             serverName = new TextInput(new Rectangle((width / 2)-200, 50, 200, 50));
             network = new Network();
             chatlog = new List<string>();
+            lobbyList = new List<Gui>();
 
             // Action bar objects
             actionButtons = new List<Button>();
@@ -99,6 +103,7 @@ namespace immunity
             actionButtons.Add(new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2));
             actionButtons.Add(new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D));
             actionButtons.Add(new Button(new Rectangle(width - ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), 0, "Starts a new wave.", Keys.N));
+            Gui.SetScreenSize(width, height);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
             Button.GameHeight = height;
@@ -280,6 +285,12 @@ namespace immunity
             else if (gameState == GameState.ServerList)
             {
                 serverName.Draw(spriteBatch);
+                //int j = 0;
+                foreach (Gui entry in lobbyList)
+                {
+                    entry.Draw(spriteBatch, 1);
+                    //j += 20;
+                }
             }
             else if (gameState == GameState.Lobby)
             {
@@ -339,7 +350,7 @@ namespace immunity
             {
                 serverName.Update();
                 if (input.IsKeyPressedOnce(Keys.F3))
-                    network.Deliver("joinlobby;" + serverName.Value);
+                    network.Deliver("listlobby;");
                 if (input.IsKeyPressedOnce(Keys.F2))
                     network.Deliver("createlobby;"+serverName.Value);
                 if (input.IsKeyPressedOnce(Keys.F1))
@@ -388,6 +399,14 @@ namespace immunity
                         chatlog.RemoveAt(0);
                     chatlog.Add(action[1]);
                     break;
+                case "listlobby":
+                    lobbyList.Clear();
+                    for (int i = 1; i < action.Length-1; i++)
+                    {
+                        lobbyList.Add(new Gui(new Rectangle(100, (i*15)+85, width-200, 30), action[i]+" | Users: "+action[i+1]));
+                        i++;
+                    }
+                    break;
             }
         }
 
@@ -398,7 +417,7 @@ namespace immunity
             switch (actionType)
             {
                 case 0:
-                    //    toast.AddMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
+                    // toast.AddMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
                     waveHandler.StartNextWave();
                     player.Wave = waveHandler.WaveNumber;
                     SaveGame("Auto_Save");

@@ -72,8 +72,8 @@ namespace immunity
             {
                 for (int i = 0; i < message.Count; i++)
                 {
-                    spriteBatch.Draw(texture, new Rectangle((int)position[i].X - 10, (int)position[i].Y, (int)font.MeasureString(message[i]).X + 20, 40), Color.Black);
-                    spriteBatch.DrawString(font, message[i], position[i], Color.White);
+                    spriteBatch.Draw(texture, new Rectangle((int)position[i].X - 10, (int)position[i].Y + (40 * i), (int)font.MeasureString(message[i]).X + 20, 40), Color.Black);
+                    spriteBatch.DrawString(font, message[i], new Vector2(position[i].X, position[i].Y + (40 * i)), Color.White);
                 }
             }
         }
