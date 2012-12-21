@@ -41,7 +41,7 @@ namespace immunity
         }
         public void ConnectToServer()
         {
-            toastnet.AddMessage("in!", new TimeSpan(0, 0, 3));
+            toastnet.AddMessage("in!", new TimeSpan(0, 0, 3), 10, 10);
             try
             {
                 connection = new TcpClient();
@@ -58,7 +58,7 @@ namespace immunity
                 System.Diagnostics.Debug.WriteLine("No connection to server");
                 //toastnet.AddMessage("Could not connect to server!", new TimeSpan(0, 0, 3), 10, 10);
             }
-            toastnet.AddMessage("OUT!", new TimeSpan(0, 0, 3));
+            toastnet.AddMessage("OUT!", new TimeSpan(0, 0, 3), 10, 10);
         }
         public Network()
         {

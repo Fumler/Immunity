@@ -33,7 +33,7 @@ namespace immunity
         private const int ACTIONBUTTONOFFSET_X = 65;
         private const int MENUBUTTONOFFSET_X = 200;
         private List<Button> actionButtons;
-        private List<Button> menuButtons, multiplayerButtons;
+        private List<Button> menuButtons, joinLobbyButtons, multiplayerButtons;
         private MessageHandler toast, networkMessages;
 
         private GraphicsDeviceManager graphics;
@@ -60,7 +60,7 @@ namespace immunity
         private WaveHandler waveHandler;
 
         private Input input;
-        private TextInput userName;
+        private TextInput userName, lobbyName, chatBox;
         private Network network;
         private List<Gui> lobbyList;
         //private delegate void EventHandler(string lobby);
@@ -92,7 +92,9 @@ namespace immunity
             input = new Input();
             toast = new MessageHandler(width, height);
             networkMessages = new MessageHandler(width, height);
-            userName = new TextInput(new Rectangle((width / 2)-100, (height/2)-10, 200, 20));
+            userName = new TextInput(new Rectangle((width / 2) - 100, (height / 2) - 10, 200, 20));
+            lobbyName = new TextInput(new Rectangle(100, 200, 200, 20));
+            chatBox = new TextInput(new Rectangle(100, height - 40, 600, 20));
             network = new Network();
             chatlog = new List<string>();
             lobbyList = new List<Gui>();
@@ -119,6 +121,10 @@ namespace immunity
 
             // Multiplayer buttons
             multiplayerButtons = new List<Button>();
+            multiplayerButtons.Add(new Button(new Rectangle(300, 200, 20, 20), "createlobby;", "Create lobby.", Keys.D1, 14));
+
+            // join lobby buttons
+            joinLobbyButtons = new List<Button>();
 
             // Map object
             map = new Map();
@@ -165,6 +171,9 @@ namespace immunity
             foreach (Button menubtn in menuButtons)
                 menubtn.clicked += new Button.EventHandler(ButtonClicked);
 
+            foreach (Button mpbtn in multiplayerButtons)
+                mpbtn.clicked += new Button.EventHandler(MPButtonClicked);
+
             network.received += new Network.EventHandler(ReceivedNetwork);
 
             // Event trigger for unit death
@@ -195,6 +204,8 @@ namespace immunity
             network.Init(ref networkMessages);
 
             userName.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
+            lobbyName.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
+            chatBox.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
             Button.Buttons = ContentHolder.Buttons;
             Gui.Font = ContentHolder.Fonts[1];
             Gui.Sprites = ContentHolder.GuiSprites;
@@ -204,6 +215,9 @@ namespace immunity
             map.SetTextures(ContentHolder.TowerTextures);
             Tower.Turret = ContentHolder.TowerTextures[9];
             Button.Fonts = ContentHolder.Fonts;
+
+            // Set the username textbox active from the start
+            userName.Active = true;
 
             //Thread thread = new Thread(new ThreadStart(PlaySong));
             //thread.IsBackground = true;
@@ -299,23 +313,27 @@ namespace immunity
             {
                 graphics.GraphicsDevice.Clear(Color.DarkRed);
                 spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
-                //int j = 0;
+                lobbyName.Draw(spriteBatch);
+                
+                // createlobby button
+                multiplayerButtons[0].Draw(spriteBatch);
+
                 foreach (Gui entry in lobbyList)
                 {
                     entry.Draw(spriteBatch, 1);
-                    //j += 20;
                 }
-                foreach (Button mpbtn in multiplayerButtons)
-                    mpbtn.Draw(spriteBatch);
+                foreach (Button lobbybtn in joinLobbyButtons)
+                    lobbybtn.Draw(spriteBatch);
             }
             else if (gameState == GameState.Lobby)
             {
                 graphics.GraphicsDevice.Clear(Color.DarkRed);
                 spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
+                chatBox.Draw(spriteBatch);
                 int i = 0;
                 foreach (String text in chatlog)
                 {
-                    spriteBatch.DrawString(ContentHolder.Fonts[1], text, new Vector2(30, 50 + i), Color.White);
+                    spriteBatch.DrawString(ContentHolder.Fonts[1], text, new Vector2(100, 200 + i), Color.White);
                     i += 20;
                 }
             }
@@ -337,10 +355,10 @@ namespace immunity
         {
             input.Update();
             Button.Gametime = gameTime;
-            userName.Update();
 
             if (gameState == GameState.Menu)
             {
+                userName.Update();
                 if (input.IsKeyPressedOnce(Keys.Escape))
                 {
                     gameState = GameState.Running;
@@ -362,7 +380,9 @@ namespace immunity
             }
             else if(gameState == GameState.ServerList)
             {
-                foreach (Button mpbtn in multiplayerButtons)
+                lobbyName.Update();
+                multiplayerButtons[0].Update();
+                foreach (Button mpbtn in joinLobbyButtons)
                     mpbtn.Update();
 
                 if (input.IsKeyPressedOnce(Keys.F3))
@@ -372,10 +392,11 @@ namespace immunity
 
             }else if(gameState == GameState.Lobby)
             {
+                chatBox.Update();
                 if (input.IsKeyPressedOnce(Keys.Enter))
                 {
-                    network.Deliver("msglobby;" + userName.Value);
-                    userName.Value = "";
+                    network.Deliver("msglobby;" + chatBox.Value);
+                    chatBox.Value = "";
                 }
             }
             if (input.IsKeyPressedOnce(Keys.F3))
@@ -406,6 +427,9 @@ namespace immunity
             string[] action = n.Split(new string[] { ";" }, StringSplitOptions.None);
             switch (action[0])
             {
+                case "needusername":
+                    network.Deliver("username;" + player.Name);
+                    break;
                 case "startlobby":
                     gameState = GameState.Lobby;
                     break;
@@ -419,8 +443,8 @@ namespace immunity
                     for (int i = 1; i < action.Length-1; i++)
                     {
                         lobbyList.Add(new Gui(new Rectangle(116, (i*15)+85, width-200, 30), action[i]+" | Users: "+action[i+1]));
-                        multiplayerButtons.Add(new Button(new Rectangle(100, (i * 15) + 85, 16, 16), "joinlobby;"+action[i], "Join Lobby", Keys.None, 14));
-                        multiplayerButtons[multiplayerButtons.Count - 1].clicked += new Button.EventHandler(MPButtonClicked);
+                        joinLobbyButtons.Add(new Button(new Rectangle(100, (i * 15) + 200, 20, 20), "joinlobby;"+action[i], "Join Lobby", Keys.None, 14));
+                        joinLobbyButtons[joinLobbyButtons.Count - 1].clicked += new Button.EventHandler(MPButtonClicked);
                         i++;
                     }
                     break;
@@ -444,7 +468,9 @@ namespace immunity
                 case "14":
                      /* Multiplayer */
                     if (network.Connected)
+                    {
                         gameState = GameState.ServerList;
+                    }
                     else
                     {
                         toast.AddMessage("Not connected to the server", new TimeSpan(0, 0, 3));
@@ -469,9 +495,21 @@ namespace immunity
 
             switch (action[0])
             {
+                case "createlobby":
+                    networkMessages.AddMessage("Created lobby", new TimeSpan(0, 0, 3), 10, 10);
+                    network.Deliver("createlobby;"+lobbyName.Value);
+                    break;
                 case "joinlobby":
-                    toast.AddMessage("Joining lobby", new TimeSpan(0, 0, 3));
+                    networkMessages.AddMessage("Joining lobby", new TimeSpan(0, 0, 3), 10, 10);
                     network.Deliver("joinlobby;"+action[1]);
+                    break;
+                case "leavelobby":
+                    networkMessages.AddMessage("Left lobby", new TimeSpan(0, 0, 3), 10, 10);
+                    network.Deliver("leavelobby;");
+                    gameState = GameState.ServerList;
+                    break;
+                case "leavemultiplayer":
+                    gameState = GameState.Menu;
                     break;
                 default: break;
             }
@@ -479,7 +517,6 @@ namespace immunity
 
         private void UnitDeath(object sender, EventArgs e)
         {
-            toast.AddMessage("Virus annihilated!", new TimeSpan(0, 0, 3));
             player.Gold += 50;
             player.Kills++;
             System.Diagnostics.Debug.WriteLine(player.Kills);
