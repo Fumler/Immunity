@@ -165,7 +165,16 @@ namespace immunity
             {
                 ammunition.Draw(spriteBatch);
             }
-            spriteBatch.Draw(texture, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
+
+            if (type == 1)
+            {
+
+            }
+            else
+            {
+                spriteBatch.Draw(texture, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
+
+            }
         }
 
         public void Update(ref List<Unit> enemies, GameTime gameTime)
