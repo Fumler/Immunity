@@ -10,19 +10,21 @@ namespace immunity
         //Variables
         //Statics
         private static Path path = new Path();
-        
+
         private static List<Texture2D> sprites;
         private static SpriteFont font;
 
         //Location
         private int positionInPath;
+
         private Vector2 moveToPosition;
 
         //Data
         private bool alive = true;
+
         private int health;
         private int speed;
-        
+
         // Events
         public static event EventHandler onDeath, onLastTile;
 
@@ -43,19 +45,20 @@ namespace immunity
         /// Creates a new unit.
         /// </summary>
         /// <param name="type">The type of unit you want ot create.</param>
-        public Unit(int type) : base(Unit.sprites[type])
+        public Unit(int type, int healthModifier)
+            : base(Unit.sprites[type])
         {
             positionInPath = 1;
             this.type = type;
             switch (type)
             {
                 case 0:
-                    health = 400;
+                    health = (int)(100 * (healthModifier * 1.30f));
                     speed = 2;
                     break;
 
                 case 1:
-                    health = 200;
+                    health = (int)(75 * (healthModifier * 1.30f));
                     speed = 4;
                     break;
             }

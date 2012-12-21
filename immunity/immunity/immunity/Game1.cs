@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Collections;
 
 namespace immunity
 {
@@ -48,11 +46,20 @@ namespace immunity
         private List<int>[] enemies = new List<int>[]
         {
             new List<int> { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 },
+            new List<int> { 0, 0, 0, 1, 1, 0, 0, 0, 1, 1 },
             new List<int> { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 },
             new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
             new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             new List<int> { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-            new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+            new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+            new List<int> { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 },
+            new List<int> { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+            new List<int> { 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1 },
+            new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+            new List<int> { 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1 },
+            new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
 
         private List<string> chatlog;
@@ -63,6 +70,7 @@ namespace immunity
         private TextInput userName;
         private Network network;
         private List<Gui> lobbyList;
+
         //private delegate void EventHandler(string lobby);
 
         private StorageHandler storageHandler;
@@ -92,15 +100,15 @@ namespace immunity
             input = new Input();
             toast = new MessageHandler(width, height);
             networkMessages = new MessageHandler(width, height);
-            userName = new TextInput(new Rectangle((width / 2)-100, (height/2)-10, 200, 20));
+            userName = new TextInput(new Rectangle((width / 2) - 100, (height / 2) - 10, 200, 20));
             network = new Network();
             chatlog = new List<string>();
             lobbyList = new List<Gui>();
 
             // Action bar objects
             actionButtons = new List<Button>();
-            actionButtons.Add(new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), "10", "Basic ranged tower, low damage, single target.", Keys.D1, 1));
-            actionButtons.Add(new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "20", "Basic splash tower, high damage, multiple targets.", Keys.D2, 3));
+            actionButtons.Add(new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), "10", "Basic ranged tower, medium damage, medium fireing speed, medium ammunition speed, single target.", Keys.D1, 1));
+            actionButtons.Add(new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "20", "Fast ranged tower, low damage, high fiereing speed, fast ammunition speed, single target.", Keys.D2, 3));
             actionButtons.Add(new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), "3", "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D, 5));
             actionButtons.Add(new Button(new Rectangle(width - ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "0", "Starts a new wave.", Keys.N, 6));
             Gui.SetScreenSize(width, height);
@@ -112,7 +120,7 @@ namespace immunity
             // Menu objects
             menuButtons = new List<Button>();
             menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X, 400, 70), "13", "Start a new game.", Keys.D1, 7));
-            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75, 400, 70), "14", "Multiplayer.", Keys.D2,8));
+            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75, 400, 70), "14", "Multiplayer.", Keys.D2, 8));
             menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 2), 400, 70), "15", "Check the game controls.", Keys.D3, 9));
             menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 3), 400, 70), "17", "Save the game.", Keys.D4, 13));
             menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 4), 400, 70), "16", "Exit the game.", Keys.D5, 10));
@@ -124,7 +132,7 @@ namespace immunity
             map = new Map();
             pathfinder = new Pathfinder(map);
             pathview = new PathView();
-            
+
             // Enemy objects
             Unit.SetPathfinder(pathfinder, map);
             Unit.LoadPath();
@@ -160,7 +168,7 @@ namespace immunity
             // Menu button events
             foreach (Button actionbtn in actionButtons)
                 actionbtn.clicked += new Button.EventHandler(ButtonClicked);
-            
+
             // Menu button events
             foreach (Button menubtn in menuButtons)
                 menubtn.clicked += new Button.EventHandler(ButtonClicked);
@@ -179,7 +187,7 @@ namespace immunity
             // 4 - tower2upgrade1
             // 5 - delete tower
             // 6 - new wave
-            // 7 - new game menu 
+            // 7 - new game menu
             // 8 - multiplayer menu
             // 9 - controls menu
             // 10 - exit menu
@@ -220,6 +228,7 @@ namespace immunity
         {
             // TODO: Unload any non ContentManager content here
         }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -239,7 +248,7 @@ namespace immunity
             // 4 - tower2upgrade1
             // 5 - delete tower
             // 6 - new wave
-            // 7 - new game menu 
+            // 7 - new game menu
             // 8 - multiplayer menu
             // 9 - controls menu
             // 10 - exit menu
@@ -253,7 +262,7 @@ namespace immunity
                 {
                     graphics.GraphicsDevice.Clear(Color.DarkRed);
                     spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
-                    spriteBatch.DrawString(ContentHolder.Fonts[1], "Enter your desired username", new Vector2((width/2)-90, (height/2)-30), Color.White);
+                    spriteBatch.DrawString(ContentHolder.Fonts[1], "Enter your desired username", new Vector2((width / 2) - 90, (height / 2) - 30), Color.White);
                     userName.Draw(spriteBatch);
                     if (input.IsKeyPressedOnce(Keys.Enter))
                     {
@@ -299,10 +308,12 @@ namespace immunity
             {
                 graphics.GraphicsDevice.Clear(Color.DarkRed);
                 spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
+
                 //int j = 0;
                 foreach (Gui entry in lobbyList)
                 {
                     entry.Draw(spriteBatch, 1);
+
                     //j += 20;
                 }
                 foreach (Button mpbtn in multiplayerButtons)
@@ -328,6 +339,7 @@ namespace immunity
 
             base.Draw(gameTime);
         }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -360,7 +372,7 @@ namespace immunity
                 foreach (Button actionbtn in actionButtons)
                     actionbtn.Update();
             }
-            else if(gameState == GameState.ServerList)
+            else if (gameState == GameState.ServerList)
             {
                 foreach (Button mpbtn in multiplayerButtons)
                     mpbtn.Update();
@@ -368,9 +380,9 @@ namespace immunity
                 if (input.IsKeyPressedOnce(Keys.F3))
                     network.Deliver("listlobby;");
                 if (input.IsKeyPressedOnce(Keys.F2))
-                    network.Deliver("createlobby;"+userName.Value);
-
-            }else if(gameState == GameState.Lobby)
+                    network.Deliver("createlobby;" + userName.Value);
+            }
+            else if (gameState == GameState.Lobby)
             {
                 if (input.IsKeyPressedOnce(Keys.Enter))
                 {
@@ -409,17 +421,19 @@ namespace immunity
                 case "startlobby":
                     gameState = GameState.Lobby;
                     break;
+
                 case "msglobby":
                     if (chatlog.Count > 30)
                         chatlog.RemoveAt(0);
                     chatlog.Add(action[1]);
                     break;
+
                 case "listlobby":
                     lobbyList.Clear();
-                    for (int i = 1; i < action.Length-1; i++)
+                    for (int i = 1; i < action.Length - 1; i++)
                     {
-                        lobbyList.Add(new Gui(new Rectangle(116, (i*15)+85, width-200, 30), action[i]+" | Users: "+action[i+1]));
-                        multiplayerButtons.Add(new Button(new Rectangle(100, (i * 15) + 85, 16, 16), "joinlobby;"+action[i], "Join Lobby", Keys.None, 14));
+                        lobbyList.Add(new Gui(new Rectangle(116, (i * 15) + 85, width - 200, 30), action[i] + " | Users: " + action[i + 1]));
+                        multiplayerButtons.Add(new Button(new Rectangle(100, (i * 15) + 85, 16, 16), "joinlobby;" + action[i], "Join Lobby", Keys.None, 14));
                         multiplayerButtons[multiplayerButtons.Count - 1].clicked += new Button.EventHandler(MPButtonClicked);
                         i++;
                     }
@@ -432,6 +446,7 @@ namespace immunity
             switch (actionType)
             {
                 case "0":
+
                     // toast.AddMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
                     waveHandler.StartNextWave();
                     player.Wave = waveHandler.WaveNumber;
@@ -441,8 +456,9 @@ namespace immunity
                 case "13": gameState = GameState.Running;
                     gameStateNumber = false;
                     break;
+
                 case "14":
-                     /* Multiplayer */
+                    /* Multiplayer */
                     if (network.Connected)
                         gameState = GameState.ServerList;
                     else
@@ -451,6 +467,7 @@ namespace immunity
                         network.Retry();
                     }
                     break;
+
                 case "15": /* show controls */ break;
                 case "16":
                     /* CLOSE GAME */
@@ -462,6 +479,7 @@ namespace immunity
                 default: player.NewTowerType = Convert.ToInt32(actionType); break;
             }
         }
+
         private void MPButtonClicked(string actionType)
         {
             string[] action = actionType.Split(new string[] { ";" }, StringSplitOptions.None);
@@ -471,16 +489,17 @@ namespace immunity
             {
                 case "joinlobby":
                     toast.AddMessage("Joining lobby", new TimeSpan(0, 0, 3));
-                    network.Deliver("joinlobby;"+action[1]);
+                    network.Deliver("joinlobby;" + action[1]);
                     break;
+
                 default: break;
             }
         }
 
         private void UnitDeath(object sender, EventArgs e)
         {
-            toast.AddMessage("Virus annihilated!", new TimeSpan(0, 0, 3));
-            player.Gold += 50;
+            //toast.AddMessage("Virus annihilated!", new TimeSpan(0, 0, 3));
+            player.Gold += 30;
             player.Kills++;
             System.Diagnostics.Debug.WriteLine(player.Kills);
         }
@@ -519,8 +538,8 @@ namespace immunity
                 }
             }
             save.map = singleDimMap;
-            
-            storageHandler.SaveGame(save, "Immunity_Container", fileName+ ".sav");
+
+            storageHandler.SaveGame(save, "Immunity_Container", fileName + ".sav");
         }
     }
 }

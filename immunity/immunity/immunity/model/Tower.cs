@@ -19,7 +19,7 @@ namespace immunity
         private static Texture2D turret;
 
         protected Unit target;
-        
+
         public int Cost
         {
             get { return cost; }
@@ -51,13 +51,15 @@ namespace immunity
             get { return target; }
         }
 
-        public Tower(int type, int cellX, int cellY) : base(turret)
+        public Tower(int type, int cellX, int cellY)
+            : base(turret)
         {
             cellPositionX = cellX;
             cellPositionY = cellY;
             ammunitionList = new List<Ammunition>();
             rotation = 0.0f;
             range = 200;
+            ammunitionTimer = 0;
             UpdateAttributes(type);
             center = new Vector2(((cellPositionX * Map.TILESIZE) + Map.TILESIZE / 2), ((cellPositionY * Map.TILESIZE) + Map.TILESIZE / 2) + 24);
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
@@ -94,30 +96,26 @@ namespace immunity
             {
                 case 10:
                     fireDelay = 1;
-                    ammunitionSpeed = 8;
-                    ammunitionTimer = 1.0f;
+                    ammunitionSpeed = 5;
                     damage = 50;
                     break;
 
                 case 11:
-                    fireDelay = 1.5f;
-                    ammunitionSpeed = 12;
-                    ammunitionTimer = 0.5f;
-                    damage = 60;
+                    fireDelay = 0.9f;
+                    ammunitionSpeed = 6;
+                    damage = 75;
                     break;
 
                 case 20:
                     fireDelay = 0.5f;
-                    ammunitionSpeed = 4;
-                    ammunitionTimer = 3.0f;
-                    damage = 90;
+                    ammunitionSpeed = 10;
+                    damage = 30;
                     break;
 
                 case 21:
-                    fireDelay = 0.5f;
-                    ammunitionSpeed = 4;
-                    ammunitionTimer = 1.0f;
-                    damage = 120;
+                    fireDelay = 0.4f;
+                    ammunitionSpeed = 20;
+                    damage = 40;
                     break;
             }
         }

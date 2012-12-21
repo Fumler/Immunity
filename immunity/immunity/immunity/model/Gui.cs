@@ -41,7 +41,6 @@ namespace immunity
             this.topbarText = text.ToUpper();
 
             stringCenter = font.MeasureString(text.ToUpper());
-
         }
 
         public void Draw(SpriteBatch spriteBatch, int texture, Player player)
@@ -58,7 +57,6 @@ namespace immunity
         {
             spriteBatch.Draw(sprites[texture], actionbar, Color.White);
             spriteBatch.DrawString(font, topbarText, new Vector2(actionbar.X + 5, actionbar.Y), Color.White);
-
         }
     }
 }

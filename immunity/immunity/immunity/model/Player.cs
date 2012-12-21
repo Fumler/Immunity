@@ -51,6 +51,7 @@ namespace immunity
             get { return wave; }
             set { this.wave = value; }
         }
+
         public int Kills
         {
             get { return kills; }

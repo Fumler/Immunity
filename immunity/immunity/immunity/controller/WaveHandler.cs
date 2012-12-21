@@ -19,7 +19,7 @@ namespace immunity
             }
             else
             {
-                return new Wave(new List<int> { }); // Dirty fix to stop crashes after last wave
+                return new Wave(new List<int> { }, 0); // Dirty fix to stop crashes after last wave
             }
         }
 
@@ -36,7 +36,7 @@ namespace immunity
 
             for (int i = 0; i < numberOfWaves; i++)
             {
-                Wave wave = new Wave(enemies[i]);
+                Wave wave = new Wave(enemies[i], i + 1);
                 waves.Enqueue(wave);
             }
         }

@@ -7,8 +7,8 @@ namespace immunity
 {
     internal class MessageHandler
     {
-        SpriteFont font;
-        Texture2D texture;
+        private SpriteFont font;
+        private Texture2D texture;
 
         private List<TimeSpan> timeToLive = new List<TimeSpan>();
         private List<String> message = new List<String>();
@@ -47,6 +47,7 @@ namespace immunity
                 }
             }
         }
+
         public void AddMessage(String text, TimeSpan timeTilDeath)
         {
             TimeSpan temp = gameTime + timeTilDeath;
@@ -58,6 +59,7 @@ namespace immunity
             this.position.Add(pos);
             System.Diagnostics.Debug.WriteLine("Added toast" + message.Count);
         }
+
         public void AddMessage(String text, TimeSpan timeTilDeath, int x, int y)
         {
             TimeSpan temp = gameTime + timeTilDeath;
@@ -66,6 +68,7 @@ namespace immunity
             this.position.Add(new Vector2(x, y));
             System.Diagnostics.Debug.WriteLine("Added toast" + message.Count);
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (message.Count > 0)

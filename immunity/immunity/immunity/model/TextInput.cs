@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace immunity
 {
-    class TextInput
+    internal class TextInput
     {
         private Rectangle bounds;
         private string input;
@@ -53,21 +50,25 @@ namespace immunity
             if (typing)
             {
                 Keys[] pressed = hwInput.currentKeyState.GetPressedKeys();
-                foreach(Keys key in pressed)
+                foreach (Keys key in pressed)
                 {
                     if (hwInput.previousKeyState.IsKeyUp(key))
                     {
-                        switch(key) {
+                        switch (key)
+                        {
                             case Keys.Back:
-                                if(input.Length > 0)
-                                    input = input.Remove(input.Length-1);
+                                if (input.Length > 0)
+                                    input = input.Remove(input.Length - 1);
                                 break;
+
                             case Keys.Escape:
                                 this.typing = false;
                                 break;
+
                             case Keys.Space:
                                 input += " ";
                                 break;
+
                             case Keys.A:
                             case Keys.B:
                             case Keys.C:
@@ -96,6 +97,7 @@ namespace immunity
                             case Keys.Z:
                                 input += key;
                                 break;
+
                             case Keys.D0:
                             case Keys.D1:
                             case Keys.D2:
@@ -107,6 +109,7 @@ namespace immunity
                             case Keys.D9:
                                 input += key.ToString()[1];
                                 break;
+
                             default:
                                 break;
                         }
@@ -115,11 +118,12 @@ namespace immunity
                 this.lastPressedKeys = pressed;
             }
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, bounds, Color.Black);
             spriteBatch.DrawString(fonts[1], input, new Vector2(bounds.X, bounds.Y), Color.White);
-            if(typing)
+            if (typing)
                 spriteBatch.DrawString(fonts[1], "|", new Vector2(bounds.X + (int)fonts[1].MeasureString(input).X + 1, bounds.Y), Color.White);
         }
     }
