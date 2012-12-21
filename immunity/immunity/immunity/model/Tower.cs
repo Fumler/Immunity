@@ -72,6 +72,7 @@ namespace immunity
                 case 1:
                     return 10;
 
+
                 case 10:
                     return 100;
 
@@ -94,6 +95,13 @@ namespace immunity
             this.type = type;
             switch (type)
             {
+                case 1:
+                    fireDelay = 0;
+                    ammunitionSpeed = 0;
+                    damage = 0;
+                    ammunitionList.Clear();
+                    range = 0;
+                    break;
                 case 10:
                     fireDelay = 1;
                     ammunitionSpeed = 5;

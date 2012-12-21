@@ -107,10 +107,11 @@ namespace immunity
 
             // Action bar objects
             actionButtons = new List<Button>();
-            actionButtons.Add(new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), "10", "Basic ranged tower, medium damage, medium fireing speed, medium ammunition speed, single target.", Keys.D1, 1));
-            actionButtons.Add(new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "20", "Fast ranged tower, low damage, high fiereing speed, fast ammunition speed, single target.", Keys.D2, 3));
+            actionButtons.Add(new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), "10", "Basic ranged tower, medium damage, medium firing speed, medium ammunition speed, single target. 100 gold - 50% return", Keys.D1, 1));
+            actionButtons.Add(new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "20", "Fast ranged tower, low damage, high firing speed, fast ammunition speed, single target. 200 gold - 50% return", Keys.D2, 3));
             actionButtons.Add(new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), "3", "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D, 5));
             actionButtons.Add(new Button(new Rectangle(width - ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "0", "Starts a new wave.", Keys.N, 6));
+            actionButtons.Add(new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 3), height - ACTIONBUTTONOFFSET_X, 60, 60), "1", "Place a blocking tower. 5 gold - 100% return.", Keys.D3, 15));
             Gui.SetScreenSize(width, height);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
@@ -195,6 +196,7 @@ namespace immunity
             // 12 - resume
             // 13 - Save game
             // 14 - Join Lobby
+            // 15 - Tumor button
 
             pathview.Texture = ContentHolder.TowerTextures[4];
 
@@ -398,6 +400,7 @@ namespace immunity
 
             switch (player.NewTowerType)
             {
+                case 1: player.Tile = ContentHolder.TowerTextures[1]; break;
                 case 3: player.Tile = ContentHolder.TowerTextures[3]; break;
                 case 10: player.Tile = ContentHolder.TowerTextures[10]; break;
                 case 11: player.Tile = ContentHolder.TowerTextures[11]; break;
