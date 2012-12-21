@@ -17,18 +17,23 @@ namespace immunity
         private Input mouse = new Input();
         private Map map;
         private string name;
-
+        private MessageHandler toast;
         private Texture2D tile;
 
         private Tower[,] towers;
         private Tower selectedTower = null;
 
-        public Player(int lives, int gold, ref Map map)
+        private WaveHandler waveHandler;
+        private List<Unit> enemies;
+
+        public Player(int lives, int gold, ref Map map, ref MessageHandler toast, ref WaveHandler waveHandler)
         {
             this.map = map;
             this.lives = lives;
             this.gold = gold;
             this.wave = 0;
+            this.toast = toast;
+            this.waveHandler = waveHandler;
             towers = new Tower[map.Width, map.Height];
 
             //XElement xml = new XElement("player");
@@ -87,8 +92,9 @@ namespace immunity
             towers[selectedTower.PositionX,selectedTower.PositionY] = selectedTower;
         }
 
-        public void Update(ref List<Unit> enemies, GameTime gameTime, MessageHandler toast, ref PathView path)
+        public void Update(GameTime gameTime, ref PathView path)
         {
+            this.enemies = waveHandler.GetCurrentWave().enemies;
             mouse.Update();
 
             cellX = (int)(mouse.currentMouseState.X / 32);
@@ -96,7 +102,7 @@ namespace immunity
 
             if (mouse.ReleaseLeftClick && (map.Height - 1) >= cellY && (map.Width - 1) >= cellX)
             {
-                if (newTowerType != 0)
+                if (newTowerType != 0 && !waveHandler.WaveStarted())
                 {
                     selectedTower = null;
                     if (map.GetIndex(cellX, cellY) != 0 && towers[cellX, cellY] != null && newTowerType == 3)
@@ -144,7 +150,7 @@ namespace immunity
                             toast.AddMessage("(╯°□°）╯︵ ʎǝuoɯ ǝɹoɯ ou", new TimeSpan(0, 0, 3));
                         }
                     }
-                }else if (towers[cellX, cellY] != null && newTowerType == 0)
+                }else if (towers[cellX, cellY] != null && newTowerType == 0 && towers[cellX, cellY].Type != 1)
                 {
                     selectedTower = towers[cellX, cellY];
                 }

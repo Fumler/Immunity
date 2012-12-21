@@ -24,6 +24,11 @@ namespace immunity
             get { return (enemies.Count == 0 && numOfEnemies == enemiesSpawned) && numOfEnemies != 0; }
         }
 
+        public bool WaveStarted
+        {
+            get { return (enemiesSpawned > 0); }
+        }
+
         public int EnemyAtEndOfPath
         {
             get { return enemiesAtEndOfPath; }

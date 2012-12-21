@@ -154,7 +154,7 @@ namespace immunity
             ContentHolder.Initialize();
 
             // Player object
-            player = new Player(5, 1000, ref map);
+            player = new Player(5, 1000, ref map, ref toast, ref waveHandler);
             player.Wave = waveHandler.WaveNumber;
 
             storageHandler = new StorageHandler();
@@ -405,7 +405,7 @@ namespace immunity
                 }
 
                 waveHandler.Update(gameTime);
-                player.Update(ref waveHandler.GetCurrentWave().enemies, gameTime, toast, ref pathview);
+                player.Update(gameTime, ref pathview);
                 foreach (Button actionbtn in actionButtons)
                     actionbtn.Update();
             }

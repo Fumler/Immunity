@@ -42,6 +42,10 @@ namespace immunity
         }
 
         //Methods
+        public bool WaveStarted()
+        {
+            return waves.ToArray()[0].WaveStarted;
+        }
         public void StartNextWave()
         {
             if (waves.Count > 0)
