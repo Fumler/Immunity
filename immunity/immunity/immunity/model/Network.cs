@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Sockets;
 using System.IO;
+using System.Net.Sockets;
 using System.Threading;
-using System.Net;
 
 namespace immunity
 {
-    class Network
+    internal class Network
     {
         private TcpClient connection;
         private bool connected = false;
@@ -18,6 +14,7 @@ namespace immunity
         private Thread netmsgs, net;
 
         public event EventHandler received;
+
         public delegate void EventHandler(string n);
 
         public bool Connected
@@ -31,6 +28,7 @@ namespace immunity
             net = new Thread(new ThreadStart(ConnectToServer));
             net.Start();
         }
+
         public void Retry()
         {
             if (!net.IsAlive)
@@ -39,6 +37,7 @@ namespace immunity
                 net.Start();
             }
         }
+
         public void ConnectToServer()
         {
             toastnet.AddMessage("in!", new TimeSpan(0, 0, 3), 10, 10);
@@ -56,13 +55,16 @@ namespace immunity
             {
                 connected = false;
                 System.Diagnostics.Debug.WriteLine("No connection to server");
+
                 //toastnet.AddMessage("Could not connect to server!", new TimeSpan(0, 0, 3), 10, 10);
             }
             toastnet.AddMessage("OUT!", new TimeSpan(0, 0, 3), 10, 10);
         }
+
         public Network()
         {
         }
+
         public void Receive()
         {
             StreamReader reader = new StreamReader(connection.GetStream());
@@ -88,6 +90,7 @@ namespace immunity
                         case "sysmsg":
                             toastnet.AddMessage(action[1], new TimeSpan(0, 0, 3), 10, 10);
                             break;
+
                         default:
                             received(reply);
                             break;
@@ -100,6 +103,7 @@ namespace immunity
             }
             toastnet.AddMessage("STOPPED!", new TimeSpan(0, 0, 3));
         }
+
         public void Deliver(string msg)
         {
             if (!connected)
@@ -116,6 +120,7 @@ namespace immunity
                 System.Diagnostics.Debug.WriteLine("Not connected to server.");
             }
         }
+
         public void Disconnect()
         {
             running = false;

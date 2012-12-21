@@ -34,8 +34,8 @@ namespace immunity
         /// <summary>
         /// This should never be used
         /// </summary>
-        public ScreenObject() { 
-        
+        public ScreenObject()
+        {
         }
 
         public ScreenObject(Texture2D texture)

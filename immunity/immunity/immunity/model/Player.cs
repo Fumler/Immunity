@@ -51,6 +51,7 @@ namespace immunity
             get { return wave; }
             set { this.wave = value; }
         }
+
         public int Kills
         {
             get { return kills; }
@@ -106,6 +107,7 @@ namespace immunity
                         path.Path = newPath;
                         Unit.Path = newPath;
                     }
+
                     else if (map.GetIndex(cellX, cellY) == 0 && newTowerType != 3)
                     {
                         if (gold >= Tower.GetCost(newTowerType))

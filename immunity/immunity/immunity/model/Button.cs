@@ -31,6 +31,7 @@ namespace immunity
         private int textureID;
 
         public event EventHandler clicked;
+
         public delegate void EventHandler(string n);
 
         private Keys key;
@@ -91,6 +92,7 @@ namespace immunity
             this.key = key;
             this.textureID = texture;
         }
+
         public Button(Rectangle bounds, string type, string tooltip, int cellX, int cellY, Keys key)
         {
             this.bounds = bounds;
@@ -176,7 +178,6 @@ namespace immunity
                                 spriteBatch.Draw(buttons[1], new Rectangle(bounds.X - 5, bounds.Y - 27, measureString + 25, 20), Color.Black);
                                 spriteBatch.DrawString(fonts[1], tooltip.ToUpper(), new Vector2(bounds.X + 5, bounds.Y - 25), Color.White);
                             }
-                            
                         }
                     }
                     break;

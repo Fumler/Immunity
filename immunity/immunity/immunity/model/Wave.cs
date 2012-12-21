@@ -6,6 +6,7 @@ namespace immunity
 {
     internal class Wave
     {
+        private int waveNumber = 0;
         private int numOfEnemies = 0;
         private int enemiesSpawned = 0;
 
@@ -34,16 +35,17 @@ namespace immunity
         }
 
         //Constructor
-        public Wave(List<int> enemyTypes)
+        public Wave(List<int> enemyTypes, int waveNumber)
         {
             this.numOfEnemies = enemyTypes.Count;
             this.enemyTypes = enemyTypes;
+            this.waveNumber = waveNumber;
         }
 
         //Methods
         private void AddEnemy(int unitType)
         {
-            Unit enemy = new Unit(unitType);
+            Unit enemy = new Unit(unitType, waveNumber);
             enemies.Add(enemy);
             spawnTimer = 0;
             enemiesSpawned++;

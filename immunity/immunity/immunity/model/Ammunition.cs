@@ -15,6 +15,7 @@ namespace immunity
 
         //Data
         private int damage;
+
         private int speed;
         private int age = 0;
         private int decayTimer = 100;
@@ -35,7 +36,8 @@ namespace immunity
         /// <param name="rotation">The rotation of the tower.</param>
         /// <param name="speed">How fast the ammunition moves.</param>
         /// <param name="damage">The towers damage.</param>
-        public Ammunition(int type, Vector2 position, float rotation, int speed, int damage, ref Unit target) : base(Ammunition.sprites[type], position)
+        public Ammunition(int type, Vector2 position, float rotation, int speed, int damage, ref Unit target)
+            : base(Ammunition.sprites[type], position)
         {
             this.type = type;
             this.rotation = rotation;
@@ -84,7 +86,7 @@ namespace immunity
 
             foreach (Unit enemy in enemies)
             {
-                if (Vector2.Distance(Center, enemy.Center) < 12)
+                if (Vector2.Distance(Center, enemy.Center) < texture.Width)
                 {
                     enemy.OnBulletHit(Damage);
                     Kill();

@@ -109,7 +109,7 @@ namespace immunity
         {
             previousKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
-            
+
             previousMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
 
