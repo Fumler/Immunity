@@ -8,6 +8,7 @@ namespace immunity
     internal class Network
     {
         private TcpClient connection;
+        private StreamReader reader;
         private bool connected = false;
         private bool running = true;
         private MessageHandler toastnet;
@@ -26,6 +27,7 @@ namespace immunity
         {
             toastnet = messageHandler;
             net = new Thread(new ThreadStart(ConnectToServer));
+            net.IsBackground = true;
             net.Start();
         }
 
@@ -34,6 +36,7 @@ namespace immunity
             if (!net.IsAlive)
             {
                 net = new Thread(new ThreadStart(ConnectToServer));
+                net.IsBackground = true;
                 net.Start();
             }
         }
@@ -46,6 +49,7 @@ namespace immunity
                 connection = new TcpClient();
                 connection.Connect("whg.no", 7707);
                 netmsgs = new Thread(new ThreadStart(Receive));
+                netmsgs.IsBackground = true;
                 netmsgs.Start();
                 connected = true;
                 toastnet.AddMessage("Connected to server!", new TimeSpan(0, 0, 3), 10, 10);
@@ -67,7 +71,7 @@ namespace immunity
 
         public void Receive()
         {
-            StreamReader reader = new StreamReader(connection.GetStream());
+            reader = new StreamReader(connection.GetStream());
 
             string reply = null;
             while (connected)
@@ -125,7 +129,10 @@ namespace immunity
         {
             running = false;
             if (connected)
+            {
+                reader.Close();
                 connection.Close();
+            }
         }
     }
 }

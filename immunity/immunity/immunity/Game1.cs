@@ -437,8 +437,13 @@ namespace immunity
             string[] action = n.Split(new string[] { ";" }, StringSplitOptions.None);
             switch (action[0])
             {
-                case "needusername":
-                    network.Deliver("username;" + player.Name);
+                case "username":
+                    if (action[1] != "ok")
+                    {
+                        player.Name = null;
+                        userName.Value = "";
+                        toast.AddMessage("Username in use", new TimeSpan(0,0,3));
+                    }
                     break;
                 case "startlobby":
                     toast.AddMessage("In lobby", new TimeSpan(0, 0, 3));
