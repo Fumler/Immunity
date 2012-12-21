@@ -226,8 +226,9 @@ namespace immunity
                 }
             }
         }
-        public void Upgrade()
+        public int Upgrade()
         {
+            int cost = 0;
             switch (type)
             {
                 case 10:
@@ -235,10 +236,12 @@ namespace immunity
                     type++;
                     UpdateAttributes(type);
                     texture = ContentHolder.TowerTextures[type];
+                    cost = GetCost(type);
                     break;
                 default:
                     break;
             }
+            return cost;
         }
     }
 }

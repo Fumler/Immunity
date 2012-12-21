@@ -100,7 +100,7 @@ namespace immunity
             cellX = (int)(mouse.currentMouseState.X / 32);
             cellY = (int)((mouse.currentMouseState.Y - 24) / 32);
 
-            if (mouse.ReleaseLeftClick && (map.Height - 1) >= cellY && (map.Width - 1) >= cellX)
+            if (mouse.ReleaseLeftClick && (map.Height - 1) >= cellY && (map.Width - 1) >= cellX && cellX >= 0 && cellY >= 0)
             {
                 if (newTowerType != 0 && !waveHandler.WaveStarted())
                 {
@@ -135,7 +135,7 @@ namespace immunity
                             if (t.Count == 0)
                             {
                                 map.AddToMap(cellX, cellY, 0);
-                                toast.AddMessage("ಠ_ಠ Du är for dårlig at bygga tårn.", new TimeSpan(0, 0, 3));
+                                toast.AddMessage("ಠ_ಠ Du är for dårlig at bygga tårn.");
                                 gold += Tower.GetCost(newTowerType);
                             }
                             else
@@ -147,7 +147,7 @@ namespace immunity
                         }
                         else
                         {
-                            toast.AddMessage("(╯°□°）╯︵ ʎǝuoɯ ǝɹoɯ ou", new TimeSpan(0, 0, 3));
+                            toast.AddMessage("(╯°□°）╯︵ ʎǝuoɯ ǝɹoɯ ou");
                         }
                     }
                 }else if (towers[cellX, cellY] != null && newTowerType == 0 && towers[cellX, cellY].Type != 1)

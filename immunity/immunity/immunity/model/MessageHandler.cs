@@ -47,10 +47,18 @@ namespace immunity
             }
         }
 
-        public void AddMessage(String text, TimeSpan timeTilDeath)
+        public void AddMessage(string text)
         {
-            TimeSpan temp = gameTime + timeTilDeath;
-            this.timeToLive.Add(temp);
+            this.timeToLive.Add(gameTime + new TimeSpan(0, 0, 3));
+            this.message.Add(text);
+            Vector2 pos = new Vector2();
+            pos.X = (int)((screenWidth / 2) - font.MeasureString(text).X * 0.5);
+            pos.Y = screenHeight / 2 - 20;
+            this.position.Add(pos);
+        }
+        public void AddMessage(string text, TimeSpan timeTilDeath)
+        {
+            this.timeToLive.Add(gameTime + timeTilDeath);
             this.message.Add(text);
             Vector2 pos = new Vector2();
             pos.X = (int)((screenWidth / 2) - font.MeasureString(text).X * 0.5);
@@ -58,10 +66,16 @@ namespace immunity
             this.position.Add(pos);
         }
 
-        public void AddMessage(String text, TimeSpan timeTilDeath, int x, int y)
+        public void AddMessage(string text, int x, int y)
         {
-            TimeSpan temp = gameTime + timeTilDeath;
-            this.timeToLive.Add(temp);
+            this.timeToLive.Add(gameTime + new TimeSpan(0, 0, 3));
+            this.message.Add(text);
+            this.position.Add(new Vector2(x, y));
+        }
+
+        public void AddMessage(string text, TimeSpan timeTilDeath, int x, int y)
+        {
+            this.timeToLive.Add(gameTime + timeTilDeath);
             this.message.Add(text);
             this.position.Add(new Vector2(x, y));
         }

@@ -298,7 +298,7 @@ namespace immunity
                                 network.Deliver("username;" + userName.Value);
                         }
                         else
-                            toast.AddMessage("You need a username", new TimeSpan(0, 0, 3));
+                            toast.AddMessage("You need a username");
                     }
                 }
                 else
@@ -464,7 +464,7 @@ namespace immunity
                     }
                     break;
                 case "startlobby":
-                    toast.AddMessage("In lobby", new TimeSpan(0, 0, 3));
+                    toast.AddMessage("In lobby");
                     gameState = GameState.Lobby;
                     break;
                 case "msglobby":
@@ -485,19 +485,21 @@ namespace immunity
             }
         }
 
+        /// <summary>
+        /// Is triggered by the user clicking on a button. The action string then tells it what to do.
+        /// </summary>
         private void ButtonClicked(string actionType)
         {
             switch (actionType)
             {
                 case "0":
-
-                    // toast.AddMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
+                    // toast.AddMessage("Dude, you can't start a new wave yet....... ಠ益ಠ");
                     waveHandler.StartNextWave();
                     player.Wave = waveHandler.WaveNumber;
                     SaveGame("Auto_Save");
                     break;
                 case "upgradetower":
-                    player.SelectedTower.Upgrade();
+                    player.Gold -= player.SelectedTower.Upgrade();
                     player.UpdateTowerList();
                     break;
                 case "13": gameState = GameState.Running;
@@ -512,7 +514,7 @@ namespace immunity
                     }
                     else
                     {
-                        toast.AddMessage("Not connected to the server", new TimeSpan(0, 0, 3));
+                        toast.AddMessage("Not connected to the server");
                         network.Retry();
                     }
                     break;
@@ -529,6 +531,9 @@ namespace immunity
             }
         }
 
+        /// <summary>
+        /// Is triggered when clicking on of the buttons in the multiplayer part of the game.
+        /// </summary>
         private void MPButtonClicked(string actionType)
         {
             string[] action = actionType.Split(new string[] { ";" }, StringSplitOptions.None);
@@ -536,15 +541,15 @@ namespace immunity
             switch (action[0])
             {
                 case "createlobby":
-                    networkMessages.AddMessage("Created lobby", new TimeSpan(0, 0, 3), 10, 10);
+                    networkMessages.AddMessage("Created lobby", 10, 10);
                     network.Deliver("createlobby;"+lobbyName.Value);
                     break;
                 case "joinlobby":
-                    networkMessages.AddMessage("Joining lobby", new TimeSpan(0, 0, 3), 10, 10);
+                    networkMessages.AddMessage("Joining lobby", 10, 10);
                     network.Deliver("joinlobby;" + action[1]);
                     break;
                 case "leavelobby":
-                    networkMessages.AddMessage("Left lobby", new TimeSpan(0, 0, 3), 10, 10);
+                    networkMessages.AddMessage("Left lobby", 10, 10);
                     network.Deliver("leavelobby;");
                     gameState = GameState.ServerList;
                     break;
@@ -555,16 +560,25 @@ namespace immunity
             }
         }
 
+        /// <summary>
+        /// Event triggered when one of the units dies.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UnitDeath(object sender, EventArgs e)
         {
             player.Gold += 30;
             player.Kills++;
-            System.Diagnostics.Debug.WriteLine(player.Kills);
         }
 
+        /// <summary>
+        /// Event triggered when one of the viruses reach the end of the path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UnitReachEnd(object sender, EventArgs e)
         {
-            toast.AddMessage("Virus made it to your brain!", new TimeSpan(0, 0, 3));
+            toast.AddMessage("Virus made it to your brain!");
             player.Lives--;
         }
 
