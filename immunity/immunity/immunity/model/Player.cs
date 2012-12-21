@@ -21,6 +21,7 @@ namespace immunity
         private Texture2D tile;
 
         private Tower[,] towers;
+        private Tower selectedTower = null;
 
         public Player(int lives, int gold, ref Map map)
         {
@@ -75,6 +76,17 @@ namespace immunity
             get { return newTowerType; }
         }
 
+        public Tower SelectedTower
+        {
+            get { return selectedTower; }
+        }
+
+        public void UpdateTowerList()
+        {
+            System.Diagnostics.Debug.WriteLine(" x "+ selectedTower.Type);
+            towers[selectedTower.PositionX,selectedTower.PositionY] = selectedTower;
+        }
+
         public void Update(ref List<Unit> enemies, GameTime gameTime, MessageHandler toast, ref PathView path)
         {
             mouse.Update();
@@ -86,10 +98,8 @@ namespace immunity
             {
                 if (newTowerType != 0)
                 {
-                    if (towers[cellX, cellY] != null && newTowerType == 0)
-                    {
-                    }
-                    else if (map.GetIndex(cellX, cellY) != 0 && towers[cellX, cellY] != null && newTowerType == 3)
+                    selectedTower = null;
+                    if (map.GetIndex(cellX, cellY) != 0 && towers[cellX, cellY] != null && newTowerType == 3)
                     {
                         int sellType = map.GetIndex(cellX, cellY);
                         if (sellType == 1)
@@ -134,11 +144,15 @@ namespace immunity
                             toast.AddMessage("(╯°□°）╯︵ ʎǝuoɯ ǝɹoɯ ou", new TimeSpan(0, 0, 3));
                         }
                     }
+                }else if (towers[cellX, cellY] != null && newTowerType == 0)
+                {
+                    selectedTower = towers[cellX, cellY];
                 }
             }
             if (mouse.ReleaseRightClick)
             {
                 newTowerType = 0;
+                selectedTower = null;
             }
 
             for (int y = 0; y < towers.GetLength(1); y++)

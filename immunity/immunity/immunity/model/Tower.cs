@@ -11,7 +11,7 @@ namespace immunity
         protected int cellPositionX, cellPositionY;
         protected int cost;
         protected int damage;
-        protected int level;
+        protected int type;
         protected int range;
         protected float fireDelay;
         protected int ammunitionSpeed;
@@ -36,9 +36,10 @@ namespace immunity
             set { this.type = value; }
         }
 
-        public int Level
+        public int Type
         {
-            get { return level; }
+            get { return type; }
+            set { this.type = value; }
         }
 
         public int Range
@@ -51,9 +52,19 @@ namespace immunity
             get { return target; }
         }
 
+        public int PositionX
+        {
+            get { return cellPositionX; }
+        }
+        public int PositionY
+        {
+            get { return cellPositionY; }
+        }
+
         public Tower(int type, int cellX, int cellY)
             : base(turret)
         {
+            this.type = type;
             cellPositionX = cellX;
             cellPositionY = cellY;
             ammunitionList = new List<Ammunition>();
@@ -173,7 +184,6 @@ namespace immunity
             else
             {
                 spriteBatch.Draw(texture, center, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 0);
-
             }
         }
 
@@ -214,6 +224,20 @@ namespace immunity
                     ammunitionList.Remove(ammunitionList[i]);
                     i--;
                 }
+            }
+        }
+        public void Upgrade()
+        {
+            switch (type)
+            {
+                case 10:
+                case 20:
+                    type++;
+                    UpdateAttributes(type);
+                    texture = ContentHolder.TowerTextures[type];
+                    break;
+                default:
+                    break;
             }
         }
     }

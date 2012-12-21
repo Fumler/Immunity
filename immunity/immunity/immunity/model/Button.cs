@@ -62,6 +62,15 @@ namespace immunity
             set { this.textureID = value; }
         }
 
+        public Vector2 Position
+        {
+            set 
+            { 
+                bounds.X = (int)value.X;
+                bounds.Y = (int)value.Y;
+            }
+        }
+
         public static List<SpriteFont> Fonts
         {
             set { fonts = value; }

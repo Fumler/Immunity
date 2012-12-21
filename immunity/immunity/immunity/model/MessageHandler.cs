@@ -38,7 +38,6 @@ namespace immunity
                 {
                     if (gameTime > timeToLive[i])
                     {
-                        System.Diagnostics.Debug.WriteLine(timeToLive[i]);
                         timeToLive.Remove(timeToLive[i]);
                         message.Remove(message[i]);
                         position.Remove(position[i]);
@@ -57,7 +56,6 @@ namespace immunity
             pos.X = (int)((screenWidth / 2) - font.MeasureString(text).X * 0.5);
             pos.Y = screenHeight / 2 - 20;
             this.position.Add(pos);
-            System.Diagnostics.Debug.WriteLine("Added toast" + message.Count);
         }
 
         public void AddMessage(String text, TimeSpan timeTilDeath, int x, int y)
@@ -66,7 +64,6 @@ namespace immunity
             this.timeToLive.Add(temp);
             this.message.Add(text);
             this.position.Add(new Vector2(x, y));
-            System.Diagnostics.Debug.WriteLine("Added toast" + message.Count);
         }
 
         public void Draw(SpriteBatch spriteBatch)

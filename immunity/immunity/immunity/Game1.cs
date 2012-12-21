@@ -32,6 +32,7 @@ namespace immunity
         private const int MENUBUTTONOFFSET_X = 200;
         private List<Button> actionButtons;
         private List<Button> menuButtons, joinLobbyButtons, multiplayerButtons;
+        private Button upgradeTowerButton;
         private MessageHandler toast, networkMessages;
 
         private GraphicsDeviceManager graphics;
@@ -114,6 +115,10 @@ namespace immunity
             actionButtons.Add(new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), "3", "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D, 5));
             actionButtons.Add(new Button(new Rectangle(width - ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "0", "Starts a new wave.", Keys.N, 6));
             actionButtons.Add(new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 3), height - ACTIONBUTTONOFFSET_X, 60, 60), "1", "Place a blocking tower. 5 gold - 100% return.", Keys.D3, 15));
+
+            // Upgrade tower button
+            upgradeTowerButton = new Button(new Rectangle(0, 0, 60, 60), "upgradetower", "Upgrade the tower?", Keys.D9, 15);
+
             Gui.SetScreenSize(width, height);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
@@ -183,6 +188,10 @@ namespace immunity
             foreach (Button mpbtn in multiplayerButtons)
                 mpbtn.clicked += new Button.EventHandler(MPButtonClicked);
 
+            upgradeTowerButton.clicked += new Button.EventHandler(ButtonClicked);
+
+            // Event handler triggered by the Network.Receive function
+            // Triggers when a message is sent from the server
             network.received += new Network.EventHandler(ReceivedNetwork);
 
             // Event trigger for unit death
@@ -317,6 +326,9 @@ namespace immunity
                 actionbar.Draw(spriteBatch, 0, ref player);
                 topbar.Draw(spriteBatch, 1, ref player);
 
+                if (player.SelectedTower != null)
+                    upgradeTowerButton.Draw(spriteBatch);
+
                 foreach (Button actionbtn in actionButtons)
                     actionbtn.Draw(spriteBatch);
             }
@@ -384,6 +396,12 @@ namespace immunity
                 if (input.IsKeyPressedOnce(Keys.Escape))
                 {
                     gameState = GameState.Menu;
+                }
+
+                if (player.SelectedTower != null)
+                {
+                    upgradeTowerButton.Update();
+                    upgradeTowerButton.Position = new Vector2(player.SelectedTower.PositionX * Map.TILESIZE, (player.SelectedTower.PositionY * Map.TILESIZE) - Map.TILESIZE);
                 }
 
                 waveHandler.Update(gameTime);
@@ -478,7 +496,10 @@ namespace immunity
                     player.Wave = waveHandler.WaveNumber;
                     SaveGame("Auto_Save");
                     break;
-
+                case "upgradetower":
+                    player.SelectedTower.Upgrade();
+                    player.UpdateTowerList();
+                    break;
                 case "13": gameState = GameState.Running;
                     gameStateNumber = false;
                     break;
