@@ -412,8 +412,6 @@ namespace immunity
                     chatBox.Value = "";
                 }
             }
-            if (input.IsKeyPressedOnce(Keys.F3))
-                network.Disconnect();
 
             toast.Update(gameTime.TotalGameTime);
             networkMessages.Update(gameTime.TotalGameTime);
@@ -445,15 +443,14 @@ namespace immunity
                     network.Deliver("username;" + player.Name);
                     break;
                 case "startlobby":
+                    toast.AddMessage("In lobby", new TimeSpan(0, 0, 3));
                     gameState = GameState.Lobby;
                     break;
-
                 case "msglobby":
                     if (chatlog.Count > 30)
                         chatlog.RemoveAt(0);
                     chatlog.Add(action[1]);
                     break;
-
                 case "listlobby":
                     lobbyList.Clear();
                     for (int i = 1; i < action.Length - 1; i++)
