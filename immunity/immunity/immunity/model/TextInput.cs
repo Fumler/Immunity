@@ -60,6 +60,69 @@ namespace immunity
                 {
                     if (hwInput.previousKeyState.IsKeyUp(key))
                     {
+
+                        //foreach (Keys k in System.Enum.GetValues(typeof(Keys)))
+                        //{
+                        //    System.Diagnostics.Debug.WriteLine("Key: " + k);
+
+                        //    if (k.ToString().Contains("F"))
+                        //    {
+
+                        //    }
+
+                        //    else if (k.ToString().Contains("Space"))
+                        //    {
+                        //        input += " ";
+                        //    }
+
+                        //    else if (k.ToString().Contains("D"))
+                        //    {
+                                
+                        //        if(k.ToString()[1] >= 0 && k.ToString()[1] <= 9) 
+                        //        {
+                        //            if(hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift)) {
+                        //                switch (k) {
+                        //                    case Keys.D1: input += "!"; break;
+                        //                    case Keys.D2: input += "\""; break;
+                        //                    case Keys.D3: input += "#"; break;
+                        //                    case Keys.D4: input += "¤"; break;
+                        //                    case Keys.D5: input += "%"; break;
+                        //                    case Keys.D6: input += "&"; break;
+                        //                    case Keys.D7: input += "/"; break;
+                        //                    case Keys.D8: input += "("; break;
+                        //                    case Keys.D9: input += ")"; break;
+                        //                    case Keys.D0: input += "="; break;
+                        //                }
+                        //            }
+                        //             else if(hwInput.IsKeyPressed(Keys.RightAlt)) {
+                        //                switch (k) {
+                        //                    case Keys.D1: input += "1"; break;
+                        //                    case Keys.D2: input += "@"; break;
+                        //                    case Keys.D3: input += "£"; break;
+                        //                    case Keys.D4: input += "$"; break;
+                        //                    case Keys.D5: input += "€"; break;
+                        //                    case Keys.D6: input += "6"; break;
+                        //                    case Keys.D7: input += "{"; break;
+                        //                    case Keys.D8: input += "["; break;
+                        //                    case Keys.D9: input += "]"; break;
+                        //                    case Keys.D0: input += "}"; break;
+                        //                }
+                        //            }
+                        //            else {
+                                        
+                        //                input += k.ToString()[1];
+                                        
+                        //             }
+                        //        }
+
+                        //    }
+
+                        //    else (k.ToString().Contains("F"))
+                        //    {
+
+                        //    }
+    
+                        //}
                         switch (key)
                         {
                             case Keys.Back:
