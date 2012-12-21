@@ -400,8 +400,6 @@ namespace immunity
 
                 if (input.IsKeyPressedOnce(Keys.F3))
                     network.Deliver("listlobby;");
-                if (input.IsKeyPressedOnce(Keys.F2))
-                    network.Deliver("createlobby;" + userName.Value);
             }
             else if (gameState == GameState.Lobby)
             {
@@ -508,7 +506,6 @@ namespace immunity
         private void MPButtonClicked(string actionType)
         {
             string[] action = actionType.Split(new string[] { ";" }, StringSplitOptions.None);
-            toast.AddMessage("Clicked", new TimeSpan(0, 0, 3));
 
             switch (action[0])
             {
