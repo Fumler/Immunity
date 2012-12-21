@@ -22,6 +22,12 @@ namespace immunity
             this.lastPressedKeys = new Keys[0];
         }
 
+        public bool Active
+        {
+            set { this.typing = value; }
+            get { return typing; }
+        }
+
         public string Value
         {
             set { this.input = value; }
