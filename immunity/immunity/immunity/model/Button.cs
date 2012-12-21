@@ -17,8 +17,6 @@ namespace immunity
     {
         private Input input = new Input();
 
-        private MouseState previousState;
-
         private static List<Texture2D> buttons;
 
         private Rectangle bounds;
@@ -29,15 +27,15 @@ namespace immunity
 
         private String tooltip;
 
-        private GraphicsDevice graphicsDevice;
         private static GameTime gametime;
         private int textureID;
 
         public event EventHandler clicked;
+        public delegate void EventHandler(string n);
 
         private Keys key;
 
-        public int type = 10;
+        public string type = "10";
         private int cellX;
         private int cellY;
         private static int gameWidth;
@@ -78,14 +76,14 @@ namespace immunity
             this.bounds = bounds;
         }
 
-        public Button(Rectangle bounds, int type, Keys key)
+        public Button(Rectangle bounds, string type, Keys key)
         {
             this.bounds = bounds;
             this.type = type;
             this.key = key;
         }
 
-        public Button(Rectangle bounds, int type, string tooltip, Keys key, int texture)
+        public Button(Rectangle bounds, string type, string tooltip, Keys key, int texture)
         {
             this.bounds = bounds;
             this.type = type;
@@ -93,8 +91,7 @@ namespace immunity
             this.key = key;
             this.textureID = texture;
         }
-
-        public Button(Rectangle bounds, int type, string tooltip, int cellX, int cellY, Keys key)
+        public Button(Rectangle bounds, string type, string tooltip, int cellX, int cellY, Keys key)
         {
             this.bounds = bounds;
             this.type = type;
@@ -141,7 +138,7 @@ namespace immunity
             {
                 if (clicked != null)
                 {
-                    clicked(this, EventArgs.Empty);
+                    clicked(this.type);
                 }
             }
         }
@@ -189,7 +186,7 @@ namespace immunity
                     {
                         if (clicked != null)
                         {
-                            clicked(this, EventArgs.Empty);
+                            clicked(this.type);
                             state = MouseStatus.Normal;
                         }
                     }

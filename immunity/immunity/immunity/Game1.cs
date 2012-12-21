@@ -63,7 +63,7 @@ namespace immunity
         private TextInput serverName;
         private Network network;
         private List<Gui> lobbyList;
-
+        //private delegate void EventHandler(string lobby);
 
         private StorageHandler storageHandler;
 
@@ -99,10 +99,10 @@ namespace immunity
 
             // Action bar objects
             actionButtons = new List<Button>();
-            actionButtons.Add(new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), 10, "Basic ranged tower, low damage, single target.", Keys.D1, 1));
-            actionButtons.Add(new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), 20, "Basic splash tower, high damage, multiple targets.", Keys.D2, 3));
-            actionButtons.Add(new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), 3, "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D, 5));
-            actionButtons.Add(new Button(new Rectangle(width - ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), 0, "Starts a new wave.", Keys.N, 6));
+            actionButtons.Add(new Button(new Rectangle(5, height - ACTIONBUTTONOFFSET_X, 60, 60), "10", "Basic ranged tower, low damage, single target.", Keys.D1, 1));
+            actionButtons.Add(new Button(new Rectangle(5 + ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "20", "Basic splash tower, high damage, multiple targets.", Keys.D2, 3));
+            actionButtons.Add(new Button(new Rectangle(width - (ACTIONBUTTONOFFSET_X * 2), height - ACTIONBUTTONOFFSET_X, 60, 60), "3", "Deletes a tower, 50% gold return for normal towers, 100% for walls.", Keys.D, 5));
+            actionButtons.Add(new Button(new Rectangle(width - ACTIONBUTTONOFFSET_X, height - ACTIONBUTTONOFFSET_X, 60, 60), "0", "Starts a new wave.", Keys.N, 6));
             Gui.SetScreenSize(width, height);
             topbar = new Gui(new Rectangle(0, 0, width, 24));
             actionbar = new Gui(new Rectangle(0, (height - 70), width, 70));
@@ -111,11 +111,11 @@ namespace immunity
 
             // Menu objects
             menuButtons = new List<Button>();
-            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X, 400, 70), 13, "Start a new game.", Keys.D1, 7));
-            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75, 400, 70), 14, "Multiplayer.", Keys.D2,8));
-            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 2), 400, 70), 15, "Check the game controls.", Keys.D3, 9));
-            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 3), 400, 70), 17, "Save the game.", Keys.D4, 13));
-            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 4), 400, 70), 16, "Exit the game.", Keys.D5, 10));
+            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X, 400, 70), "13", "Start a new game.", Keys.D1, 7));
+            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + 75, 400, 70), "14", "Multiplayer.", Keys.D2,8));
+            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 2), 400, 70), "15", "Check the game controls.", Keys.D3, 9));
+            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 3), 400, 70), "17", "Save the game.", Keys.D4, 13));
+            menuButtons.Add(new Button(new Rectangle(width / 2 - MENUBUTTONOFFSET_X, MENUBUTTONOFFSET_X + (75 * 4), 400, 70), "16", "Exit the game.", Keys.D5, 10));
 
             // Multiplayer buttons
             multiplayerButtons = new List<Button>();
@@ -159,12 +159,11 @@ namespace immunity
             // Button event function triggers
             // Menu button events
             foreach (Button actionbtn in actionButtons)
-                actionbtn.clicked += new EventHandler(ButtonClicked);
+                actionbtn.clicked += new Button.EventHandler(ButtonClicked);
             
             // Menu button events
             foreach (Button menubtn in menuButtons)
-                menubtn.clicked += new EventHandler(ButtonClicked);
-            
+                menubtn.clicked += new Button.EventHandler(ButtonClicked);
 
             network.received += new Network.EventHandler(ReceivedNetwork);
 
@@ -315,6 +314,7 @@ namespace immunity
         {
             input.Update();
             Button.Gametime = gameTime;
+
             if (gameState == GameState.Menu)
             {
                 if (input.IsKeyPressedOnce(Keys.Escape))
@@ -403,39 +403,52 @@ namespace immunity
                     for (int i = 1; i < action.Length-1; i++)
                     {
                         lobbyList.Add(new Gui(new Rectangle(116, (i*15)+85, width-200, 30), action[i]+" | Users: "+action[i+1]));
-                        multiplayerButtons.Add(new Button(new Rectangle(100, (i*15)+85, 16, 16), 13, "Join Lobby",Keys.None, 14));
+                        multiplayerButtons.Add(new Button(new Rectangle(100, (i * 15) + 85, 16, 16), "joinlobby;"+action[i], "Join Lobby", Keys.None, 14));
+                        multiplayerButtons[multiplayerButtons.Count - 1].clicked += new Button.EventHandler(MPButtonClicked);
                         i++;
                     }
                     break;
             }
         }
 
-        private void ButtonClicked(object sender, EventArgs e)
+        private void ButtonClicked(string actionType)
         {
-            int actionType = ((Button)sender).type;
-
             switch (actionType)
             {
-                case 0:
+                case "0":
                     // toast.AddMessage("Dude, you can't start a new wave yet....... ಠ益ಠ", new TimeSpan(0, 0, 3));
                     waveHandler.StartNextWave();
                     player.Wave = waveHandler.WaveNumber;
                     SaveGame("Auto_Save");
                     break;
 
-                case 13: gameState = GameState.Running;
+                case "13": gameState = GameState.Running;
                     gameStateNumber = false;
                     break;
-                case 14: gameState = GameState.ServerList; /* Multiplayer */ break;
-                case 15: /* show controls */ break;
-                case 16:
+                case "14": gameState = GameState.ServerList; /* Multiplayer */ break;
+                case "15": /* show controls */ break;
+                case "16":
                     /* CLOSE GAME */
                     network.Disconnect();
 
                     this.Exit(); break;
-                case 17: SaveGame("Player_Save"); break;
+                case "17": SaveGame("Player_Save"); break;
 
-                default: player.NewTowerType = ((Button)sender).type; break;
+                default: player.NewTowerType = Convert.ToInt32(actionType); break;
+            }
+        }
+        private void MPButtonClicked(string actionType)
+        {
+            string[] action = actionType.Split(new string[] { ";" }, StringSplitOptions.None);
+            toast.AddMessage("Clicked", new TimeSpan(0, 0, 3));
+
+            switch (action[0])
+            {
+                case "joinlobby":
+                    toast.AddMessage("Joining lobby", new TimeSpan(0, 0, 3));
+                    network.Deliver("joinlobby;"+action[1]);
+                    break;
+                default: break;
             }
         }
 
