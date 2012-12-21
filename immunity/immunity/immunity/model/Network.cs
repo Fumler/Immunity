@@ -13,9 +13,9 @@ namespace immunity
     {
         private TcpClient connection;
         private bool connected = false;
+        private bool running = true;
         private MessageHandler toastnet;
         private Thread netmsgs, net;
-        private bool running = true;
 
         public event EventHandler received;
         public delegate void EventHandler(string n);
@@ -25,85 +25,85 @@ namespace immunity
             get { return connected; }
         }
 
-        public void Toast(ref MessageHandler messageHandler)
+        public void Init(ref MessageHandler messageHandler)
         {
             toastnet = messageHandler;
+            net = new Thread(new ThreadStart(ConnectToServer));
+            net.Start();
         }
-
+        public void Retry()
+        {
+            if (!net.IsAlive)
+            {
+                net = new Thread(new ThreadStart(ConnectToServer));
+                net.Start();
+            }
+        }
         public void ConnectToServer()
         {
+            toastnet.AddMessage("in!", new TimeSpan(0, 0, 3));
             try
             {
                 connection = new TcpClient();
                 connection.Connect("whg.no", 7707);
+                netmsgs = new Thread(new ThreadStart(Receive));
+                netmsgs.Start();
                 connected = true;
                 toastnet.AddMessage("Connected to server!", new TimeSpan(0, 0, 3), 10, 10);
                 System.Diagnostics.Debug.WriteLine("Connected");
             }
             catch (Exception e)
             {
+                connected = false;
                 System.Diagnostics.Debug.WriteLine("No connection to server");
                 //toastnet.AddMessage("Could not connect to server!", new TimeSpan(0, 0, 3), 10, 10);
             }
+            toastnet.AddMessage("OUT!", new TimeSpan(0, 0, 3));
         }
         public Network()
         {
-            net = new Thread(new ThreadStart(startConnecting));
-            net.Start();
-        }
-        private void startConnecting()
-        {
-            do
-            {
-                Thread.Sleep(3000);
-                if (!running)
-                    connected = true;
-                ConnectToServer();
-            } while (!connected);
-            if(running)
-            {
-                netmsgs = new Thread(new ThreadStart(Receive));
-                netmsgs.Start();
-            }
         }
         public void Receive()
         {
             StreamReader reader = new StreamReader(connection.GetStream());
 
             string reply = null;
-            try
+            while (connected)
             {
-                while (true)
+                System.Diagnostics.Debug.WriteLine("Thread");
+                try
                 {
-                    System.Diagnostics.Debug.WriteLine("Thread");
-
                     reply = reader.ReadLine();
-                    if (reply != "")
+                }
+                catch (Exception e)
+                {
+                    reply = null;
+                }
+                if (reply != null)
+                {
+                    toastnet.AddMessage(reply, new TimeSpan(0, 0, 3), 10, 10);
+                    string[] action = reply.Split(new string[] { ";" }, StringSplitOptions.None);
+                    switch (action[0])
                     {
-                        toastnet.AddMessage(reply, new TimeSpan(0, 0, 3), 10, 10);
-                        string[] action = reply.Split(new string[] { ";" }, StringSplitOptions.None);
-                        switch (action[0])
-                        {
-                            case "sysmsg":
-                                toastnet.AddMessage(action[1], new TimeSpan(0, 0, 3), 10, 10);
-                                break;
-                            default:
-                                received(reply);
-                                break;
-                        }
+                        case "sysmsg":
+                            toastnet.AddMessage(action[1], new TimeSpan(0, 0, 3), 10, 10);
+                            break;
+                        default:
+                            received(reply);
+                            break;
                     }
                 }
+                else
+                {
+                    connected = false;
+                }
             }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("OH NOES");
-                toastnet.AddMessage("Lost connection", new TimeSpan(0, 0, 3), 10, 10);
-            }
+            toastnet.AddMessage("STOPPED!", new TimeSpan(0, 0, 3));
         }
         public void Deliver(string msg)
         {
             if (!connected)
-                ConnectToServer();
+                Retry();
             try
             {
                 StreamWriter writer = new StreamWriter(connection.GetStream());

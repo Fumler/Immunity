@@ -60,7 +60,7 @@ namespace immunity
         private WaveHandler waveHandler;
 
         private Input input;
-        private TextInput serverName;
+        private TextInput userName;
         private Network network;
         private List<Gui> lobbyList;
         //private delegate void EventHandler(string lobby);
@@ -92,7 +92,7 @@ namespace immunity
             input = new Input();
             toast = new MessageHandler(width, height);
             networkMessages = new MessageHandler(width, height);
-            serverName = new TextInput(new Rectangle((width / 2)-200, 50, 200, 50));
+            userName = new TextInput(new Rectangle((width / 2)-100, (height/2)-10, 200, 20));
             network = new Network();
             chatlog = new List<string>();
             lobbyList = new List<Gui>();
@@ -192,9 +192,9 @@ namespace immunity
 
             toast.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts[2]);
             networkMessages.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts[1]);
-            network.Toast(ref networkMessages);
+            network.Init(ref networkMessages);
 
-            serverName.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
+            userName.InitVars(ContentHolder.Buttons[1], ContentHolder.Fonts);
             Button.Buttons = ContentHolder.Buttons;
             Gui.Font = ContentHolder.Fonts[1];
             Gui.Sprites = ContentHolder.GuiSprites;
@@ -249,18 +249,39 @@ namespace immunity
 
             if (gameState == GameState.Menu)
             {
-                graphics.GraphicsDevice.Clear(Color.DarkRed);
-
-                // menu buttons
-                if (gameStateNumber)
-                    menuButtons[0].TextureID = 7;
+                if (player.Name == null)
+                {
+                    graphics.GraphicsDevice.Clear(Color.DarkRed);
+                    spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
+                    spriteBatch.DrawString(ContentHolder.Fonts[1], "Enter your desired username", new Vector2((width/2)-90, (height/2)-30), Color.White);
+                    userName.Draw(spriteBatch);
+                    if (input.IsKeyPressedOnce(Keys.Enter))
+                    {
+                        if (userName.Value != "")
+                        {
+                            player.Name = userName.Value;
+                            if (network.Connected)
+                                network.Deliver("username;" + userName.Value);
+                        }
+                        else
+                            toast.AddMessage("You need a username", new TimeSpan(0, 0, 3));
+                    }
+                }
                 else
-                    menuButtons[0].TextureID = 12;
+                {
+                    graphics.GraphicsDevice.Clear(Color.DarkRed);
 
-                foreach (Button menubtn in menuButtons)
-                    menubtn.Draw(spriteBatch);
+                    // menu buttons
+                    if (gameStateNumber)
+                        menuButtons[0].TextureID = 7;
+                    else
+                        menuButtons[0].TextureID = 12;
 
-                spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
+                    foreach (Button menubtn in menuButtons)
+                        menubtn.Draw(spriteBatch);
+
+                    spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
+                }
             }
             else if (gameState == GameState.Running)
             {
@@ -276,7 +297,8 @@ namespace immunity
             }
             else if (gameState == GameState.ServerList)
             {
-                serverName.Draw(spriteBatch);
+                graphics.GraphicsDevice.Clear(Color.DarkRed);
+                spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
                 //int j = 0;
                 foreach (Gui entry in lobbyList)
                 {
@@ -288,7 +310,8 @@ namespace immunity
             }
             else if (gameState == GameState.Lobby)
             {
-                serverName.Draw(spriteBatch);
+                graphics.GraphicsDevice.Clear(Color.DarkRed);
+                spriteBatch.Draw(ContentHolder.GuiSprites[3], new Rectangle((width / 2) - (ContentHolder.GuiSprites[3].Width / 2), 50, ContentHolder.GuiSprites[3].Width, ContentHolder.GuiSprites[3].Height), Color.White);
                 int i = 0;
                 foreach (String text in chatlog)
                 {
@@ -314,6 +337,7 @@ namespace immunity
         {
             input.Update();
             Button.Gametime = gameTime;
+            userName.Update();
 
             if (gameState == GameState.Menu)
             {
@@ -338,32 +362,24 @@ namespace immunity
             }
             else if(gameState == GameState.ServerList)
             {
-                if (!network.Connected)
-                {
-                    gameState = GameState.Menu;
-                    toast.AddMessage("Not connected to the server", new TimeSpan(0,0,3));
-                }
-
                 foreach (Button mpbtn in multiplayerButtons)
                     mpbtn.Update();
 
-                serverName.Update();
                 if (input.IsKeyPressedOnce(Keys.F3))
                     network.Deliver("listlobby;");
                 if (input.IsKeyPressedOnce(Keys.F2))
-                    network.Deliver("createlobby;"+serverName.Value);
-                if (input.IsKeyPressedOnce(Keys.F1))
-                    network.Deliver("username;"+serverName.Value);
+                    network.Deliver("createlobby;"+userName.Value);
 
             }else if(gameState == GameState.Lobby)
             {
-                serverName.Update();
                 if (input.IsKeyPressedOnce(Keys.Enter))
                 {
-                    network.Deliver("msglobby;" + serverName.Value);
-                    serverName.Value = "";
+                    network.Deliver("msglobby;" + userName.Value);
+                    userName.Value = "";
                 }
             }
+            if (input.IsKeyPressedOnce(Keys.F3))
+                network.Disconnect();
 
             toast.Update(gameTime.TotalGameTime);
             networkMessages.Update(gameTime.TotalGameTime);
@@ -425,7 +441,16 @@ namespace immunity
                 case "13": gameState = GameState.Running;
                     gameStateNumber = false;
                     break;
-                case "14": gameState = GameState.ServerList; /* Multiplayer */ break;
+                case "14":
+                     /* Multiplayer */
+                    if (network.Connected)
+                        gameState = GameState.ServerList;
+                    else
+                    {
+                        toast.AddMessage("Not connected to the server", new TimeSpan(0, 0, 3));
+                        network.Retry();
+                    }
+                    break;
                 case "15": /* show controls */ break;
                 case "16":
                     /* CLOSE GAME */

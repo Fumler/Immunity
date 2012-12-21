@@ -16,6 +16,7 @@ namespace immunity
         private int newTowerType = 0;
         private Input mouse = new Input();
         private Map map;
+        private string name;
 
         private Texture2D tile;
 
@@ -37,6 +38,12 @@ namespace immunity
         {
             get { return lives; }
             set { this.lives = value; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set { this.name = value; }
         }
 
         public int Wave
