@@ -1,4 +1,4 @@
 Immunity
 ========
 
-A "health" game where you fight off cancer cells in RTS style
+A "health"  tower defence game where you fight off viruses as they try to infect your brain. 
