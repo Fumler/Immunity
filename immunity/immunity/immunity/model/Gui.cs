@@ -43,7 +43,7 @@ namespace immunity
             stringCenter = font.MeasureString(text.ToUpper());
         }
 
-        public void Draw(SpriteBatch spriteBatch, int texture, Player player)
+        public void Draw(SpriteBatch spriteBatch, int texture, ref Player player)
         {
             topbarText = String.Format("GOLD: {0} - WAVE: {1} - LIVES: {2}", player.Gold, player.Wave, player.Lives);
             stringCenter = font.MeasureString(topbarText);

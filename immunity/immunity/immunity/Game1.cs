@@ -298,8 +298,8 @@ namespace immunity
                 pathview.Draw(spriteBatch);
                 player.Draw(spriteBatch);
                 waveHandler.Draw(spriteBatch);
-                actionbar.Draw(spriteBatch, 0, player);
-                topbar.Draw(spriteBatch, 1, player);
+                actionbar.Draw(spriteBatch, 0, ref player);
+                topbar.Draw(spriteBatch, 1, ref player);
 
                 foreach (Button actionbtn in actionButtons)
                     actionbtn.Draw(spriteBatch);
