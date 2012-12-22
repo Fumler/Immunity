@@ -15,6 +15,10 @@ namespace immunity
         private bool typing = false;
         private Keys[] lastPressedKeys;
 
+        /// <summary>
+        /// Constructor where you set the size and position of the text input with Rectangle
+        /// </summary>
+        /// <param name="bounds"></param>
         public TextInput(Rectangle bounds)
         {
             this.bounds = bounds;
@@ -22,24 +26,39 @@ namespace immunity
             this.lastPressedKeys = new Keys[0];
         }
 
+        /// <summary>
+        /// If the text input is been written in or not 
+        /// </summary>
         public bool Active
         {
             set { this.typing = value; }
             get { return typing; }
         }
 
+        /// <summary>
+        /// Return what has been written in to the input or reset it with a new value
+        /// </summary>
         public string Value
         {
             set { this.input = value; }
             get { return input; }
         }
 
+        /// <summary>
+        /// Add in the background texture and fonts used
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="fonts"></param>
         public void InitVars(Texture2D texture, List<SpriteFont> fonts)
         {
             this.texture = texture;
             this.fonts = fonts;
         }
 
+
+        /// <summary>
+        /// Is Run with the update in game1 cs
+        /// </summary>
         public void Update()
         {
             hwInput.Update();
@@ -255,6 +274,10 @@ namespace immunity
             }
         }
 
+        /// <summary>
+        /// Drawing the background and if active show a cursor so you know to type.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, bounds, Color.Black);
