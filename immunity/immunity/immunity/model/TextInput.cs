@@ -74,10 +74,50 @@ namespace immunity
                         //    {
                         //        input += " ";
                         //    }
+                        //    else if (k.ToString().Contains("OemPeriod")) {
+                        //        if(hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift)) {
+                        //            input += ":";
+                        //        } else {
+                        //            input += ".";
+                        //        }
+                        //    }
+
+                        //    else if (k.ToString().Contains("OemPlus")) {
+                        //        if(hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift)) {
+                        //            input += "?";
+                        //        } else {
+                        //            input += "+";
+                        //        }
+                        //    }
+
+                        //    else if (k.ToString().Contains("OemMinus")) {
+                        //        if(hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift)) {
+                        //            input += "_";
+                        //        } else {
+                        //            input += "-";
+                        //        }
+                        //    }
+                            
+                        //    else if (k.ToString().Contains("OemComma")) {
+                        //        if(hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift)) {
+                        //            input += ";";
+                        //        } else {
+                        //            input += ",";
+                        //        }
+                        //    }
+
+                        //    else if (k.ToString().Contains("OemBackslash")) {
+                        //        if(hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift)) {
+                        //            input += "`";
+                        //        } else {
+                        //            input += "\\";
+                        //        }
+                        //    }
+
 
                         //    else if (k.ToString().Contains("D"))
                         //    {
-                                
+
                         //        if(k.ToString()[1] >= 0 && k.ToString()[1] <= 9) 
                         //        {
                         //            if(hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift)) {
@@ -109,19 +149,28 @@ namespace immunity
                         //                }
                         //            }
                         //            else {
-                                        
+
                         //                input += k.ToString()[1];
-                                        
+
                         //             }
                         //        }
 
                         //    }
 
-                        //    else (k.ToString().Contains("F"))
-                        //    {
-
+                        //    else if(k.ToString() == "Back") {
+                        //        if(input.Length > 0)
+                        //            input = input.Remove(input.Length - 1);
                         //    }
-    
+
+                        //    else if(k.ToString() == "Escape") {
+                        //        this.typing = false;
+                        //    }
+
+                        //    else 
+                        //    {
+                        //        input += k.ToString();
+                        //    }
+
                         //}
                         switch (key)
                         {
