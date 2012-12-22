@@ -227,6 +227,24 @@ namespace immunity
                             case Keys.D9:
                                 input += key.ToString()[1];
                                 break;
+                            case Keys.OemPeriod:
+                                if(hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift)) {
+                                    input += ":";
+                                } else {
+                                    input += ".";
+                                }
+                                break;
+
+                            case Keys.OemComma:
+                                if (hwInput.IsKeyPressed(Keys.LeftShift) || hwInput.IsKeyPressed(Keys.RightShift))
+                                {
+                                    input += ";";
+                                }
+                                else
+                                {
+                                    input += ",";
+                                }
+                                break;
 
                             default:
                                 break;
